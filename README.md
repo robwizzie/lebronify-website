@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/ui/app-icon.png" alt="LeBronify" width="120" style="border-radius: 24px;">
+  <img src="images/ui/lebron_default.png" alt="LeBronify" width="120" style="border-radius: 24px;">
 </p>
 
 <h1 align="center">LEBRONIFY</h1>
