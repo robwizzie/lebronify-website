@@ -271,8 +271,8 @@ function updatePlayerGradient(color) {
 let chalkContainer = null;
 let chalkTimeout = null;
 
-// Open-hand SVG icon (fingers spread, palm facing out)
-const HAND_SVG = `<svg viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M288 32c-8.8 0-16 7.2-16 16v208c0 8.8-7.2 16-16 16s-16-7.2-16-16V96c0-8.8-7.2-16-16-16s-16 7.2-16 16v192c0 8.8-7.2 16-16 16s-16-7.2-16-16V160c0-8.8-7.2-16-16-16s-16 7.2-16 16v208c0 70.7 57.3 128 128 128s128-57.3 128-128V128c0-8.8-7.2-16-16-16s-16 7.2-16 16v128c0 8.8-7.2 16-16 16s-16-7.2-16-16V48c0-8.8-7.2-16-16-16zM160 160v48c-17.7 0-32-14.3-32-32 0-8.8 7.2-16 16-16h16z"/></svg>`;
+// Real hand emoji for chalk toss
+const HAND_HTML = `<span style="font-size:40px;line-height:1;display:block;">🤚</span>`;
 
 function triggerChalkToss() {
     if (chalkContainer) { chalkContainer.remove(); chalkContainer = null; }
@@ -288,10 +288,10 @@ function triggerChalkToss() {
     // Two hands cupped together, then toss upward and separate outward
     const leftHand = document.createElement('div');
     leftHand.className = 'chalk-hand chalk-hand-left';
-    leftHand.innerHTML = HAND_SVG;
+    leftHand.innerHTML = HAND_HTML;
     const rightHand = document.createElement('div');
     rightHand.className = 'chalk-hand chalk-hand-right';
-    rightHand.innerHTML = HAND_SVG;
+    rightHand.innerHTML = HAND_HTML;
     center.appendChild(leftHand);
     center.appendChild(rightHand);
 
