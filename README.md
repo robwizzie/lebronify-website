@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/ui/lebron_crown.jpg" alt="LeBronify" width="120" style="border-radius: 24px;">
+  <img src="images/ui/app-icon.png" alt="LeBronify" width="120" style="border-radius: 24px;">
 </p>
 
 <h1 align="center">LEBRONIFY</h1>
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://robwizzie.github.io/lebronify-website/">Live Demo</a> &bull;
+  <a href="https://lebronify.app">Live Demo</a> &bull;
   <a href="#features">Features</a> &bull;
   <a href="#screenshots">Screenshots</a> &bull;
   <a href="#getting-started">Getting Started</a>
