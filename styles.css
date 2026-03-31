@@ -788,15 +788,29 @@ img { max-width: 100%; display: block; }
 @media (max-width: 768px) {
     .nav-links {
         display: none; position: absolute; top: 100%; left: 0; right: 0;
-        background: rgb(18, 18, 18); -webkit-backdrop-filter: blur(20px);
+        background: rgba(18, 18, 18, 0.98); -webkit-backdrop-filter: blur(20px);
         backdrop-filter: blur(20px);
         flex-direction: column; padding: 24px; gap: 16px;
         border-bottom: 1px solid var(--white-06);
         -webkit-transform: translateZ(0); transform: translateZ(0);
     }
     .nav-links.active { display: flex; }
+    /* Nav links should be larger touch targets on mobile */
+    .nav-links a {
+        font-size: 16px;
+        padding: 12px 0;
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .nav-cta {
+        text-align: center !important;
+        display: block !important;
+        padding: 14px 24px !important;
+    }
     .mobile-menu-btn { display: flex; }
     .section-header h2 { font-size: 32px; }
+    .section-header { margin-bottom: 40px; }
     .features-grid { grid-template-columns: 1fr; }
     .song-grid { grid-template-columns: repeat(2, 1fr); }
     .fun-card { padding: 24px; }
@@ -816,11 +830,20 @@ img { max-width: 100%; display: block; }
     .phone-mockup.small { width: 220px; }
     .breakdown-tabs { gap: 8px; }
     .tab-btn { padding: 10px 16px; font-size: 13px; }
+    /* Features section tighter */
+    .features { padding: 60px 0; }
+    .app-breakdown { padding: 60px 0; }
+    .songs { padding: 60px 0; }
+    .fun-stuff { padding: 60px 0; }
+    /* Disable crown trail on mobile - wastes performance */
+    #crown-trail { display: none; }
+    /* Mini player demo responsive */
+    .mini-content { gap: 10px; padding: 8px 12px; }
 }
 
 @media (max-width: 480px) {
-    .hero { padding: 100px 16px 60px; gap: 30px; }
-    .hero-stats { flex-direction: column; gap: 16px; align-items: center; }
+    .hero { padding: 90px 16px 50px; gap: 24px; min-height: auto; }
+    .hero-stats { flex-direction: row; gap: 24px; align-items: center; flex-wrap: wrap; justify-content: center; }
     .hero-actions { flex-direction: column; align-items: center; width: 100%; }
     .hero-actions .btn { width: 100%; justify-content: center; }
     .song-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -840,8 +863,34 @@ img { max-width: 100%; display: block; }
     .s5-slot { width: 50px; }
     .s5-art { width: 40px; height: 40px; }
     .s5-name { font-size: 6px; }
-    .download { padding: 80px 0; }
+    .download { padding: 60px 0; }
     .download-buttons { flex-direction: column; width: 100%; }
     .download-buttons .btn { width: 100%; justify-content: center; }
     .footer { padding: 40px 0 20px; }
+    .container { padding: 0 16px; }
+    /* Better stat layout on small screens */
+    .stat-number { font-size: 28px; }
+    .stat-plus, .stat-percent { font-size: 20px; }
+    .stat-label { font-size: 12px; }
+    /* Fun list more compact */
+    .fun-list li { font-size: 13px; }
+    /* Panel info text */
+    .panel-info h3 { font-size: 22px; }
+    .panel-info p { font-size: 14px; }
+    .panel-features li { font-size: 13px; }
+    /* Mini player touch-friendly */
+    .mini-ctrl { padding: 8px; min-width: 40px; min-height: 40px; }
+    .mini-ctrl.play { width: 36px; height: 36px; }
+}
+
+/* Safari-specific landing page fixes */
+@supports (-webkit-touch-callout: none) {
+    .navbar.scrolled {
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+    }
+    /* Hero section min-height fix for Safari */
+    .hero {
+        min-height: -webkit-fill-available;
+    }
 }
