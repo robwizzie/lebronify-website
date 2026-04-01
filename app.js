@@ -946,6 +946,8 @@ function updateUI() {
         const favEl = $('#npb-fav');
         favEl.classList.toggle('active', d.isFavorite);
         favEl.innerHTML = d.isFavorite ? icon('starFilled', 16) : icon('starEmpty', 16);
+    } else {
+        bar.style.display = 'none';
     }
 
     // Now playing bar controls
