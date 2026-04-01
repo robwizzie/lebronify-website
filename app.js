@@ -121,6 +121,9 @@ let state = {
     songData: {},
     playlists: [],
     songsPlayed: 0,
+    streak: 0,
+    lastListenDate: null,
+    totalPlays: 0,
 };
 
 // -------------------------------------------
@@ -131,6 +134,9 @@ function loadState() {
         const saved = JSON.parse(localStorage.getItem('lebronify_state') || '{}');
         if (saved.songData) state.songData = saved.songData;
         if (saved.playlists) state.playlists = saved.playlists;
+        if (saved.streak) state.streak = saved.streak;
+        if (saved.lastListenDate) state.lastListenDate = saved.lastListenDate;
+        if (saved.totalPlays) state.totalPlays = saved.totalPlays;
     } catch(e) {}
 }
 
@@ -138,6 +144,9 @@ function saveState() {
     localStorage.setItem('lebronify_state', JSON.stringify({
         songData: state.songData,
         playlists: state.playlists,
+        streak: state.streak,
+        lastListenDate: state.lastListenDate,
+        totalPlays: state.totalPlays,
     }));
 }
 
@@ -365,6 +374,18 @@ function playSong(song, fromQueue) {
         const d = getSongData(song.id);
         d.playCount++;
         d.lastPlayed = Date.now();
+        state.totalPlays = (state.totalPlays || 0) + 1;
+        // Update listening streak
+        const today = new Date().toDateString();
+        if (state.lastListenDate !== today) {
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            if (state.lastListenDate === yesterday) {
+                state.streak = (state.streak || 0) + 1;
+            } else if (state.lastListenDate !== today) {
+                state.streak = 1;
+            }
+            state.lastListenDate = today;
+        }
         saveState();
         state.songsPlayed++;
         maybeShowAd();
@@ -603,7 +624,65 @@ function renderScrollCard(song, rank) {
     `;
 }
 
+// -------------------------------------------
+// LeBron Quotes
+// -------------------------------------------
+const LEBRON_QUOTES = [
+    "I'm going to use all my tools, my God-given ability, and make the best life I can with it.",
+    "You can't be afraid to fail. It's the only way you succeed.",
+    "I like criticism. It makes you strong.",
+    "Don't be afraid of failure. This is the way to succeed.",
+    "I treated it like every day was my last day with a basketball.",
+    "I'm not going to stop until I'm the greatest.",
+    "Every night on the court I give my all, and if I'm not giving 100 percent, I criticize myself.",
+    "I always say, decisions I make, I live with them.",
+    "There's no blueprint for success, you just have to work your tail off.",
+    "Once you become a professional athlete or once you do anything well, then you're automatically a role model.",
+    "Basketball is my passion, I love it. But my family and my life come first.",
+    "I'm LeBron James. From Akron, Ohio. From the inner city. I am not even supposed to be here.",
+    "I'm going to take my talents to... whichever song is next.",
+    "Greatness is earned, never awarded.",
+    "I want my game to be complete. I don't want to have any weaknesses.",
+    "In northeast Ohio, nothing is given. Everything is earned.",
+    "The first time I stepped on an NBA court I became a businessman.",
+    "Taco Tuesday is not just a day, it's a lifestyle.",
+    "I promise to never forget where I came from.",
+    "Ask me to play. I'll play. Ask me to shoot. I'll shoot. Ask me to pass. I'll pass.",
+    "My game is really played above time. I don't worry about triple-doubles.",
+    "I hear my friends and my mom tell me I'm special, but honestly, I still don't get it.",
+    "I do have motivation. A lot of motivation.",
+    "My mom and I have always been there for each other. We had a really tough life.",
+    "Do I wish I'd had a father? Absolutely. But I had my mom.",
+];
+
+function getLeBronQuote() {
+    const day = Math.floor(Date.now() / 86400000);
+    return LEBRON_QUOTES[day % LEBRON_QUOTES.length];
+}
+
+function renderLeBronQuote() {
+    const el = $('#quote-text');
+    if (el) el.textContent = '"' + getLeBronQuote() + '"';
+}
+
 function renderHome() {
+    // LeBron Quote of the Day
+    renderLeBronQuote();
+
+    // Listening Streak
+    const streakEl = document.getElementById('streak-bar');
+    if (streakEl) {
+        if (state.totalPlays > 0) {
+            streakEl.style.display = '';
+            const streakNum = document.getElementById('streak-num');
+            const totalNum = document.getElementById('total-plays');
+            if (streakNum) streakNum.textContent = state.streak || 1;
+            if (totalNum) totalNum.textContent = state.totalPlays || 0;
+        } else {
+            streakEl.style.display = 'none';
+        }
+    }
+
     // Song of the Day
     const potd = getSongOfDay();
     $('#potd-card').innerHTML = `

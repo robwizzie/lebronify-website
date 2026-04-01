@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>LeBronify - The King's Parody Collection</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="canonical" href="/">
     <link rel="icon" type="image/png" href="images/ui/lebron_default.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,7 +27,7 @@
                 <a href="#app-breakdown">The Breakdown</a>
                 <a href="#songs">The Roster</a>
                 <a href="#fun-stuff">Fun Stuff</a>
-                <a href="app.html" class="nav-cta">Open Player</a>
+                <a href="/player" class="nav-cta">Open Player</a>
             </div>
             <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
                 <span></span>
@@ -55,7 +56,7 @@
             </h1>
             <p class="hero-subtitle">Every song. Every parody. All LeBron. The ultimate music app for fans of The King - featuring hilarious LeBron-themed parodies of your favorite hits.</p>
             <div class="hero-actions">
-                <a href="app.html" class="btn btn-primary btn-web-hero">
+                <a href="/player" class="btn btn-primary btn-web-hero">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     Open Web Player
                 </a>
@@ -703,7 +704,7 @@
                     <p>Join the kingdom. Experience the greatest parody music app of all time. Free. No ads*.</p>
                     <p class="download-disclaimer">*Except Anthony Davis. He shows up whether you want him to or not.</p>
                     <div class="download-buttons">
-                        <a href="app.html" class="btn btn-primary btn-large btn-web-hero">
+                        <a href="/player" class="btn btn-primary btn-large btn-web-hero">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                             Open Web Player
                         </a>
@@ -743,7 +744,7 @@
                 <div class="footer-links">
                     <h4>The App</h4>
                     <a href="#download">Coming Soon</a>
-                    <a href="app.html">Web Player</a>
+                    <a href="/player">Web Player</a>
                     <a href="#">Support</a>
                 </div>
             </div>
@@ -753,6 +754,12 @@
         </div>
     </footer>
 
+    <script>
+    // Clean URL: redirect /index.html to /
+    if (window.location.pathname.endsWith('/index.html')) {
+        window.history.replaceState(null, '', '/');
+    }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
