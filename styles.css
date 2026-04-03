@@ -128,20 +128,24 @@ img { max-width: 100%; display: block; }
 /* ============================================
    HERO SECTION
    ============================================ */
+.hero-wrapper {
+    position: relative; overflow: hidden; width: 100%;
+}
 .hero {
     min-height: 100vh; display: flex; align-items: center;
-    padding: 120px 24px 80px; position: relative; overflow: hidden;
+    padding: 120px 24px 80px; position: relative;
     max-width: 1200px; margin: 0 auto; gap: 60px; width: 100%;
+    z-index: 1;
 }
 .hero-bg-effects { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; z-index: 0; overflow: hidden; }
 .hero-glow {
-    position: absolute; top: -20%; left: -10%; width: 50%; height: 60%;
+    position: absolute; top: -20%; left: -10%; width: 60%; height: 70%;
     background: radial-gradient(circle, var(--yellow-glow) 0%, transparent 70%);
-    filter: blur(80px); opacity: 0.4; animation: glowPulse 8s ease-in-out infinite alternate;
+    filter: blur(100px); opacity: 0.5; animation: glowPulse 8s ease-in-out infinite alternate;
 }
 @keyframes glowPulse { from { opacity: 0.3; transform: scale(1); } to { opacity: 0.5; transform: scale(1.1); } }
 
-.floating-notes { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.floating-notes { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow: hidden; }
 .note { position: absolute; width: 24px; height: 24px; color: var(--yellow); opacity: 0.15; animation: floatNote 15s ease-in-out infinite; }
 .note:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
 .note:nth-child(2) { top: 40%; right: 15%; animation-delay: 3s; width: 32px; height: 32px; }
