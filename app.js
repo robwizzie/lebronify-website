@@ -7,31 +7,15 @@
 'use strict';
 
 // -------------------------------------------
-// SVG Icon Library (matching SF Symbols)
+// Icons — delegated to the shared Phosphor set in icons.js
 // -------------------------------------------
-const ICONS = {
-    play: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
-    pause: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
-    prev: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>',
-    next: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>',
-    shuffle: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
-    repeat: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>',
-    repeatOne: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>',
-    starEmpty: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-    starFilled: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-    chevronRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
-    musicNote: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>',
-    ellipsis: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
-    sparkles: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05a.996.996 0 000-1.41l-2.33-2.35z"/></svg>',
-    trash: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>',
-};
+/* Analytics is optional and self-disabling; this keeps call sites terse. */
+function track(event, params) {
+    if (window.LBAnalytics) window.LBAnalytics.track(event, params);
+}
 
 function icon(name, size) {
-    let svg = ICONS[name] || '';
-    if (size) {
-        svg = svg.replace(/width="\d+"/, `width="${size}"`).replace(/height="\d+"/, `height="${size}"`);
-    }
-    return svg;
+    return (window.LBIcons ? window.LBIcons.svg(name, size) : '');
 }
 
 // -------------------------------------------
@@ -124,6 +108,11 @@ let state = {
     streak: 0,
     lastListenDate: null,
     totalPlays: 0,
+    // --- Parity with the iOS app ---
+    processTier: 0,          // highest Process tier reached (index into PROCESS_TIERS)
+    achievements: {},        // { [achievementId]: unlockedTimestamp }
+    recentSearches: [],      // most-recent-first, capped at MAX_RECENT_SEARCHES
+    sessionSongs: new Set(), // distinct song ids played this session (not persisted)
 };
 
 // -------------------------------------------
@@ -137,6 +126,9 @@ function loadState() {
         if (saved.streak) state.streak = saved.streak;
         if (saved.lastListenDate) state.lastListenDate = saved.lastListenDate;
         if (saved.totalPlays) state.totalPlays = saved.totalPlays;
+        if (typeof saved.processTier === 'number') state.processTier = saved.processTier;
+        if (saved.achievements) state.achievements = saved.achievements;
+        if (Array.isArray(saved.recentSearches)) state.recentSearches = saved.recentSearches;
     } catch(e) {}
 }
 
@@ -147,6 +139,9 @@ function saveState() {
         streak: state.streak,
         lastListenDate: state.lastListenDate,
         totalPlays: state.totalPlays,
+        processTier: state.processTier,
+        achievements: state.achievements,
+        recentSearches: state.recentSearches,
     }));
 }
 
@@ -193,6 +188,225 @@ function getRecentSongs() {
 function getFavorites() { return SONGS.filter(s => getSongData(s.id).isFavorite); }
 function isTacoTuesday() { return new Date().getDay() === 2; }
 
+/* ============================================================
+   APP PARITY MODULE
+   Everything below mirrors the iOS app so the two stay in step:
+   category derivation, the Trust The Process tier ladder, the
+   achievement engine, ranked search, and the time-aware greeting.
+   ============================================================ */
+
+// -------------------------------------------
+// Categories — same keyword rules as SongManager.generateCategories
+// -------------------------------------------
+function categoriesFor(song) {
+    const name = (song.audio || '').toLowerCase();
+    const cats = ['LeBron Hits'];
+
+    if (/marry|romantic|sweet|love/.test(name)) cats.push('Love Songs');
+    // Post-trade framing: the LA-era tracks are throwbacks now.
+    if (/lakers|la bron/.test(name)) cats.push('The Lakers Years');
+    if (/king|crown|royal/.test(name)) cats.push('King James');
+    if (name.includes('ilyaugust')) cats.push('ilyaugust');
+    if (/dance|party/.test(name)) cats.push('Dance');
+
+    return cats;
+}
+
+let _categoryIndex = null;
+function categoryIndex() {
+    if (_categoryIndex) return _categoryIndex;
+    _categoryIndex = {};
+    SONGS.forEach(song => {
+        categoriesFor(song).forEach(cat => {
+            (_categoryIndex[cat] = _categoryIndex[cat] || []).push(song);
+        });
+    });
+    return _categoryIndex;
+}
+
+function allCategories() {
+    return Object.keys(categoryIndex()).sort();
+}
+
+function songsInCategory(cat) {
+    return categoryIndex()[cat] || [];
+}
+
+// -------------------------------------------
+// Trust The Process — total plays drive a franchise-rebuild arc
+// -------------------------------------------
+const PROCESS_TIERS = [
+    { name: 'Tanking',                blurb: 'Every dynasty starts somewhere.',        threshold: 0,   icon: 'tierTanking' },
+    { name: 'The Process Begins',     blurb: 'Lottery balls are bouncing your way.',   threshold: 10,  icon: 'tierProcess' },
+    { name: 'Rebuilding',             blurb: 'The young core is developing nicely.',   threshold: 50,  icon: 'tierRebuild' },
+    { name: 'Playoff Push',           blurb: "You're in the play-in conversation.",    threshold: 150, icon: 'tierPush' },
+    { name: 'Contender',              blurb: 'Homecourt advantage secured.',           threshold: 350, icon: 'tierContender' },
+    { name: 'Championship Or Bust',   blurb: 'Broad Street is ready for a parade.',    threshold: 700, icon: 'tierChampion' },
+];
+
+function getTotalPlays() {
+    return SONGS.reduce((sum, s) => sum + getSongData(s.id).playCount, 0);
+}
+
+function currentTierIndex(plays) {
+    let idx = 0;
+    PROCESS_TIERS.forEach((t, i) => { if (plays >= t.threshold) idx = i; });
+    return idx;
+}
+
+function tierProgress(plays) {
+    const i = currentTierIndex(plays);
+    const tier = PROCESS_TIERS[i];
+    const next = PROCESS_TIERS[i + 1];
+    if (!next) return { tier, next: null, fraction: 1, remaining: 0 };
+    const span = next.threshold - tier.threshold;
+    const travelled = plays - tier.threshold;
+    return {
+        tier,
+        next,
+        fraction: Math.min(1, Math.max(0, travelled / span)),
+        remaining: Math.max(0, next.threshold - plays),
+    };
+}
+
+/* Rings the bell once when a new tier is reached. The reached index is
+   persisted, so it never fires twice for the same tier. */
+function checkProcessTier() {
+    const idx = currentTierIndex(getTotalPlays());
+    if (idx <= state.processTier) return;
+    state.processTier = idx;
+    saveState();
+    track('process_tier_up', { tier: PROCESS_TIERS[idx].name, plays: getTotalPlays() });
+    triggerBellRing(PROCESS_TIERS[idx].name);
+}
+
+// -------------------------------------------
+// Achievements — same 12 as AchievementManager.allAchievements
+// -------------------------------------------
+const ACHIEVEMENTS = [
+    { id: 'rookie_of_the_year', name: 'Rookie of the Year', desc: 'Play your first song',                       icon: 'star' },
+    { id: 'sixth_man',          name: 'Sixth Man',          desc: 'Play 6 different songs in one session',       icon: 'hands' },
+    { id: 'triple_double',      name: 'Triple Double',      desc: '10 songs played, 10 All-Stars, 10 Playbooks', icon: 'trophy' },
+    { id: 'mvp',                name: 'MVP',                desc: 'Reach 100 total plays across all songs',      icon: 'medal' },
+    { id: 'forty_k_club',       name: '40,000 Point Club',  desc: 'Accumulate 40,000 seconds of listening',      icon: 'flame' },
+    { id: 'ring_ceremony',      name: 'Ring Ceremony',      desc: 'Listen to every song at least once',          icon: 'ring' },
+    { id: 'hall_of_fame',       name: 'Hall of Fame',       desc: 'Reach 500 total plays across all songs',      icon: 'building' },
+    { id: 'bell_ringer',        name: 'Bell Ringer',        desc: 'Reach 10 total plays and ring the bell',      icon: 'bell' },
+    { id: 'brotherly_love',     name: 'Brotherly Love',     desc: 'Crown 20 songs as All-Stars',                 icon: 'heart' },
+    { id: 'the_answer',         name: 'The Answer',         desc: 'Play 3 different songs 3 times each',         icon: 'three' },
+    { id: 'broad_street_run',   name: 'Broad Street Run',   desc: 'Play 10 different songs in one session',      icon: 'run' },
+    { id: 'trust_the_process',  name: 'Trust The Process',  desc: 'Reach Contender — 350 total plays',           icon: 'crown' },
+];
+
+function checkAchievements() {
+    const totalPlays = getTotalPlays();
+    const songsPlayed = SONGS.filter(s => getSongData(s.id).playCount > 0).length;
+    const allStars = getFavorites().length;
+    const playbooks = state.playlists.length;
+    const playedThrice = SONGS.filter(s => getSongData(s.id).playCount >= 3).length;
+    const allPlayed = SONGS.length > 0 && SONGS.every(s => getSongData(s.id).playCount > 0);
+    // Durations are learned from the audio element on first play, so this
+    // matches the app's sum(playCount * duration).
+    const listenedSeconds = SONGS.reduce((sum, s) => {
+        const d = getSongData(s.id);
+        return sum + d.playCount * (d.duration || 0);
+    }, 0);
+    const session = state.sessionSongs.size;
+
+    const met = {
+        rookie_of_the_year: songsPlayed >= 1,
+        sixth_man: session >= 6,
+        triple_double: songsPlayed >= 10 && allStars >= 10 && playbooks >= 10,
+        mvp: totalPlays >= 100,
+        forty_k_club: listenedSeconds >= 40000,
+        ring_ceremony: allPlayed,
+        hall_of_fame: totalPlays >= 500,
+        bell_ringer: totalPlays >= 10,
+        brotherly_love: allStars >= 20,
+        the_answer: playedThrice >= 3,
+        broad_street_run: session >= 10,
+        trust_the_process: totalPlays >= 350,
+    };
+
+    const freshlyUnlocked = [];
+    ACHIEVEMENTS.forEach(a => {
+        if (met[a.id] && !state.achievements[a.id]) {
+            state.achievements[a.id] = Date.now();
+            freshlyUnlocked.push(a);
+        }
+    });
+
+    if (freshlyUnlocked.length) {
+        saveState();
+        freshlyUnlocked.forEach(function (a) { track('achievement_unlock', { id: a.id, name: a.name }); });
+        // Show one at a time, same as the app.
+        showAchievementUnlocked(freshlyUnlocked[0]);
+    }
+}
+
+function unlockedAchievementCount() {
+    return ACHIEVEMENTS.filter(a => state.achievements[a.id]).length;
+}
+
+// -------------------------------------------
+// Greeting — matches GreetingBar in the app
+// -------------------------------------------
+function getGreeting() {
+    const h = new Date().getHours();
+    if (h < 5) return 'Still up?';
+    if (h < 12) return 'Good morning';
+    if (h < 17) return 'Good afternoon';
+    return 'Good evening';
+}
+
+// -------------------------------------------
+// Search — ranked the same way as SearchView.matchScore
+// -------------------------------------------
+const MAX_RECENT_SEARCHES = 8;
+
+function matchScore(song, needle) {
+    const title = song.title.toLowerCase();
+    const artist = song.artist.toLowerCase();
+    if (title.startsWith(needle)) return 4;
+    if (title.includes(needle)) return 3;
+    if (artist.startsWith(needle)) return 2;
+    if (artist.includes(needle)) return 1;
+    return 0;
+}
+
+function searchSongs(query, category) {
+    let pool = category ? songsInCategory(category) : SONGS;
+    const needle = (query || '').trim().toLowerCase();
+
+    if (!needle) {
+        return [...pool].sort((a, b) => getSongData(b.id).playCount - getSongData(a.id).playCount);
+    }
+
+    return pool
+        .filter(s =>
+            s.title.toLowerCase().includes(needle) ||
+            s.artist.toLowerCase().includes(needle) ||
+            categoriesFor(s).some(c => c.toLowerCase().includes(needle))
+        )
+        .sort((a, b) => {
+            const diff = matchScore(b, needle) - matchScore(a, needle);
+            if (diff !== 0) return diff;
+            return getSongData(b.id).playCount - getSongData(a.id).playCount;
+        });
+}
+
+function commitSearch(term) {
+    const trimmed = (term || '').trim();
+    if (trimmed.length < 2) return;
+    state.recentSearches = state.recentSearches.filter(t => t.toLowerCase() !== trimmed.toLowerCase());
+    state.recentSearches.unshift(trimmed);
+    if (state.recentSearches.length > MAX_RECENT_SEARCHES) {
+        state.recentSearches = state.recentSearches.slice(0, MAX_RECENT_SEARCHES);
+    }
+    saveState();
+    track('search', { term: trimmed, results: searchSongs(trimmed, activeCategory).length });
+}
+
 // -------------------------------------------
 // Dynamic Color Extraction (like iOS dynamic gradient)
 // -------------------------------------------
@@ -200,7 +414,7 @@ const colorCanvas = document.createElement('canvas');
 const colorCtx = colorCanvas.getContext('2d', { willReadFrequently: true });
 colorCanvas.width = 50;
 colorCanvas.height = 50;
-let currentGradientColor = 'rgba(47,128,237,0.35)';
+let currentGradientColor = 'rgba(0,107,182,0.35)';
 
 function extractDominantColor(imgSrc, callback) {
     const img = new Image();
@@ -256,13 +470,13 @@ function extractDominantColor(imgSrc, callback) {
                 }
                 callback(`rgba(${br},${bg},${bb},0.55)`);
             } else {
-                callback('rgba(47,128,237,0.35)');
+                callback('rgba(0,107,182,0.35)');
             }
         } catch(e) {
-            callback('rgba(47,128,237,0.35)');
+            callback('rgba(0,107,182,0.35)');
         }
     };
-    img.onerror = () => callback('rgba(47,128,237,0.35)');
+    img.onerror = () => callback('rgba(0,107,182,0.35)');
     img.src = imgSrc;
 }
 
@@ -281,7 +495,7 @@ let chalkContainer = null;
 let chalkTimeout = null;
 
 // Real hand emoji for chalk toss
-const HAND_HTML = `<span style="font-size:40px;line-height:1;display:block;">🤚</span>`;
+const HAND_HTML = `<span class="chalk-hand">${icon('hands', 40)}</span>`;
 
 function triggerChalkToss() {
     if (chalkContainer) { chalkContainer.remove(); chalkContainer = null; }
@@ -342,7 +556,7 @@ function triggerChalkToss() {
             --dx:${dx}px;--dy:${dy}px;
             --dur:${0.6 + Math.random() * 0.9}s;
             --delay:${0.22 + Math.random() * 0.15}s;
-            ${Math.random() < 0.2 ? 'background:rgba(47,128,237,0.85);' : ''}
+            ${Math.random() < 0.2 ? 'background:rgba(0,107,182,0.85);' : ''}
         `;
         center.appendChild(dot);
     }
@@ -352,6 +566,101 @@ function triggerChalkToss() {
     chalkTimeout = setTimeout(() => {
         if (chalkContainer) { chalkContainer.remove(); chalkContainer = null; }
     }, 3000);
+}
+
+// -------------------------------------------
+// Liberty Bell celebration (mirrors BellRingView)
+// The Sixers ring the bell before tip-off, so hitting a new Process tier
+// rings it here too: swinging bell, sound rings, red/blue confetti.
+// -------------------------------------------
+let bellTimeout = null;
+
+function triggerBellRing(tierName) {
+    const existing = document.getElementById('bell-ring');
+    if (existing) existing.remove();
+    if (bellTimeout) clearTimeout(bellTimeout);
+
+    const el = document.createElement('div');
+    el.id = 'bell-ring';
+    el.className = 'bell-ring';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+
+    const confetti = Array.from({ length: 70 }, () => {
+        const palette = ['var(--royal)', 'var(--liberty)', '#fff', 'var(--royal-bright)', 'var(--silver)'];
+        const color = palette[Math.floor(Math.random() * palette.length)];
+        const x = (Math.random() - 0.5) * 2;          // -1..1 horizontal spread
+        const dist = 120 + Math.random() * 260;
+        const size = 4 + Math.random() * 5;
+        const rot = Math.random() * 720 - 360;
+        const delay = Math.random() * 0.18;
+        return `<i class="bell-confetti" style="
+            --x:${(x * dist).toFixed(1)}px;
+            --y:${(-dist * (0.5 + Math.random() * 0.8)).toFixed(1)}px;
+            --rot:${rot.toFixed(0)}deg;
+            width:${size.toFixed(1)}px;
+            height:${(size * 1.8).toFixed(1)}px;
+            background:${color};
+            animation-delay:${delay.toFixed(2)}s;
+        "></i>`;
+    }).join('');
+
+    el.innerHTML = `
+        <div class="bell-rings">
+            <span class="bell-wave"></span>
+            <span class="bell-wave" style="animation-delay:.35s"></span>
+            <span class="bell-wave" style="animation-delay:.7s"></span>
+        </div>
+        <div class="bell-burst">${confetti}</div>
+        <div class="bell-stack">
+            <div class="bell-icon">${icon('bell', 74)}</div>
+            <div class="bell-title">RING THE BELL</div>
+            ${tierName ? `<div class="bell-tier">${tierName}</div>` : ''}
+        </div>
+    `;
+    document.body.appendChild(el);
+
+    if (navigator.vibrate) navigator.vibrate([18, 40, 18]);
+
+    bellTimeout = setTimeout(() => {
+        el.classList.add('bell-out');
+        setTimeout(() => el.remove(), 420);
+    }, 2200);
+}
+
+// -------------------------------------------
+// Achievement unlocked toast (mirrors AchievementUnlockedOverlay)
+// -------------------------------------------
+function showAchievementUnlocked(achievement) {
+    // If the bell is mid-celebration, queue behind it rather than stacking
+    // two overlays on top of each other.
+    if (document.getElementById('bell-ring')) {
+        setTimeout(() => showAchievementUnlocked(achievement), 2400);
+        return;
+    }
+
+    const existing = document.getElementById('achievement-pop');
+    if (existing) existing.remove();
+
+    const el = document.createElement('div');
+    el.id = 'achievement-pop';
+    el.className = 'achievement-pop';
+    el.setAttribute('role', 'status');
+    el.setAttribute('aria-live', 'polite');
+    el.innerHTML = `
+        <div class="achievement-medal">${icon(achievement.icon, 24)}</div>
+        <div class="achievement-copy">
+            <div class="achievement-eyebrow">ACHIEVEMENT UNLOCKED</div>
+            <div class="achievement-name">${achievement.name}</div>
+            <div class="achievement-desc">${achievement.desc}</div>
+        </div>
+    `;
+    document.body.appendChild(el);
+
+    setTimeout(() => {
+        el.classList.add('achievement-out');
+        setTimeout(() => el.remove(), 380);
+    }, 3600);
 }
 
 // -------------------------------------------
@@ -374,7 +683,13 @@ function playSong(song, fromQueue) {
         const d = getSongData(song.id);
         d.playCount++;
         d.lastPlayed = Date.now();
+        // Learn the real track length once, so the 40,000 Point Club
+        // achievement can total listening time the same way the app does.
+        if (!d.duration && isFinite(audio.duration) && audio.duration > 0) {
+            d.duration = Math.round(audio.duration);
+        }
         state.totalPlays = (state.totalPlays || 0) + 1;
+        state.sessionSongs.add(song.id);
         // Update listening streak
         const today = new Date().toDateString();
         if (state.lastListenDate !== today) {
@@ -388,6 +703,11 @@ function playSong(song, fromQueue) {
         }
         saveState();
         state.songsPlayed++;
+        // Order matters: ring the bell for a new tier before the achievement
+        // toast, so the two celebrations don't collide.
+        track('song_play', { song: song.title, artist: song.artist });
+        checkProcessTier();
+        checkAchievements();
         maybeShowAd();
         renderAll();
     }, 10000);
@@ -573,6 +893,8 @@ function showView(name) {
     if (view) view.classList.add('active');
     $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
     $$('.mobile-tab').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+    if (window.LBAnalytics) window.LBAnalytics.page('/player/' + name, 'LeBronify — ' + name);
+
     // Always re-render the target view with fresh data
     if (name === 'home') renderHome();
     if (name === 'vault') renderVault();
@@ -604,6 +926,7 @@ function renderSongRow(song, index, options = {}) {
                 <div class="song-row-title">${song.title}</div>
                 <div class="song-row-artist">${song.artist}</div>
             </div>
+            ${isPlaying ? `<span class="eq ${state.playing ? 'eq-on' : ''}" aria-label="Now playing"><i></i><i></i><i></i></span>` : ''}
             ${d.playCount > 0 ? `<span class="song-row-plays">${d.playCount} plays</span>` : ''}
             <button class="song-row-fav ${d.isFavorite ? 'active' : ''}" data-fav-id="${song.id}">${d.isFavorite ? icon('starFilled', 16) : icon('starEmpty', 16)}</button>
             <button class="song-row-menu" data-menu-id="${song.id}">${icon('ellipsis', 14)}</button>
@@ -665,9 +988,71 @@ function renderLeBronQuote() {
     if (el) el.textContent = '"' + getLeBronQuote() + '"';
 }
 
+/* Trust The Process meter — the web twin of ProcessMeterView. */
+function renderProcessMeter() {
+    const el = $('#process-meter');
+    if (!el) return;
+
+    const plays = getTotalPlays();
+    const { tier, next, fraction, remaining } = tierProgress(plays);
+
+    el.innerHTML = `
+        <div class="process-head">
+            <div class="process-badge">${icon(tier.icon, 20)}</div>
+            <div class="process-headings">
+                <div class="eyebrow">TRUST THE PROCESS</div>
+                <div class="process-tier">${tier.name}</div>
+            </div>
+            <div class="process-count">
+                <div class="process-count-num">${plays}</div>
+                <div class="process-count-label">plays</div>
+            </div>
+        </div>
+        <p class="process-blurb">${tier.blurb}</p>
+        <div class="process-track" role="progressbar"
+             aria-valuenow="${Math.round(fraction * 100)}" aria-valuemin="0" aria-valuemax="100"
+             aria-label="Progress to ${next ? next.name : 'the final tier'}">
+            <div class="process-fill" style="width:${(fraction * 100).toFixed(1)}%"></div>
+        </div>
+        <div class="process-foot">
+            ${next
+                ? `<span>Next: ${next.name}</span><span>${remaining} plays to go</span>`
+                : `<span class="process-maxed">${icon('trophy', 13)} Maxed out. The Process is complete.</span>`}
+        </div>
+    `;
+}
+
+/* Two-column grid of recently played songs — one tap back in. */
+function renderJumpBackIn() {
+    const section = $('#jumpback-section');
+    const grid = $('#jumpback-grid');
+    if (!section || !grid) return;
+
+    const recent = getRecentSongs().slice(0, 6);
+    if (!recent.length) { section.style.display = 'none'; return; }
+
+    section.style.display = '';
+    grid.innerHTML = recent.map(s => `
+        <button class="jumpback-tile pressable" data-song-id="${s.id}">
+            <img src="${imgPath(s.image)}" alt="" loading="lazy">
+            <span>${s.title}</span>
+        </button>
+    `).join('');
+}
+
 function renderHome() {
+    // Time-aware greeting (matches GreetingBar in the app)
+    const greetEl = $('#greeting-text');
+    if (greetEl) greetEl.textContent = getGreeting();
+
     // LeBron Quote of the Day
     renderLeBronQuote();
+
+    // Trust The Process meter
+    renderProcessMeter();
+
+    // Jump Back In
+    renderJumpBackIn();
 
     // Listening Streak
     const streakEl = document.getElementById('streak-bar');
@@ -710,6 +1095,9 @@ function renderHome() {
         $('#mvp-row').innerHTML = top.map((s, i) => renderScrollCard(s, i < 3 ? i + 1 : 0)).join('');
     } else { mvpSection.style.display = 'none'; }
 
+    // My Starting 5 share card
+    renderStarting5();
+
     // Full Roster
     $('#full-roster').innerHTML = SONGS.map((s, i) => renderSongRow(s, i, { showNum: true })).join('');
 
@@ -740,43 +1128,123 @@ function renderHome() {
     }
 }
 
+/* Active category filter chip, or null. Mirrors SearchView.activeCategory. */
+let activeCategory = null;
+
+/* Browse state, shown when there's no query and no active category —
+   recent search terms plus the browse-by-category grid. */
 function renderSearchPrefill() {
     const prefill = $('#search-prefill');
     const results = $('#search-results');
     if (!prefill) return;
-    if ($('#search-input').value.trim().length > 0) {
+
+    renderCategoryChip();
+
+    const hasQuery = $('#search-input').value.trim().length > 0;
+    if (hasQuery || activeCategory) {
         prefill.style.display = 'none';
         return;
     }
+
     results.innerHTML = '';
     prefill.style.display = '';
     let html = '';
 
-    // Recent searches (recently played songs as search suggestions)
-    const recent = getRecentSongs().slice(0, 6);
-    if (recent.length > 0) {
+    // Recent search terms
+    if (state.recentSearches.length > 0) {
         html += `<div class="search-section">
-            <h3 class="search-section-title">Recent</h3>
-            <div class="search-chips">
-                ${recent.map(s => `<button class="search-chip" data-song-id="${s.id}">
-                    <img src="${imgPath(s.image)}" alt="" class="search-chip-art">
-                    <span class="search-chip-text">${s.title}</span>
-                </button>`).join('')}
+            <div class="search-section-head">
+                <h3 class="search-section-title">Recent Searches</h3>
+                <button class="search-clear-recents" id="clear-recents">Clear</button>
+            </div>
+            <div class="recent-terms">
+                ${state.recentSearches.map(t => `
+                    <button class="recent-term" data-term="${escapeAttr(t)}">
+                        ${icon('search', 14)}<span>${escapeHtml(t)}</span>
+                    </button>
+                `).join('')}
             </div>
         </div>`;
     }
 
-    // Suggested songs - pick a shuffled selection
-    const suggested = [...SONGS].sort(() => Math.random() - 0.5).slice(0, 8);
+    // Browse by category — the two brand colors alternate so the grid reads
+    // as a Sixers palette rather than a wall of identical blue tiles.
+    const tints = ['tile-royal', 'tile-liberty', 'tile-navy', 'tile-bright'];
     html += `<div class="search-section">
-        <h3 class="search-section-title">${recent.length > 0 ? 'Suggested' : 'Try These'}</h3>
-        <div class="song-list">
-            ${suggested.map((s, i) => renderSongRow(s, i)).join('')}
+        <h3 class="search-section-title">Browse the Locker Room</h3>
+        <div class="category-grid">
+            ${allCategories().map((cat, i) => {
+                const count = songsInCategory(cat).length;
+                return `<button class="category-tile ${tints[i % tints.length]} pressable" data-category="${escapeAttr(cat)}">
+                    <span class="category-name">${escapeHtml(cat)}</span>
+                    <span class="category-count">${count} ${count === 1 ? 'track' : 'tracks'}</span>
+                </button>`;
+            }).join('')}
         </div>
     </div>`;
 
     prefill.innerHTML = html;
 }
+
+function renderCategoryChip() {
+    const holder = $('#search-active-category');
+    if (!holder) return;
+    if (!activeCategory) { holder.innerHTML = ''; holder.style.display = 'none'; return; }
+    holder.style.display = '';
+    holder.innerHTML = `
+        <button class="active-category-chip" id="clear-category">
+            <span>${escapeHtml(activeCategory)}</span>
+            ${icon('close', 12)}
+        </button>
+    `;
+}
+
+/* Renders ranked results for the current query + category filter. */
+function renderSearchResults() {
+    const results = $('#search-results');
+    const input = $('#search-input');
+    if (!results || !input) return;
+
+    // The chip lives outside both branches below, so it has to be drawn here —
+    // filtering by category with an empty query used to skip it entirely,
+    // leaving no way to clear the filter.
+    renderCategoryChip();
+
+    const query = input.value.trim();
+    if (!query && !activeCategory) {
+        results.innerHTML = '';
+        renderSearchPrefill();
+        return;
+    }
+
+    $('#search-prefill').style.display = 'none';
+    const matches = searchSongs(query, activeCategory);
+
+    if (!matches.length) {
+        results.innerHTML = `
+            <div class="search-empty">
+                <div class="search-empty-icon">${icon('basketball', 44)}</div>
+                <div class="search-empty-title">Air ball.</div>
+                <p>Nothing on the roster matches "${escapeHtml(query)}".<br>Try a different name.</p>
+            </div>`;
+        return;
+    }
+
+    results.innerHTML = `
+        <div class="search-results-head">
+            <span>${matches.length} ${matches.length === 1 ? 'result' : 'results'}</span>
+            <button class="search-shuffle" id="shuffle-results">${icon('shuffle', 14)} Shuffle these</button>
+        </div>
+        ${matches.map((s, i) => renderSongRow(s, i)).join('')}
+    `;
+}
+
+function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, c => (
+        { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+}
+function escapeAttr(str) { return escapeHtml(str); }
 
 function renderVault() {
     const systemPl = [
@@ -816,7 +1284,244 @@ function renderVault() {
         $('#empty-allstars').style.display = '';
     }
 
+    renderVaultStats();
+    renderTrophies();
     renderSidebarPlaylists();
+}
+
+/* Plays / All-Stars / Trophies strip (mirrors VaultStatsBar). */
+function renderVaultStats() {
+    const el = $('#vault-stats');
+    if (!el) return;
+    const tiles = [
+        { value: getTotalPlays(), label: 'PLAYS', cls: 'stat-royal' },
+        { value: getFavorites().length, label: 'ALL-STARS', cls: 'stat-liberty' },
+        { value: unlockedAchievementCount(), label: 'TROPHIES', cls: 'stat-bright' },
+    ];
+    el.innerHTML = tiles.map(t => `
+        <div class="stat-tile surface-card">
+            <div class="stat-value ${t.cls}">${t.value}</div>
+            <div class="stat-label">${t.label}</div>
+        </div>
+    `).join('');
+}
+
+/* Trophy case (mirrors AchievementsTabView). */
+function renderTrophies() {
+    const el = $('#trophies-grid');
+    if (!el) return;
+
+    const countEl = $('#trophies-count');
+    if (countEl) countEl.textContent = `${unlockedAchievementCount()}/${ACHIEVEMENTS.length}`;
+
+    el.innerHTML = ACHIEVEMENTS.map(a => {
+        const unlockedAt = state.achievements[a.id];
+        const unlocked = Boolean(unlockedAt);
+        return `
+            <div class="trophy ${unlocked ? 'trophy-unlocked' : ''}">
+                <div class="trophy-medal">${icon(unlocked ? a.icon : 'lock', 24)}</div>
+                <div class="trophy-name">${a.name}</div>
+                <div class="trophy-desc">${unlocked ? a.desc : '???'}</div>
+                ${unlocked ? `<div class="trophy-date">${new Date(unlockedAt).toLocaleDateString()}</div>` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
+/* ------------------------------------------------
+   My Starting 5 — shareable stat card (mirrors ShareCardView).
+   Drawn to a canvas so it can be downloaded or shared natively.
+   ------------------------------------------------ */
+const STARTING5_POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C'];
+
+function renderStarting5() {
+    const section = $('#starting5-section');
+    const preview = $('#starting5-preview');
+    if (!section || !preview) return;
+
+    const top = getTopSongs().slice(0, 5);
+    if (!top.length) { section.style.display = 'none'; return; }
+    section.style.display = '';
+
+    preview.innerHTML = `
+        <div class="s5-head">
+            <div class="s5-title gradient-text">MY STARTING 5</div>
+            <div class="s5-sub">LEBRONIFY <span class="phl-badge">PHL</span></div>
+        </div>
+        <div class="s5-rule"></div>
+        <div class="s5-rows">
+            ${top.map((s, i) => `
+                <div class="s5-row">
+                    <span class="s5-pos">${STARTING5_POSITIONS[i]}</span>
+                    <img src="${imgPath(s.image)}" alt="" loading="lazy">
+                    <span class="s5-info">
+                        <span class="s5-song">${s.title}</span>
+                        <span class="s5-artist">${s.artist}</span>
+                    </span>
+                    <span class="s5-plays">${getSongData(s.id).playCount}</span>
+                </div>
+            `).join('')}
+        </div>
+        <div class="s5-rule"></div>
+        <div class="s5-foot">
+            <span>TOTAL PLAYS</span>
+            <span class="s5-total">${getTotalPlays()}</span>
+        </div>
+    `;
+}
+
+/* Draws the share card at 2x for a crisp export. */
+function drawStarting5Canvas() {
+    const top = getTopSongs().slice(0, 5);
+    if (!top.length) return Promise.resolve(null);
+
+    const S = 2;                 // supersample factor
+    const W = 390, rowH = 68, headH = 108, footH = 78;
+    const H = headH + top.length * rowH + footH;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W * S;
+    canvas.height = H * S;
+    const ctx = canvas.getContext('2d');
+    ctx.scale(S, S);
+
+    // Background: navy → app background
+    const bg = ctx.createLinearGradient(0, 0, 0, H);
+    bg.addColorStop(0, '#002B5C');
+    bg.addColorStop(1, '#0A0F16');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, W, H);
+
+    const brand = ctx.createLinearGradient(0, 0, W, H);
+    brand.addColorStop(0, '#006BB6');
+    brand.addColorStop(1, '#ED174C');
+
+    // Header
+    ctx.textAlign = 'center';
+    ctx.fillStyle = brand;
+    ctx.font = '900 24px Inter, sans-serif';
+    ctx.fillText('MY STARTING 5', W / 2, 44);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '700 11px Inter, sans-serif';
+    ctx.fillText('LEBRONIFY  ·  PHL', W / 2, 64);
+
+    ctx.fillStyle = brand;
+    ctx.fillRect(20, 80, W - 40, 2);
+
+    // Rows — album art is drawn in only if it loaded, so a missing image
+    // degrades to a blank tile rather than rejecting the whole export.
+    const loads = top.map(s => new Promise(resolve => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = imgPath(s.image);
+    }));
+
+    return Promise.all(loads).then(images => {
+        top.forEach((s, i) => {
+            const y = headH + i * rowH - 20;
+
+            ctx.textAlign = 'center';
+            ctx.fillStyle = brand;
+            roundRect(ctx, 20, y, 32, 32, 6);
+            ctx.fill();
+            ctx.fillStyle = '#fff';
+            ctx.font = '900 13px ui-monospace, monospace';
+            ctx.fillText(STARTING5_POSITIONS[i], 36, y + 21);
+
+            if (images[i]) {
+                ctx.save();
+                roundRect(ctx, 62, y, 44, 44, 4);
+                ctx.clip();
+                ctx.drawImage(images[i], 62, y, 44, 44);
+                ctx.restore();
+            } else {
+                ctx.fillStyle = 'rgba(255,255,255,0.08)';
+                roundRect(ctx, 62, y, 44, 44, 4);
+                ctx.fill();
+            }
+
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#fff';
+            ctx.font = '700 14px Inter, sans-serif';
+            ctx.fillText(truncate(ctx, s.title, 200), 118, y + 19);
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.font = '400 11px Inter, sans-serif';
+            ctx.fillText(truncate(ctx, s.artist, 200), 118, y + 35);
+
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#2C9BE8';
+            ctx.font = '900 18px ui-monospace, monospace';
+            ctx.fillText(String(getSongData(s.id).playCount), W - 20, y + 24);
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.font = '500 9px Inter, sans-serif';
+            ctx.fillText('plays', W - 20, y + 37);
+        });
+
+        const footY = headH + top.length * rowH - 8;
+        ctx.fillStyle = brand;
+        ctx.fillRect(20, footY, W - 40, 2);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '800 11px Inter, sans-serif';
+        ctx.fillText('TOTAL PLAYS', 20, footY + 28);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#2C9BE8';
+        ctx.font = '900 22px ui-monospace, monospace';
+        ctx.fillText(String(getTotalPlays()), W - 20, footY + 30);
+
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(255,255,255,0.28)';
+        ctx.font = '500 10px Inter, sans-serif';
+        ctx.fillText('lebronify.app', W / 2, footY + 54);
+
+        return canvas;
+    });
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+}
+
+function truncate(ctx, text, maxWidth) {
+    if (ctx.measureText(text).width <= maxWidth) return text;
+    let t = text;
+    while (t.length > 1 && ctx.measureText(t + '…').width > maxWidth) t = t.slice(0, -1);
+    return t + '…';
+}
+
+function shareStarting5() {
+    track('share_starting5', { plays: getTotalPlays() });
+    drawStarting5Canvas().then(canvas => {
+        if (!canvas) return;
+        canvas.toBlob(blob => {
+            if (!blob) return;
+            const file = new File([blob], 'lebronify-starting-5.png', { type: 'image/png' });
+
+            // Native share sheet where supported, otherwise fall back to a download.
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({ files: [file], title: 'My Starting 5' })
+                    .catch(() => {});
+                return;
+            }
+
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lebronify-starting-5.png';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Starting 5 saved');
+        }, 'image/png');
+    });
 }
 
 function renderSidebarPlaylists() {
@@ -877,7 +1582,7 @@ function renderPlayerFull() {
         if (contentEl) contentEl.style.display = 'none';
         // Reset gradient for empty state
         const scroll = $('.player-view-scroll');
-        if (scroll) scroll.style.background = `linear-gradient(180deg, rgba(47,128,237,0.35) 0%, var(--bg) 55%)`;
+        if (scroll) scroll.style.background = `linear-gradient(180deg, rgba(0,107,182,0.35) 0%, var(--bg) 55%)`;
         return;
     }
 
@@ -1048,13 +1753,7 @@ function renderAll() {
     renderSidebarPlaylists();
     // Re-render current view-specific content
     if (state.currentView === 'search') {
-        const q = $('#search-input').value.toLowerCase().trim();
-        if (q.length > 0) {
-            const results = SONGS.filter(s =>
-                s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q)
-            );
-            $('#search-results').innerHTML = results.map((s, i) => renderSongRow(s, i)).join('');
-        }
+        renderSearchResults();
     }
     if (state.currentView === 'playlist-detail') {
         refreshPlaylistDetail();
@@ -1098,6 +1797,13 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleShuffle();
     });
 
+    // Quick shuffle in the greeting bar
+    $('#greeting-shuffle')?.addEventListener('click', () => {
+        playQueue([...SONGS], Math.floor(Math.random() * SONGS.length));
+        state.shuffle = true;
+        toggleShuffle();
+    });
+
     // Taco Tuesday
     if ($('#taco-play-btn')) {
         $('#taco-play-btn').addEventListener('click', () => {
@@ -1135,6 +1841,55 @@ document.addEventListener('DOMContentLoaded', () => {
             const songId = parseInt(chip.dataset.songId);
             const song = SONGS.find(s => s.id === songId);
             if (song) playSong(song);
+        }
+
+        // --- App-parity controls ---
+
+        // Jump Back In tile
+        const jumpTile = e.target.closest('.jumpback-tile');
+        if (jumpTile) {
+            const song = SONGS.find(s => s.id === parseInt(jumpTile.dataset.songId));
+            if (song) playSong(song);
+        }
+
+        // Browse-by-category tile
+        const catTile = e.target.closest('.category-tile');
+        if (catTile) {
+            activeCategory = catTile.dataset.category;
+            renderSearchResults();
+        }
+
+        // Clear the active category filter
+        if (e.target.closest('#clear-category')) {
+            activeCategory = null;
+            renderSearchResults();
+        }
+
+        // Re-run a recent search term
+        const recentTerm = e.target.closest('.recent-term');
+        if (recentTerm) {
+            $('#search-input').value = recentTerm.dataset.term;
+            renderSearchResults();
+        }
+
+        if (e.target.closest('#clear-recents')) {
+            state.recentSearches = [];
+            saveState();
+            renderSearchPrefill();
+        }
+
+        // Shuffle the current result set
+        if (e.target.closest('#shuffle-results')) {
+            const matches = searchSongs($('#search-input').value, activeCategory);
+            if (matches.length) {
+                state.shuffle = true;
+                playQueue(matches, 0);
+            }
+        }
+
+        // Share My Starting 5
+        if (e.target.closest('#starting5-share')) {
+            shareStarting5();
         }
 
         const card = e.target.closest('.scroll-card');
@@ -1299,14 +2054,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search
     renderSearchPrefill();
 
-    $('#search-input').addEventListener('input', (e) => {
-        const q = e.target.value.toLowerCase().trim();
-        if (q.length === 0) { renderSearchPrefill(); return; }
-        $('#search-prefill').style.display = 'none';
-        const results = SONGS.filter(s =>
-            s.title.toLowerCase().includes(q) || s.artist.toLowerCase().includes(q)
-        );
-        $('#search-results').innerHTML = results.map((s, i) => renderSongRow(s, i)).join('');
+    $('#search-input').addEventListener('input', () => {
+        renderSearchResults();
+    });
+
+    // Commit the term to Recent Searches on Enter, matching the app.
+    $('#search-input').addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter') return;
+        commitSearch(e.target.value);
+        e.target.blur();
+    });
+
+    $('#search-clear-btn')?.addEventListener('click', () => {
+        $('#search-input').value = '';
+        activeCategory = null;
+        renderSearchResults();
+        $('#search-input').focus();
     });
 
     // Create playlist
