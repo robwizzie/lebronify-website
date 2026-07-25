@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.globalAlpha = alpha;
             ctx.translate(x - size/2, y - size/2);
             const s = size / 20;
-            ctx.fillStyle = Math.random() > 0.32 ? '#2F80ED' : '#ED174C';
+            ctx.fillStyle = Math.random() > 0.32 ? '#006BB6' : '#ED174C';
             ctx.beginPath();
             ctx.moveTo(2*s, 16*s);
             ctx.lineTo(4*s, 8*s);

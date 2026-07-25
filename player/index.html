@@ -3,15 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#050b18">
-    <meta name="description" content="Listen to the complete LeBronify parody collection in a polished Sixers-inspired player.">
-    <title>LeBronify - Web Player</title>
+    <meta name="theme-color" content="#0a0f16">
+
+    <title>LeBronify Web Player — Stream 100+ LeBron Parody Songs Free</title>
+    <meta name="description" content="Play the full LeBronify collection in your browser. Search 100+ LeBron James parody songs, build Playbooks, crown All-Stars and unlock trophies. Free, no sign-up.">
+    <link rel="canonical" href="https://lebronify.app/player/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LeBronify">
+    <meta property="og:url" content="https://lebronify.app/player/">
+    <meta property="og:title" content="LeBronify Web Player — 100+ LeBron Parody Songs">
+    <meta property="og:description" content="Stream the full LeBronify collection free in your browser. No sign-up.">
+    <meta property="og:image" content="https://lebronify.app/images/ui/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="LeBronify — the King's parody collection">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LeBronify Web Player — 100+ LeBron Parody Songs">
+    <meta name="twitter:description" content="Stream the full LeBronify collection free in your browser. No sign-up.">
+    <meta name="twitter:image" content="https://lebronify.app/images/ui/og-image.jpg">
+
+    <!-- Installable, full-screen on mobile home screens -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="LeBronify">
+
     <base href="/">
+    <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="app.css">
     <link rel="icon" type="image/png" href="images/ui/lebron_default.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="images/ui/app-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "LeBronify Web Player",
+  "url": "https://lebronify.app/player/",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any (web browser)",
+  "description": "Free browser music player for 100+ LeBron James parody songs.",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "isPartOf": {
+    "@id": "https://lebronify.app/#website"
+  },
+  "breadcrumb": {
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://lebronify.app/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Web Player",
+        "item": "https://lebronify.app/player/"
+      }
+    ]
+  }
+}
+    </script>
+
+    <script src="analytics.js"></script>
 </head>
 <body>
     <div id="app">
@@ -23,26 +91,26 @@
             </a>
             <nav class="sidebar-nav">
                 <button class="nav-item active" data-view="home">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                    <i data-icon="home" class="nav-icon"></i>
                     <span class="nav-label">Home Court</span>
                 </button>
                 <button class="nav-item" data-view="search">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+                    <i data-icon="search" class="nav-icon"></i>
                     <span class="nav-label">Search</span>
                 </button>
                 <button class="nav-item" data-view="vault">
-                    <svg class="nav-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
+                    <i data-icon="vault" class="nav-icon"></i>
                     <span class="nav-label">The Vault</span>
                 </button>
             </nav>
             <div class="sidebar-playlists">
                 <div class="sidebar-playlists-header">
                     <span class="sidebar-playlists-title">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-6.5v-5l4.5 2.5-4.5 2.5z"/></svg>
+                        <i data-icon="playlist" data-icon-size="14"></i>
                         Your Playbooks
                     </span>
                     <button class="sidebar-create-btn" id="create-playlist-btn" title="Draft a Playbook">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        <i data-icon="plus" data-icon-size="14"></i>
                     </button>
                 </div>
                 <div class="sidebar-playlists-list" id="sidebar-playlists"></div>
@@ -55,11 +123,22 @@
             <div class="view active" id="view-home">
                 <div class="taco-rain" id="taco-rain"></div>
                 <div class="view-scroll">
+                    <!-- Greeting -->
+                    <div class="greeting-bar">
+                        <div class="greeting-copy">
+                            <h2 class="greeting-text" id="greeting-text">Good evening</h2>
+                            <p class="greeting-sub">Welcome to South Philly</p>
+                        </div>
+                        <button class="greeting-shuffle pressable" id="greeting-shuffle" title="Shuffle everything" aria-label="Shuffle everything">
+                            <i data-icon="shuffle" data-icon-size="18"></i>
+                        </button>
+                    </div>
+
                     <!-- Banner -->
                     <div class="home-banner">
                         <img src="images/ui/lebron_banner.jpg" alt="LeBron" class="banner-img">
                         <div class="banner-overlay">
-                            <h1 class="banner-title">LEBRONIFY</h1>
+                            <h1 class="banner-title">LeBronify <span class="visually-hidden">— LeBron James parody music player</span><span class="phl-badge" aria-hidden="true">PHL</span></h1>
                             <p class="banner-sub">The King's Parody Collection</p>
                         </div>
                     </div>
@@ -69,7 +148,7 @@
                         <div class="taco-gradient">
                             <span class="taco-title-text">TACO TUESDAYYYYY</span>
                             <button class="taco-play-btn" id="taco-play-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                <i data-icon="play" data-icon-size="14"></i>
                                 Play Taco Tuesday
                             </button>
                         </div>
@@ -78,7 +157,7 @@
                     <!-- LeBron Quote of the Day -->
                     <div class="lebron-quote-card" id="lebron-quote">
                         <div class="quote-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                            <i data-icon="quotes" data-icon-size="20"></i>
                         </div>
                         <div class="quote-text" id="quote-text"></div>
                         <div class="quote-attr">- LeBron James</div>
@@ -86,7 +165,7 @@
 
                     <!-- Listening Streak -->
                     <div class="streak-bar" id="streak-bar" style="display:none;">
-                        <svg class="streak-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8m1.29-14c-.85 1.2-2.01 2.05-3.42 2.5C7.1 8.3 5 10.7 5 14.05 5 17.4 7.46 20.1 10.7 20.95c.42.1.86.15 1.3.15 3.55 0 6.43-2.88 6.43-6.43 0-4.57-2.26-8.13-5.43-9.67z"/></svg>
+                        <i data-icon="flame" class="streak-icon" data-icon-size="32"></i>
                         <div class="streak-info">
                             <div class="streak-label">Listening Streak</div>
                             <div class="streak-count"><span id="streak-num">0</span> <span>day streak</span> &middot; <span id="total-plays">0</span> <span>plays</span></div>
@@ -95,14 +174,24 @@
 
                     <!-- Shuffle Button -->
                     <button class="shuffle-btn" id="shuffle-all-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                        <i data-icon="shuffle" data-icon-size="20"></i>
                         Let The King Decide
                     </button>
+
+                    <!-- Trust The Process -->
+                    <div class="process-meter surface-card" id="process-meter"></div>
 
                     <!-- Song of the Day -->
                     <section class="home-section">
                         <h2 class="section-title">LeBron's Pick of the Day</h2>
                         <div class="potd-card" id="potd-card"></div>
+                    </section>
+
+                    <!-- Jump Back In -->
+                    <section class="home-section" id="jumpback-section" style="display:none;">
+                        <h2 class="section-title">Jump Back In</h2>
+                        <p class="section-sub">Pick up where you left off</p>
+                        <div class="jumpback-grid" id="jumpback-grid"></div>
                     </section>
 
                     <!-- Recent Highlights -->
@@ -117,6 +206,16 @@
                         <div class="scroll-row" id="mvp-row"></div>
                     </section>
 
+                    <!-- My Starting 5 -->
+                    <section class="home-section" id="starting5-section" style="display:none;">
+                        <h2 class="section-title">GOAT Debate</h2>
+                        <div class="starting5-card surface-card" id="starting5-preview"></div>
+                        <button class="btn-primary starting5-share" id="starting5-share">
+                            <i data-icon="share" data-icon-size="16"></i>
+                            Share My Starting 5
+                        </button>
+                    </section>
+
                     <!-- The Full Roster -->
                     <section class="home-section">
                         <h2 class="section-title">The Full Roster</h2>
@@ -128,11 +227,13 @@
             <!-- Search View -->
             <div class="view" id="view-search">
                 <div class="view-scroll">
-                    <h1 class="view-title">Search</h1>
+                    <h2 class="view-title">Search</h2>
                     <div class="search-bar-wrap">
-                        <svg class="search-bar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-                        <input type="text" class="search-input" id="search-input" placeholder="Search songs, artists...">
+                        <i data-icon="search" class="search-bar-icon"></i>
+                        <input type="text" class="search-input" id="search-input" placeholder="Search the roster" autocomplete="off" autocorrect="off" spellcheck="false">
+                        <button class="search-clear" id="search-clear-btn" aria-label="Clear search">✕</button>
                     </div>
+                    <div id="search-active-category" style="display:none;"></div>
                     <div id="search-prefill"></div>
                     <div class="song-list" id="search-results"></div>
                 </div>
@@ -141,10 +242,12 @@
             <!-- Vault View -->
             <div class="view" id="view-vault">
                 <div class="view-scroll">
-                    <h1 class="view-title">The Vault</h1>
+                    <h2 class="view-title">The Vault</h2>
+                    <div class="vault-stats" id="vault-stats"></div>
                     <div class="vault-tabs">
                         <button class="vault-tab active" data-vault-tab="playbooks">Playbooks</button>
                         <button class="vault-tab" data-vault-tab="allstars">All-Stars</button>
+                        <button class="vault-tab" data-vault-tab="trophies">Trophies</button>
                     </div>
                     <div class="vault-panel active" id="vault-playbooks">
                         <div class="vault-section-label">System Playlists</div>
@@ -152,14 +255,21 @@
                         <div class="vault-section-label">Your Playbooks</div>
                         <div class="playlist-list" id="user-playlists"></div>
                         <button class="draft-btn" id="vault-create-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+                            <i data-icon="plus" data-icon-size="16"></i>
                             Draft a Playbook
                         </button>
+                    </div>
+                    <div class="vault-panel" id="vault-trophies">
+                        <div class="trophies-head">
+                            <span class="vault-section-label">Trophy Case</span>
+                            <span class="trophies-count" id="trophies-count">0/12</span>
+                        </div>
+                        <div class="trophies-grid" id="trophies-grid"></div>
                     </div>
                     <div class="vault-panel" id="vault-allstars">
                         <div class="song-list" id="allstars-list"></div>
                         <div class="empty-state" id="empty-allstars" style="display:none;">
-                            <svg class="empty-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/><line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2"/></svg>
+                            <i data-icon="star" class="empty-icon"></i>
                             <h3>No All-Stars Yet</h3>
                             <p>Even the King has his favorites. Tap the star on any song to crown it an All-Star.</p>
                         </div>
@@ -171,17 +281,17 @@
             <div class="view" id="view-playlist-detail">
                 <div class="view-scroll">
                     <button class="back-btn" id="playlist-back-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                        <i data-icon="back" data-icon-size="16"></i>
                         Back
                     </button>
                     <div class="playlist-header" id="playlist-header"></div>
                     <div class="playlist-actions">
                         <button class="play-all-btn" id="playlist-play-all">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <i data-icon="play" data-icon-size="14"></i>
                             Play All
                         </button>
                         <button class="shuffle-play-btn" id="playlist-shuffle">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                            <i data-icon="shuffle" data-icon-size="14"></i>
                             Shuffle
                         </button>
                     </div>
@@ -193,7 +303,7 @@
             <div class="view" id="view-player">
                 <div class="view-scroll player-view-scroll">
                     <button class="back-btn player-back" id="player-back-btn">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                        <i data-icon="back" data-icon-size="16"></i>
                         Back
                     </button>
                     <!-- Empty State -->
@@ -202,7 +312,7 @@
                         <div class="player-empty-title">LEBRONIFY</div>
                         <div class="player-empty-quote">"I'm not playing right now, but I'm always ready."</div>
                         <button class="player-empty-btn" id="player-empty-play">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <i data-icon="play" data-icon-size="16"></i>
                             Let The King Play
                         </button>
                     </div>
@@ -235,15 +345,15 @@
                                 <span class="action-label">All-Star</span>
                             </button>
                             <button class="action-btn" id="btn-queue" title="Queue">
-                                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h12v-2H3v2zm0-6v2h16V7H3zm0 10h8v-2H3v2zm14-2v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z"/></svg>
+                                <i data-icon="queue" class="action-icon"></i>
                                 <span class="action-label">Queue</span>
                             </button>
                             <button class="action-btn" id="btn-add-playlist" title="Add to Playbook">
-                                <svg class="action-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8m-4-4h8"/></svg>
+                                <i data-icon="plusCircle" class="action-icon" data-icon-size="2"></i>
                                 <span class="action-label">Playbook</span>
                             </button>
                             <button class="action-btn" id="btn-mix" title="Mix">
-                                <svg class="action-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05a.996.996 0 000-1.41l-2.33-2.35z"/></svg>
+                                <i data-icon="sparkles" class="action-icon"></i>
                                 <span class="action-label">Mix</span>
                             </button>
                         </div>
@@ -263,7 +373,7 @@
             <div class="queue-header">
                 <h2>Queue</h2>
                 <button class="queue-close" id="queue-close">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <i data-icon="close" data-icon-size="18"></i>
                 </button>
             </div>
             <!-- On The Court (now playing in queue) -->
@@ -277,19 +387,19 @@
             <!-- Queue Bottom Controls -->
             <div class="queue-bottom">
                 <button class="queue-bottom-btn" id="queue-clear" title="Clear">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                    <i data-icon="trash" data-icon-size="18"></i>
                     <span>Clear</span>
                 </button>
                 <button class="queue-bottom-btn" id="queue-shuffle" title="Shuffle">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                    <i data-icon="shuffle" data-icon-size="18"></i>
                     <span>Shuffle</span>
                 </button>
                 <button class="queue-bottom-btn" id="queue-repeat" title="Repeat">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                    <i data-icon="repeat" data-icon-size="18"></i>
                     <span>Repeat</span>
                 </button>
                 <button class="queue-bottom-btn" id="queue-mix" title="Mix">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05a.996.996 0 000-1.41l-2.33-2.35z"/></svg>
+                    <i data-icon="sparkles" data-icon-size="18"></i>
                     <span>Mix</span>
                 </button>
             </div>
@@ -316,7 +426,7 @@
                 <div class="npb-right">
                     <button class="npb-btn npb-fav" id="npb-fav" title="All-Star"></button>
                     <div class="npb-volume">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                        <i data-icon="volume" data-icon-size="16"></i>
                         <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="80">
                     </div>
                 </div>
@@ -357,24 +467,25 @@
         <!-- Mobile Tab Bar -->
         <div class="mobile-tabs" id="mobile-tabs">
             <button class="mobile-tab active" data-view="home">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                <i data-icon="home" data-icon-size="20"></i>
                 <span>Home</span>
             </button>
             <button class="mobile-tab" data-view="search">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+                <i data-icon="search" data-icon-size="20"></i>
                 <span>Search</span>
             </button>
             <button class="mobile-tab" data-view="player">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                <i data-icon="nowPlaying" data-icon-size="20"></i>
                 <span>Now Playing</span>
             </button>
             <button class="mobile-tab" data-view="vault">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
+                <i data-icon="vault" data-icon-size="20"></i>
                 <span>The Vault</span>
             </button>
         </div>
     </div>
 
+    <script src="icons.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

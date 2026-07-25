@@ -1,0 +1,16 @@
+{
+  "name": "LeBronify — The King's Parody Collection",
+  "short_name": "LeBronify",
+  "description": "Free web player for 100+ LeBron James parody songs.",
+  "start_url": "/player/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0f16",
+  "theme_color": "#0a0f16",
+  "categories": ["music", "entertainment"],
+  "icons": [
+    { "src": "/images/ui/app-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/images/ui/app-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
