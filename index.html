@@ -4,15 +4,135 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0a0f16">
-    <meta name="description" content="LeBronify is the ultimate LeBron James parody music player, refreshed in Philadelphia blue and red.">
-    <title>LeBronify - The King's Parody Collection</title>
+
+    <title>LeBronify — 100+ LeBron James Parody Songs, Free Web Player</title>
+    <meta name="description" content="LeBronify is the free LeBron James parody music player. Stream 100+ LeBron parody songs in your browser, build Playbooks, crown All-Stars and trust the process. No sign-up.">
+    <link rel="canonical" href="https://lebronify.app/">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+    <meta name="author" content="LeBronify">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="LeBronify">
+    <meta property="og:url" content="https://lebronify.app/">
+    <meta property="og:title" content="LeBronify — 100+ LeBron James Parody Songs">
+    <meta property="og:description" content="The free LeBron James parody music player. 100+ songs, Playbooks, All-Stars and trophies. Runs in any browser — no sign-up.">
+    <meta property="og:image" content="https://lebronify.app/images/ui/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="LeBronify — the King's parody collection">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LeBronify — 100+ LeBron James Parody Songs">
+    <meta name="twitter:description" content="The free LeBron James parody music player. 100+ songs, Playbooks, All-Stars and trophies. No sign-up.">
+    <meta name="twitter:image" content="https://lebronify.app/images/ui/og-image.jpg">
+    <meta name="twitter:image:alt" content="LeBronify — the King's parody collection">
+
     <link rel="stylesheet" href="theme.css">
     <link rel="stylesheet" href="styles.css">
-    <link rel="canonical" href="/">
     <link rel="icon" type="image/png" href="images/ui/lebron_default.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="images/ui/app-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://lebronify.app/#website",
+      "url": "https://lebronify.app/",
+      "name": "LeBronify",
+      "alternateName": [
+        "LeBronify App",
+        "LeBronify Web Player"
+      ],
+      "description": "LeBronify is a free web music player for LeBron James parody songs.",
+      "inLanguage": "en-US",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://lebronify.app/player/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://lebronify.app/#app",
+      "name": "LeBronify",
+      "url": "https://lebronify.app/player/",
+      "applicationCategory": "MultimediaApplication",
+      "applicationSubCategory": "Music Player",
+      "operatingSystem": "Any (web browser)",
+      "browserRequirements": "Requires JavaScript.",
+      "description": "Stream 49+ LeBron James parody songs in a free Sixers-themed web player. Build playbooks, crown All-Stars, unlock trophies. No sign-up.",
+      "image": "https://lebronify.app/images/ui/og-image.jpg",
+      "inLanguage": "en-US",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "100+ LeBron James parody songs",
+        "Search and browse by category",
+        "Custom playlists (Playbooks)",
+        "All-Star favorites",
+        "Trust The Process listening tiers",
+        "Trophy case achievements",
+        "Shareable Starting 5 stat card"
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://lebronify.app/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is LeBronify?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "LeBronify is a free parody music player packed with LeBron James themed songs. It runs in any browser at lebronify.app with no sign-up or download."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is LeBronify free?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. LeBronify is completely free, has no ads beyond the joke AD breaks, and needs no account."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is LeBronify affiliated with LeBron James or the NBA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. LeBronify is an independent fan parody project and is not affiliated with, endorsed by, or sponsored by LeBron James, the NBA, or the Philadelphia 76ers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use LeBronify on my phone?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. LeBronify is built mobile-first and works in any modern mobile browser. You can add it to your home screen for a full-screen, app-like experience."
+          }
+        }
+      ]
+    }
+  ]
+}
+    </script>
+
+    <script src="analytics.js"></script>
 </head>
 <body>
     <!-- Crown cursor trail canvas -->
@@ -21,7 +141,7 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-content">
-            <a href="#" class="nav-logo">
+            <a href="/" class="nav-logo" aria-label="LeBronify home">
                 <img src="images/ui/lebron_default.png" alt="LeBronify" class="logo-icon">
                 <span class="logo-text">LEBRONIFY</span>
             </a>
@@ -45,11 +165,11 @@
         <div class="hero-bg-effects">
             <div class="hero-glow"></div>
             <div class="floating-notes">
-                <svg class="note" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="note" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="note" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="note" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="note" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                <i data-icon="musicNote" class="note"></i>
+                <i data-icon="musicNote" class="note"></i>
+                <i data-icon="musicNote" class="note"></i>
+                <i data-icon="musicNote" class="note"></i>
+                <i data-icon="musicNote" class="note"></i>
             </div>
         </div>
         <div class="hero">
@@ -61,11 +181,11 @@
             <p class="hero-subtitle">Every song. Every parody. All LeBron. The ultimate music app for fans of The King - featuring hilarious LeBron-themed parodies of your favorite hits.</p>
             <div class="hero-actions">
                 <a href="/player" class="btn btn-primary btn-web-hero">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <i data-icon="play" data-icon-size="20"></i>
                     Open Web Player
                 </a>
                 <a href="#download" class="btn btn-secondary">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                    <i data-icon="appleLogo" data-icon-size="20"></i>
                     Coming Soon to iOS
                 </a>
             </div>
@@ -85,7 +205,7 @@
             </div>
             </div>
             <div class="hero-phone">
-                <div class="phone-mockup">
+                <div class="phone-mockup" aria-hidden="true">
                 <div class="phone-notch"></div>
                 <div class="phone-screen">
                     <div class="mock-app">
@@ -94,7 +214,7 @@
                             <div class="mock-subtitle">The King's Parody Collection</div>
                         </div>
                         <div class="mock-shuffle-btn">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
+                            <i data-icon="shuffle" data-icon-size="12"></i>
                             Let The King Decide
                         </div>
                         <div class="mock-section-title">LeBron's Pick of the Day</div>
@@ -107,7 +227,7 @@
                                 <div class="mock-song-artist">LeBron Fan</div>
                             </div>
                             <div class="mock-play-btn">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                <i data-icon="play" data-icon-size="12"></i>
                             </div>
                         </div>
                         <div class="mock-section-title">The Full Roster</div>
@@ -155,82 +275,82 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="musicNotes"></i></div>
                     <h3>49+ Parody Songs</h3>
                     <p>A massive collection of LeBron-themed parodies of popular songs - from "Dunk With a Smile" to "He Is The King" and everything in between.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="basketball"></i></div>
                     <h3>LeBron's Pick of the Day</h3>
                     <p>Every day, The King himself picks a song just for you. A new featured track rotates daily to keep things fresh.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="shuffle"></i></div>
                     <h3>Let The King Decide</h3>
                     <p>Can't choose? Hit the shuffle button and let LeBron pick your next banger. The King always knows best.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h12v-2H3v2zm0-6v2h16V7H3zm0 10h8v-2H3v2zm14-2v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="playlist"></i></div>
                     <h3>Playbooks</h3>
                     <p>Create custom playlists (Playbooks) with your favorite tracks. Add custom cover art and organize your lineup like a championship roster.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="starFilled"></i></div>
                     <h3>All-Star Favorites</h3>
                     <p>Crown your favorite songs as All-Stars. Build your dream team of parody hits and access them instantly from The Vault.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="monitor"></i></div>
                     <h3>AD Breaks</h3>
                     <p>Anthony Davis pops up with hilarious "ad" breaks between songs. Trade him to Dallas or put him on injured reserve to dismiss!</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="forkKnife"></i></div>
                     <h3>Taco Tuesday Mode</h3>
                     <p>Every Tuesday, the app goes full Taco Tuesday with falling tacos, a special song, and LeBron's iconic celebration.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="headphones"></i></div>
                     <h3>Full Music Player</h3>
                     <p>Shuffle, repeat, queue management, progress scrubbing - a complete music experience with "On The Bench" queue preview.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="car"></i></div>
                     <h3>CarPlay & Widgets</h3>
                     <p>Take LeBron on the road with CarPlay support. Live Activities and home screen widgets keep the music at your fingertips.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="medal"></i></div>
                     <h3>MVP Badges</h3>
                     <p>Your most-played songs earn MVP badges - golden #1, #2, and #3 rankings that appear right on the album art. Climb the leaderboard!</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h-2v2zm0-10v6h2V6h-2z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="hands"></i></div>
                     <h3>Chalk Toss</h3>
                     <p>Channel LeBron's iconic pre-game ritual. The chalk toss animation fires up before your listening session begins - just like game time.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="users"></i></div>
                     <h3>Starting 5</h3>
                     <p>Your top 5 most-played songs become your Starting 5 lineup. Share your starting roster with friends and see who has the best taste.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="chartUp"></i></div>
                     <h3>Trust The Process</h3>
                     <p>Your total plays drive a full franchise rebuild - from Tanking to Rebuilding to Contender to Championship Or Bust. Every tier you clear moves the meter.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="bell"></i></div>
                     <h3>Ring The Bell</h3>
                     <p>Hit a new tier and the Liberty Bell rings - swinging bell, sound waves, and a burst of red and blue confetti. Philly celebrations, built in.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4-6.2-4.6-6.2 4.6 2.4-7.4L2 9.4h7.6z"/></svg></div>
+                    <div class="feature-icon"><i data-icon="trophy"></i></div>
                     <h3>Trophy Case</h3>
                     <p>Twelve achievements to unlock, from Rookie of the Year to Brotherly Love to The Answer. Track them all in The Vault.</p>
                 </div>
                 <div class="feature-card" data-animate>
-                    <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg></div>
+                    <div class="feature-icon"><i data-icon="search"></i></div>
                     <h3>Search The Roster</h3>
                     <p>Find any track instantly with ranked search, or browse the locker room by category - Love Songs, King James, The Lakers Years and more.</p>
                 </div>
@@ -248,15 +368,15 @@
             </div>
             <div class="breakdown-tabs">
                 <button class="tab-btn active" data-tab="home">
-                    <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                    <i data-icon="home" class="tab-icon"></i>
                     Home Court
                 </button>
                 <button class="tab-btn" data-tab="player">
-                    <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                    <i data-icon="nowPlaying" class="tab-icon"></i>
                     Now Playing
                 </button>
                 <button class="tab-btn" data-tab="vault">
-                    <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
+                    <i data-icon="vault" class="tab-icon"></i>
                     The Vault
                 </button>
             </div>
@@ -276,7 +396,7 @@
                         </ul>
                     </div>
                     <div class="panel-phone">
-                        <div class="phone-mockup small">
+                        <div class="phone-mockup small" aria-hidden="true">
                             <div class="phone-notch"></div>
                             <div class="phone-screen">
                                 <div class="mock-app-screen home-screen">
@@ -287,7 +407,7 @@
                                             <div class="app-banner-sub">The King's Parody Collection</div>
                                         </div>
                                     </div>
-                                    <div class="app-shuffle-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg> Let The King Decide</div>
+                                    <div class="app-shuffle-btn"><i data-icon="shuffle" data-icon-size="10"></i> Let The King Decide</div>
                                     <div class="app-section-label">LeBron's Pick of the Day</div>
                                     <div class="app-potd-card">
                                         <img src="images/albums/legolden_hour.png" alt="LeGolden Hour" class="app-potd-art">
@@ -295,7 +415,7 @@
                                             <div class="app-potd-title">LeGolden Hour</div>
                                             <div class="app-potd-artist">ilyaugust</div>
                                         </div>
-                                        <div class="app-potd-play"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
+                                        <div class="app-potd-play"><i data-icon="play" data-icon-size="10"></i></div>
                                     </div>
                                     <div class="app-section-label">Recent Highlights</div>
                                     <div class="app-scroll-row">
@@ -325,23 +445,23 @@
                                                 <div class="app-mini-artist">My Way</div>
                                             </div>
                                             <div class="app-mini-controls">
-                                                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                                                <span class="app-mini-play"><svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                                                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                                                <i data-icon="prev" data-icon-size="10"></i>
+                                                <span class="app-mini-play"><i data-icon="play" data-icon-size="8"></i></span>
+                                                <i data-icon="next" data-icon-size="10"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="app-tab-bar">
                                         <div class="app-tab active">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                                            <i data-icon="home" class="app-tab-icon"></i>
                                             <span class="app-tab-label">Home</span>
                                         </div>
                                         <div class="app-tab">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                                            <i data-icon="nowPlaying" class="app-tab-icon"></i>
                                             <span class="app-tab-label">Now Playing</span>
                                         </div>
                                         <div class="app-tab">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
+                                            <i data-icon="vault" class="app-tab-icon"></i>
                                             <span class="app-tab-label">The Vault</span>
                                         </div>
                                     </div>
@@ -366,7 +486,7 @@
                         </ul>
                     </div>
                     <div class="panel-phone">
-                        <div class="phone-mockup small">
+                        <div class="phone-mockup small" aria-hidden="true">
                             <div class="phone-notch"></div>
                             <div class="phone-screen">
                                 <div class="mock-app-screen player-screen">
@@ -383,17 +503,17 @@
                                         <div class="app-player-times"><span>1:23</span><span>3:45</span></div>
                                     </div>
                                     <div class="app-player-controls">
-                                        <svg class="app-ctrl-dim" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>
-                                        <svg class="app-ctrl" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                                        <span class="app-ctrl-play"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-                                        <svg class="app-ctrl" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-                                        <svg class="app-ctrl-dim" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                                        <i data-icon="shuffle" class="app-ctrl-dim"></i>
+                                        <i data-icon="prev" class="app-ctrl"></i>
+                                        <span class="app-ctrl-play"><i data-icon="play" data-icon-size="18"></i></span>
+                                        <i data-icon="next" class="app-ctrl"></i>
+                                        <i data-icon="repeat" class="app-ctrl-dim"></i>
                                     </div>
                                     <div class="app-player-actions">
-                                        <div class="app-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="app-action-label">All-Star</span></div>
-                                        <div class="app-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h12v-2H3v2zm0-6v2h16V7H3zm0 10h8v-2H3v2zm14-2v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z"/></svg><span class="app-action-label">Queue</span></div>
-                                        <div class="app-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v8m-4-4h8"/></svg><span class="app-action-label">Playbook</span></div>
-                                        <div class="app-action"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.71 11.04c.39-.39.39-1.02 0-1.41l-2.34-2.34z"/></svg><span class="app-action-label">Mix</span></div>
+                                        <div class="app-action"><i data-icon="star" data-icon-size="14"></i><span class="app-action-label">All-Star</span></div>
+                                        <div class="app-action"><i data-icon="queue" data-icon-size="14"></i><span class="app-action-label">Queue</span></div>
+                                        <div class="app-action"><i data-icon="plusCircle" data-icon-size="14"></i><span class="app-action-label">Playbook</span></div>
+                                        <div class="app-action"><i data-icon="sparkles" data-icon-size="14"></i><span class="app-action-label">Mix</span></div>
                                     </div>
                                     <div class="app-bench">
                                         <div class="app-bench-header">On The Bench</div>
@@ -427,7 +547,7 @@
                         </ul>
                     </div>
                     <div class="panel-phone">
-                        <div class="phone-mockup small">
+                        <div class="phone-mockup small" aria-hidden="true">
                             <div class="phone-notch"></div>
                             <div class="phone-screen">
                                 <div class="mock-app-screen vault-screen">
@@ -440,30 +560,30 @@
                                     <div class="app-vault-row">
                                         <img src="images/ui/lebron_recent.png" alt="" class="app-vault-art">
                                         <div class="app-vault-info"><div class="app-vault-name">Recently Played</div><div class="app-vault-desc">Your recent hits</div><div class="app-vault-count">12 songs</div></div>
-                                        <svg class="app-vault-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                                        <i data-icon="chevronRight" class="app-vault-chevron"></i>
                                     </div>
                                     <div class="app-vault-row">
                                         <img src="images/ui/lebron_top.png" alt="" class="app-vault-art">
                                         <div class="app-vault-info"><div class="app-vault-name">MVP Selections</div><div class="app-vault-desc">Most played tracks</div><div class="app-vault-count">8 songs</div></div>
-                                        <svg class="app-vault-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                                        <i data-icon="chevronRight" class="app-vault-chevron"></i>
                                     </div>
                                     <div class="app-vault-row">
                                         <img src="images/ui/lebron_favorites.png" alt="" class="app-vault-art">
                                         <div class="app-vault-info"><div class="app-vault-name">All-Stars</div><div class="app-vault-desc">Your favorites</div><div class="app-vault-count">15 songs</div></div>
-                                        <svg class="app-vault-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                                        <i data-icon="chevronRight" class="app-vault-chevron"></i>
                                     </div>
-                                    <div class="app-vault-draft-btn"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg> Draft a Playbook</div>
+                                    <div class="app-vault-draft-btn"><i data-icon="plus" data-icon-size="10"></i> Draft a Playbook</div>
                                     <div class="app-tab-bar">
                                         <div class="app-tab">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg>
+                                            <i data-icon="home" class="app-tab-icon"></i>
                                             <span class="app-tab-label">Home</span>
                                         </div>
                                         <div class="app-tab">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+                                            <i data-icon="nowPlaying" class="app-tab-icon"></i>
                                             <span class="app-tab-label">Now Playing</span>
                                         </div>
                                         <div class="app-tab active">
-                                            <svg class="app-tab-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4zm2 4h12v2H6zm-2 4h16v2H4zm2 4h12v2H6z"/></svg>
+                                            <i data-icon="vault" class="app-tab-icon"></i>
                                             <span class="app-tab-label">The Vault</span>
                                         </div>
                                     </div>
@@ -602,7 +722,7 @@
                                 <div class="s5-slot"><div class="s5-rank">C</div><img src="images/albums/leearned_it.png" alt="" class="s5-art"><div class="s5-name">LeEarned It</div></div>
                             </div>
                             <div class="s5-share">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+                                <i data-icon="share" data-icon-size="12"></i>
                                 Share Lineup
                             </div>
                         </div>
@@ -660,14 +780,14 @@
                         <h3>Basketball-Themed Everything</h3>
                         <p>Every UI element speaks basketball. The entire app is a love letter to LeBron and the NBA:</p>
                         <div class="language-grid">
-                            <div class="lang-item"><span class="lang-normal">Playlists</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">Playbooks</span></div>
-                            <div class="lang-item"><span class="lang-normal">Favorites</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">All-Stars</span></div>
-                            <div class="lang-item"><span class="lang-normal">Library</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">The Vault</span></div>
-                            <div class="lang-item"><span class="lang-normal">Up Next</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">On The Bench</span></div>
-                            <div class="lang-item"><span class="lang-normal">Top Songs</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">MVP Selections</span></div>
-                            <div class="lang-item"><span class="lang-normal">All Songs</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">The Full Roster</span></div>
-                            <div class="lang-item"><span class="lang-normal">Create</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">Draft</span></div>
-                            <div class="lang-item"><span class="lang-normal">Shuffle</span><svg class="lang-arrow" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg><span class="lang-bron">Let The King Decide</span></div>
+                            <div class="lang-item"><span class="lang-normal">Playlists</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Playbooks</span></div>
+                            <div class="lang-item"><span class="lang-normal">Favorites</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">All-Stars</span></div>
+                            <div class="lang-item"><span class="lang-normal">Library</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">The Vault</span></div>
+                            <div class="lang-item"><span class="lang-normal">Up Next</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">On The Bench</span></div>
+                            <div class="lang-item"><span class="lang-normal">Top Songs</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">MVP Selections</span></div>
+                            <div class="lang-item"><span class="lang-normal">All Songs</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">The Full Roster</span></div>
+                            <div class="lang-item"><span class="lang-normal">Create</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Draft</span></div>
+                            <div class="lang-item"><span class="lang-normal">Shuffle</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Let The King Decide</span></div>
                         </div>
                     </div>
                     <div class="fun-card-visual">
@@ -705,13 +825,13 @@
                         </div>
                         <div class="mini-controls">
                             <button class="mini-ctrl" id="mini-prev-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                                <i data-icon="prev" data-icon-size="14"></i>
                             </button>
                             <button class="mini-ctrl play" id="mini-play-btn">
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                <i data-icon="play" data-icon-size="12"></i>
                             </button>
                             <button class="mini-ctrl" id="mini-next-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+                                <i data-icon="next" data-icon-size="14"></i>
                             </button>
                         </div>
                     </div>
@@ -730,13 +850,13 @@
                     <p class="download-disclaimer">*Except Anthony Davis. He shows up whether you want him to or not.</p>
                     <div class="download-buttons">
                         <a href="/player" class="btn btn-primary btn-large btn-web-hero">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                            <i data-icon="play" data-icon-size="24"></i>
                             Open Web Player
                         </a>
-                        <a href="#" class="btn btn-secondary btn-large">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+                        <span class="btn btn-secondary btn-large btn-disabled" role="note">
+                            <i data-icon="appleLogo" data-icon-size="24"></i>
                             Coming Soon to iOS
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="download-visual">
@@ -770,11 +890,11 @@
                     <h4>The App</h4>
                     <a href="#download">Coming Soon</a>
                     <a href="/player">Web Player</a>
-                    <a href="#">Support</a>
+                    <a href="https://github.com/robwizzie/lebronify-website/issues" rel="noopener">Support</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>Made with <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:-2px;color:#006bb6;"><path d="M2.5 18.5l3-5 4 3 3-9 3 9 4-3 3 5H2.5zM5 7.5L3 5h4L5 7.5zm14 0L17 5h4l-2 2.5zM12 5l-1.5-3h3L12 5z"/></svg> for LeBron fans everywhere. This is a parody/fan app - not affiliated with LeBron James or the NBA.</p>
+                <p>Made with <i data-icon="basketball" data-icon-size="14" style="display:inline;vertical-align:-2px;color:#006bb6;"></i> for LeBron fans everywhere. This is a parody/fan app - not affiliated with LeBron James or the NBA.</p>
             </div>
         </div>
     </footer>
@@ -785,6 +905,7 @@
         window.history.replaceState(null, '', '/');
     }
     </script>
+    <script src="icons.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

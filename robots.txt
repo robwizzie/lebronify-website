@@ -1,0 +1,11 @@
+# https://lebronify.app
+User-agent: *
+Allow: /
+
+# The /app path is a legacy redirect stub — no content to index.
+Disallow: /app.html
+
+# Audio and raw assets add nothing to search results.
+Disallow: /songs/
+
+Sitemap: https://lebronify.app/sitemap.xml

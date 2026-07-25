@@ -7,33 +7,15 @@
 'use strict';
 
 // -------------------------------------------
-// SVG Icon Library (matching SF Symbols)
+// Icons — delegated to the shared Phosphor set in icons.js
 // -------------------------------------------
-const ICONS = {
-    play: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>',
-    pause: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>',
-    prev: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>',
-    next: '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>',
-    shuffle: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>',
-    repeat: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>',
-    repeatOne: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>',
-    starEmpty: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-    starFilled: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
-    chevronRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
-    musicNote: '<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>',
-    ellipsis: '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
-    sparkles: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29a.996.996 0 00-1.41 0L1.29 18.96a.996.996 0 000 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05a.996.996 0 000-1.41l-2.33-2.35z"/></svg>',
-    trash: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>',
-    search: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>',
-    share: '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>',
-};
+/* Analytics is optional and self-disabling; this keeps call sites terse. */
+function track(event, params) {
+    if (window.LBAnalytics) window.LBAnalytics.track(event, params);
+}
 
 function icon(name, size) {
-    let svg = ICONS[name] || '';
-    if (size) {
-        svg = svg.replace(/width="\d+"/, `width="${size}"`).replace(/height="\d+"/, `height="${size}"`);
-    }
-    return svg;
+    return (window.LBIcons ? window.LBIcons.svg(name, size) : '');
 }
 
 // -------------------------------------------
@@ -254,12 +236,12 @@ function songsInCategory(cat) {
 // Trust The Process — total plays drive a franchise-rebuild arc
 // -------------------------------------------
 const PROCESS_TIERS = [
-    { name: 'Tanking',                blurb: 'Every dynasty starts somewhere.',        threshold: 0,   icon: '📉' },
-    { name: 'The Process Begins',     blurb: 'Lottery balls are bouncing your way.',   threshold: 10,  icon: '⏳' },
-    { name: 'Rebuilding',             blurb: 'The young core is developing nicely.',   threshold: 50,  icon: '🔨' },
-    { name: 'Playoff Push',           blurb: "You're in the play-in conversation.",    threshold: 150, icon: '📈' },
-    { name: 'Contender',              blurb: 'Homecourt advantage secured.',           threshold: 350, icon: '🔥' },
-    { name: 'Championship Or Bust',   blurb: 'Broad Street is ready for a parade.',    threshold: 700, icon: '🏆' },
+    { name: 'Tanking',                blurb: 'Every dynasty starts somewhere.',        threshold: 0,   icon: 'tierTanking' },
+    { name: 'The Process Begins',     blurb: 'Lottery balls are bouncing your way.',   threshold: 10,  icon: 'tierProcess' },
+    { name: 'Rebuilding',             blurb: 'The young core is developing nicely.',   threshold: 50,  icon: 'tierRebuild' },
+    { name: 'Playoff Push',           blurb: "You're in the play-in conversation.",    threshold: 150, icon: 'tierPush' },
+    { name: 'Contender',              blurb: 'Homecourt advantage secured.',           threshold: 350, icon: 'tierContender' },
+    { name: 'Championship Or Bust',   blurb: 'Broad Street is ready for a parade.',    threshold: 700, icon: 'tierChampion' },
 ];
 
 function getTotalPlays() {
@@ -294,6 +276,7 @@ function checkProcessTier() {
     if (idx <= state.processTier) return;
     state.processTier = idx;
     saveState();
+    track('process_tier_up', { tier: PROCESS_TIERS[idx].name, plays: getTotalPlays() });
     triggerBellRing(PROCESS_TIERS[idx].name);
 }
 
@@ -301,18 +284,18 @@ function checkProcessTier() {
 // Achievements — same 12 as AchievementManager.allAchievements
 // -------------------------------------------
 const ACHIEVEMENTS = [
-    { id: 'rookie_of_the_year', name: 'Rookie of the Year', desc: 'Play your first song',                       icon: '⭐' },
-    { id: 'sixth_man',          name: 'Sixth Man',          desc: 'Play 6 different songs in one session',       icon: '🙌' },
-    { id: 'triple_double',      name: 'Triple Double',      desc: '10 songs played, 10 All-Stars, 10 Playbooks', icon: '🏆' },
-    { id: 'mvp',                name: 'MVP',                desc: 'Reach 100 total plays across all songs',      icon: '🥇' },
-    { id: 'forty_k_club',       name: '40,000 Point Club',  desc: 'Accumulate 40,000 seconds of listening',      icon: '🔥' },
-    { id: 'ring_ceremony',      name: 'Ring Ceremony',      desc: 'Listen to every song at least once',          icon: '💍' },
-    { id: 'hall_of_fame',       name: 'Hall of Fame',       desc: 'Reach 500 total plays across all songs',      icon: '🏛️' },
-    { id: 'bell_ringer',        name: 'Bell Ringer',        desc: 'Reach 10 total plays and ring the bell',      icon: '🔔' },
-    { id: 'brotherly_love',     name: 'Brotherly Love',     desc: 'Crown 20 songs as All-Stars',                 icon: '❤️' },
-    { id: 'the_answer',         name: 'The Answer',         desc: 'Play 3 different songs 3 times each',         icon: '3️⃣' },
-    { id: 'broad_street_run',   name: 'Broad Street Run',   desc: 'Play 10 different songs in one session',      icon: '🏃' },
-    { id: 'trust_the_process',  name: 'Trust The Process',  desc: 'Reach Contender — 350 total plays',           icon: '👑' },
+    { id: 'rookie_of_the_year', name: 'Rookie of the Year', desc: 'Play your first song',                       icon: 'star' },
+    { id: 'sixth_man',          name: 'Sixth Man',          desc: 'Play 6 different songs in one session',       icon: 'hands' },
+    { id: 'triple_double',      name: 'Triple Double',      desc: '10 songs played, 10 All-Stars, 10 Playbooks', icon: 'trophy' },
+    { id: 'mvp',                name: 'MVP',                desc: 'Reach 100 total plays across all songs',      icon: 'medal' },
+    { id: 'forty_k_club',       name: '40,000 Point Club',  desc: 'Accumulate 40,000 seconds of listening',      icon: 'flame' },
+    { id: 'ring_ceremony',      name: 'Ring Ceremony',      desc: 'Listen to every song at least once',          icon: 'ring' },
+    { id: 'hall_of_fame',       name: 'Hall of Fame',       desc: 'Reach 500 total plays across all songs',      icon: 'building' },
+    { id: 'bell_ringer',        name: 'Bell Ringer',        desc: 'Reach 10 total plays and ring the bell',      icon: 'bell' },
+    { id: 'brotherly_love',     name: 'Brotherly Love',     desc: 'Crown 20 songs as All-Stars',                 icon: 'heart' },
+    { id: 'the_answer',         name: 'The Answer',         desc: 'Play 3 different songs 3 times each',         icon: 'three' },
+    { id: 'broad_street_run',   name: 'Broad Street Run',   desc: 'Play 10 different songs in one session',      icon: 'run' },
+    { id: 'trust_the_process',  name: 'Trust The Process',  desc: 'Reach Contender — 350 total plays',           icon: 'crown' },
 ];
 
 function checkAchievements() {
@@ -355,6 +338,7 @@ function checkAchievements() {
 
     if (freshlyUnlocked.length) {
         saveState();
+        freshlyUnlocked.forEach(function (a) { track('achievement_unlock', { id: a.id, name: a.name }); });
         // Show one at a time, same as the app.
         showAchievementUnlocked(freshlyUnlocked[0]);
     }
@@ -420,6 +404,7 @@ function commitSearch(term) {
         state.recentSearches = state.recentSearches.slice(0, MAX_RECENT_SEARCHES);
     }
     saveState();
+    track('search', { term: trimmed, results: searchSongs(trimmed, activeCategory).length });
 }
 
 // -------------------------------------------
@@ -510,7 +495,7 @@ let chalkContainer = null;
 let chalkTimeout = null;
 
 // Real hand emoji for chalk toss
-const HAND_HTML = `<span style="font-size:40px;line-height:1;display:block;">🤚</span>`;
+const HAND_HTML = `<span class="chalk-hand">${icon('hands', 40)}</span>`;
 
 function triggerChalkToss() {
     if (chalkContainer) { chalkContainer.remove(); chalkContainer = null; }
@@ -628,7 +613,7 @@ function triggerBellRing(tierName) {
         </div>
         <div class="bell-burst">${confetti}</div>
         <div class="bell-stack">
-            <div class="bell-icon">🔔</div>
+            <div class="bell-icon">${icon('bell', 74)}</div>
             <div class="bell-title">RING THE BELL</div>
             ${tierName ? `<div class="bell-tier">${tierName}</div>` : ''}
         </div>
@@ -663,7 +648,7 @@ function showAchievementUnlocked(achievement) {
     el.setAttribute('role', 'status');
     el.setAttribute('aria-live', 'polite');
     el.innerHTML = `
-        <div class="achievement-medal">${achievement.icon}</div>
+        <div class="achievement-medal">${icon(achievement.icon, 24)}</div>
         <div class="achievement-copy">
             <div class="achievement-eyebrow">ACHIEVEMENT UNLOCKED</div>
             <div class="achievement-name">${achievement.name}</div>
@@ -720,6 +705,7 @@ function playSong(song, fromQueue) {
         state.songsPlayed++;
         // Order matters: ring the bell for a new tier before the achievement
         // toast, so the two celebrations don't collide.
+        track('song_play', { song: song.title, artist: song.artist });
         checkProcessTier();
         checkAchievements();
         maybeShowAd();
@@ -907,6 +893,8 @@ function showView(name) {
     if (view) view.classList.add('active');
     $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
     $$('.mobile-tab').forEach(n => n.classList.toggle('active', n.dataset.view === name));
+    if (window.LBAnalytics) window.LBAnalytics.page('/player/' + name, 'LeBronify — ' + name);
+
     // Always re-render the target view with fresh data
     if (name === 'home') renderHome();
     if (name === 'vault') renderVault();
@@ -1010,7 +998,7 @@ function renderProcessMeter() {
 
     el.innerHTML = `
         <div class="process-head">
-            <div class="process-badge">${tier.icon}</div>
+            <div class="process-badge">${icon(tier.icon, 20)}</div>
             <div class="process-headings">
                 <div class="eyebrow">TRUST THE PROCESS</div>
                 <div class="process-tier">${tier.name}</div>
@@ -1029,7 +1017,7 @@ function renderProcessMeter() {
         <div class="process-foot">
             ${next
                 ? `<span>Next: ${next.name}</span><span>${remaining} plays to go</span>`
-                : `<span class="process-maxed">Maxed out. The Process is complete. 🏆</span>`}
+                : `<span class="process-maxed">${icon('trophy', 13)} Maxed out. The Process is complete.</span>`}
         </div>
     `;
 }
@@ -1206,7 +1194,7 @@ function renderCategoryChip() {
     holder.innerHTML = `
         <button class="active-category-chip" id="clear-category">
             <span>${escapeHtml(activeCategory)}</span>
-            <span aria-hidden="true">✕</span>
+            ${icon('close', 12)}
         </button>
     `;
 }
@@ -1216,6 +1204,11 @@ function renderSearchResults() {
     const results = $('#search-results');
     const input = $('#search-input');
     if (!results || !input) return;
+
+    // The chip lives outside both branches below, so it has to be drawn here —
+    // filtering by category with an empty query used to skip it entirely,
+    // leaving no way to clear the filter.
+    renderCategoryChip();
 
     const query = input.value.trim();
     if (!query && !activeCategory) {
@@ -1230,7 +1223,7 @@ function renderSearchResults() {
     if (!matches.length) {
         results.innerHTML = `
             <div class="search-empty">
-                <div class="search-empty-icon">🏀</div>
+                <div class="search-empty-icon">${icon('basketball', 44)}</div>
                 <div class="search-empty-title">Air ball.</div>
                 <p>Nothing on the roster matches "${escapeHtml(query)}".<br>Try a different name.</p>
             </div>`;
@@ -1326,7 +1319,7 @@ function renderTrophies() {
         const unlocked = Boolean(unlockedAt);
         return `
             <div class="trophy ${unlocked ? 'trophy-unlocked' : ''}">
-                <div class="trophy-medal">${unlocked ? a.icon : '🔒'}</div>
+                <div class="trophy-medal">${icon(unlocked ? a.icon : 'lock', 24)}</div>
                 <div class="trophy-name">${a.name}</div>
                 <div class="trophy-desc">${unlocked ? a.desc : '???'}</div>
                 ${unlocked ? `<div class="trophy-date">${new Date(unlockedAt).toLocaleDateString()}</div>` : ''}
@@ -1506,6 +1499,7 @@ function truncate(ctx, text, maxWidth) {
 }
 
 function shareStarting5() {
+    track('share_starting5', { plays: getTotalPlays() });
     drawStarting5Canvas().then(canvas => {
         if (!canvas) return;
         canvas.toBlob(blob => {
