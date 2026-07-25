@@ -936,9 +936,11 @@ function updateProgress() {
 function updateUI() {
     const song = state.queue[state.queueIndex];
     const bar = $('#now-playing-bar');
+    const app = $('#app');
 
     if (song) {
         bar.style.display = '';
+        app.classList.add('has-active-track');
         $('#npb-art').src = imgPath(song.image);
         $('#npb-title').textContent = song.title;
         $('#npb-artist').textContent = song.artist;
@@ -948,6 +950,7 @@ function updateUI() {
         favEl.innerHTML = d.isFavorite ? icon('starFilled', 16) : icon('starEmpty', 16);
     } else {
         bar.style.display = 'none';
+        app.classList.remove('has-active-track');
     }
 
     // Now playing bar controls
