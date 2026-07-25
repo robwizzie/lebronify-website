@@ -1,32 +1,27 @@
 /* ============================================
    LEBRONIFY WEB APP - Spotify-style player
-   Sixers-inspired player
+   Sixers palette, mirroring the iOS app.
+
+   Design tokens live in theme.css (loaded first) and map 1:1 to the app's
+   Theme.swift. Everything below is player-specific layout only.
    ============================================ */
 
 :root {
-	--bg: #050b18;
-	--bg-elevated: #0b1426;
-	--bg-card: #0c1629;
-	--bg-hover: #15233a;
-	--sidebar-bg: #030815;
-	--npb-bg: rgba(8, 18, 35, 0.96);
-	--yellow: #2f80ed;
-	--yellow-dim: rgba(47, 128, 237, 0.16);
-	--yellow-glow: rgba(47, 128, 237, 0.32);
-	--orange: #ed174c;
-	--sixers-red: #ed174c;
+	/* Player-local surfaces derived from the shared semantic tokens, so the
+	   player, the landing page, and the iOS app can't drift apart again. */
+	--bg-elevated: var(--surface);
+	--bg-card: var(--surface);
+	--bg-hover: var(--elevated);
+	--sidebar-bg: #070c12; /* a step darker than --bg to separate the rail */
+	--npb-bg: rgba(30, 40, 54, 0.96); /* --elevated at 96% for the blur bar */
+
+	/* Legacy aliases so pre-existing rules keep resolving. */
+	--orange: var(--liberty);
+	--sixers-red: var(--liberty);
 	--white: #fff;
-	--t1: rgba(255, 255, 255, 1);
-	--t2: rgba(255, 255, 255, 0.7);
-	--t3: rgba(255, 255, 255, 0.5);
-	--t4: rgba(255, 255, 255, 0.3);
-	--t5: rgba(255, 255, 255, 0.1);
-	--t6: rgba(255, 255, 255, 0.06);
-	--font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
 	--sidebar-w: 240px;
 	--npb-h: 72px;
-	--radius: 8px;
-	--transition: 0.2s ease;
 }
 
 *,
@@ -64,6 +59,16 @@ button {
 button:focus-visible, a:focus-visible, input:focus-visible {
 	outline: 3px solid rgba(255, 255, 255, 0.9);
 	outline-offset: 3px;
+}
+
+/* The search field is focused programmatically whenever the Search view
+   opens, so give it a brand-coloured ring instead of the harsh white one. */
+.search-input:focus-visible {
+	outline: none;
+}
+.search-bar-wrap:focus-within {
+	outline: 2px solid var(--royal-bright);
+	outline-offset: 2px;
 }
 
 input {
@@ -146,7 +151,7 @@ svg {
 .sidebar-logo-text {
 	font-size: 16px;
 	font-weight: 900;
-	color: var(--yellow);
+	color: var(--accent);
 	letter-spacing: 2px;
 }
 
@@ -295,18 +300,28 @@ svg {
 .banner-img {
 	width: 100%;
 	height: 100%;
-	object-fit: contain;
-	object-position: center;
+	/* cover, matching the app's HeaderView. Biased upward so LeBron's face
+	   survives the crop at every width. */
+	object-fit: cover;
+	object-position: center 28%;
 	background: var(--bg);
 }
 
 .banner-overlay {
 	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
 	padding: 28px;
-	background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+	/* Brand wash over the photo so the hero reads Sixers, not Lakers —
+	   same three-stop treatment as HeaderView in the app. */
+	background: linear-gradient(
+		160deg,
+		rgba(0, 107, 182, 0.55),
+		transparent 45%,
+		rgba(0, 43, 92, 0.95)
+	);
 }
 
 .banner-title {
@@ -327,7 +342,7 @@ svg {
 }
 
 .taco-gradient {
-	background: linear-gradient(135deg, var(--yellow), var(--orange));
+	background: linear-gradient(135deg, var(--accent), var(--orange));
 	border-radius: 12px;
 	padding: 20px 24px;
 	display: flex;
@@ -400,7 +415,7 @@ svg {
 
 .shuffle-btn {
 	width: 100%;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	padding: 14px;
 	border-radius: 25px;
@@ -416,7 +431,7 @@ svg {
 
 .shuffle-btn:hover {
 	transform: scale(1.01);
-	box-shadow: 0 4px 20px var(--yellow-glow);
+	box-shadow: 0 4px 20px var(--accent-glow);
 }
 
 .home-section {
@@ -473,7 +488,7 @@ svg {
 .potd-play {
 	width: 42px;
 	height: 42px;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	border-radius: 50%;
 	display: flex;
@@ -481,12 +496,12 @@ svg {
 	justify-content: center;
 	flex-shrink: 0;
 	transition: var(--transition);
-	box-shadow: 0 2px 8px rgba(47, 128, 237, 0.3);
+	box-shadow: 0 2px 8px rgba(0, 107, 182, 0.3);
 }
 
 .potd-play:hover {
 	transform: scale(1.1);
-	box-shadow: 0 4px 16px rgba(47, 128, 237, 0.4);
+	box-shadow: 0 4px 16px rgba(0, 107, 182, 0.4);
 }
 
 /* Scroll Row */
@@ -549,7 +564,7 @@ svg {
 	left: 6px;
 	width: 22px;
 	height: 22px;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	border-radius: 50%;
 	font-size: 12px;
@@ -618,7 +633,7 @@ svg {
 }
 
 .song-row.playing .song-row-title {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .song-row-artist {
@@ -642,11 +657,11 @@ svg {
 }
 
 .song-row-fav:hover {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .song-row-fav.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .song-row-mvp {
@@ -655,7 +670,7 @@ svg {
 	right: -3px;
 	width: 18px;
 	height: 18px;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	border-radius: 50%;
 	font-size: 10px;
@@ -831,7 +846,7 @@ svg {
 	left: 0;
 	right: 0;
 	height: 3px;
-	background: var(--yellow);
+	background: var(--accent);
 	border-radius: 2px 2px 0 0;
 }
 
@@ -912,7 +927,7 @@ svg {
 
 .draft-btn {
 	width: 100%;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	padding: 12px;
 	border-radius: 25px;
@@ -927,7 +942,7 @@ svg {
 }
 
 .draft-btn:hover {
-	box-shadow: 0 4px 16px var(--yellow-glow);
+	box-shadow: 0 4px 16px var(--accent-glow);
 }
 
 .empty-state {
@@ -1013,12 +1028,12 @@ svg {
 }
 
 .play-all-btn {
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 }
 
 .play-all-btn:hover {
-	box-shadow: 0 4px 16px var(--yellow-glow);
+	box-shadow: 0 4px 16px var(--accent-glow);
 }
 
 .shuffle-play-btn {
@@ -1036,7 +1051,7 @@ svg {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: linear-gradient(180deg, rgba(47, 128, 237, 0.35) 0%, var(--bg) 55%);
+	background: linear-gradient(180deg, rgba(0, 107, 182, 0.35) 0%, var(--bg) 55%);
 	transition: background 0.8s ease;
 }
 
@@ -1106,7 +1121,7 @@ svg {
 }
 
 .player-progress-bar:hover .player-progress-fill {
-	background: var(--yellow);
+	background: var(--accent);
 }
 
 .player-progress-thumb {
@@ -1157,7 +1172,7 @@ svg {
 }
 
 .ctrl-btn.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .ctrl-main {
@@ -1217,7 +1232,7 @@ svg {
 }
 
 .action-btn.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .action-label {
@@ -1308,7 +1323,7 @@ svg {
 .player-empty-title {
 	font-size: 28px;
 	font-weight: 900;
-	color: var(--yellow);
+	color: var(--accent);
 	letter-spacing: 2px;
 	margin-bottom: 12px;
 }
@@ -1316,13 +1331,13 @@ svg {
 .player-empty-quote {
 	font-size: 13px;
 	font-style: italic;
-	color: rgba(47, 128, 237, 0.6);
+	color: var(--accent-text);
 	margin-bottom: 28px;
 	font-family: Georgia, 'Times New Roman', serif;
 }
 
 .player-empty-btn {
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	padding: 14px 32px;
 	border-radius: 25px;
@@ -1336,7 +1351,7 @@ svg {
 
 .player-empty-btn:hover {
 	transform: scale(1.03);
-	box-shadow: 0 4px 20px var(--yellow-glow);
+	box-shadow: 0 4px 20px var(--accent-glow);
 }
 
 /* --- Queue Panel --- */
@@ -1406,7 +1421,7 @@ svg {
 .queue-court-label {
 	font-size: 10px;
 	font-weight: 700;
-	color: var(--yellow);
+	color: var(--accent);
 	letter-spacing: 1.2px;
 	margin-bottom: 10px;
 }
@@ -1607,7 +1622,7 @@ svg {
 }
 
 .queue-bottom-btn.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .queue-bottom-btn svg {
@@ -1626,7 +1641,7 @@ svg {
 }
 
 .queue-empty-icon {
-	color: var(--yellow);
+	color: var(--accent);
 	opacity: 0.3;
 	margin-bottom: 12px;
 }
@@ -1664,7 +1679,7 @@ svg {
 
 .npb-progress-fill {
 	height: 100%;
-	background: var(--yellow);
+	background: var(--accent);
 	width: 0%;
 	transition: none;
 }
@@ -1756,7 +1771,7 @@ svg {
 }
 
 .npb-fav.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .npb-right {
@@ -1840,7 +1855,7 @@ svg {
 }
 
 .ad-dismiss-btn {
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	padding: 12px 28px;
 	border-radius: 25px;
@@ -1850,7 +1865,7 @@ svg {
 }
 
 .ad-dismiss-btn:hover {
-	box-shadow: 0 4px 16px var(--yellow-glow);
+	box-shadow: 0 4px 16px var(--accent-glow);
 }
 
 /* --- Modals --- */
@@ -1894,7 +1909,7 @@ svg {
 }
 
 .modal-input:focus {
-	border-color: var(--yellow);
+	border-color: var(--accent);
 }
 
 .modal-actions {
@@ -1918,7 +1933,7 @@ svg {
 .modal-confirm {
 	padding: 10px 20px;
 	border-radius: 25px;
-	background: var(--yellow);
+	background: var(--accent);
 	color: #000;
 	font-size: 13px;
 	font-weight: 700;
@@ -1986,7 +2001,7 @@ svg {
 }
 
 .mobile-tab.active {
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .mobile-tab.active svg {
@@ -2002,7 +2017,7 @@ svg {
 	width: 20px;
 	height: 2px;
 	border-radius: 1px;
-	background: var(--yellow);
+	background: var(--accent);
 	transition: transform 0.25s ease;
 }
 
@@ -2168,8 +2183,8 @@ svg {
 /* --- LeBron Quote Card --- */
 
 .lebron-quote-card {
-	background: linear-gradient(135deg, rgba(47, 128, 237, 0.09), rgba(237, 23, 76, 0.06));
-	border: 1px solid rgba(47, 128, 237, 0.14);
+	background: linear-gradient(135deg, rgba(0, 107, 182, 0.09), rgba(237, 23, 76, 0.06));
+	border: 1px solid rgba(0, 107, 182, 0.14);
 	border-radius: 14px;
 	padding: 18px 20px;
 	margin-bottom: 20px;
@@ -2187,13 +2202,13 @@ svg {
 .quote-icon {
 	width: 36px;
 	height: 36px;
-	background: var(--yellow-dim);
+	background: var(--accent-dim);
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .quote-text {
@@ -2225,7 +2240,7 @@ svg {
 .streak-icon {
 	width: 32px;
 	height: 32px;
-	color: var(--yellow);
+	color: var(--accent);
 	flex-shrink: 0;
 }
 
@@ -2244,7 +2259,7 @@ svg {
 .streak-count {
 	font-size: 18px;
 	font-weight: 900;
-	color: var(--yellow);
+	color: var(--accent);
 }
 
 .streak-count span {
@@ -2586,7 +2601,7 @@ svg {
 .sidebar {
 	border-right: 1px solid rgba(255, 255, 255, 0.07);
 	background:
-		linear-gradient(180deg, rgba(47, 128, 237, 0.08), transparent 32%),
+		linear-gradient(180deg, rgba(0, 107, 182, 0.08), transparent 32%),
 		var(--sidebar-bg);
 }
 .sidebar-logo-text {
@@ -2606,13 +2621,13 @@ svg {
 }
 .nav-item { min-height: 44px; }
 .nav-item.active {
-	background: linear-gradient(90deg, rgba(47, 128, 237, 0.2), rgba(47, 128, 237, 0.06));
-	box-shadow: inset 3px 0 0 var(--yellow);
+	background: linear-gradient(90deg, rgba(0, 107, 182, 0.2), rgba(0, 107, 182, 0.06));
+	box-shadow: inset 3px 0 0 var(--accent);
 }
 .main-content {
 	background:
 		radial-gradient(circle at 92% 0%, rgba(237, 23, 76, 0.09), transparent 28rem),
-		radial-gradient(circle at 8% 0%, rgba(47, 128, 237, 0.13), transparent 32rem),
+		radial-gradient(circle at 8% 0%, rgba(0, 107, 182, 0.13), transparent 32rem),
 		var(--bg);
 }
 .home-banner {
@@ -2624,24 +2639,24 @@ svg {
 	position: absolute;
 	inset: 0;
 	pointer-events: none;
-	background: linear-gradient(90deg, rgba(47, 128, 237, .13), transparent 55%, rgba(237, 23, 76, .13));
+	background: linear-gradient(90deg, rgba(0, 107, 182, .13), transparent 55%, rgba(237, 23, 76, .13));
 }
 .shuffle-btn, .draft-btn, .play-all-btn, .player-empty-btn {
-	background: linear-gradient(135deg, var(--yellow), #1769d2);
+	background: linear-gradient(135deg, var(--accent), #1769d2);
 	color: #fff;
 }
 .potd-card, .song-row, .playlist-row, .lebron-quote-card, .streak-bar {
 	border: 1px solid rgba(255, 255, 255, 0.07);
 }
 .potd-card {
-	background: linear-gradient(120deg, rgba(47, 128, 237, .16), rgba(12, 22, 41, .94) 55%, rgba(237, 23, 76, .08));
+	background: linear-gradient(120deg, rgba(0, 107, 182, .16), rgba(12, 22, 41, .94) 55%, rgba(237, 23, 76, .08));
 }
 .song-row:hover {
-	background: rgba(47, 128, 237, 0.08);
-	border-color: rgba(47, 128, 237, 0.25);
+	background: rgba(0, 107, 182, 0.08);
+	border-color: rgba(0, 107, 182, 0.25);
 }
 .now-playing-bar {
-	border-top: 1px solid rgba(47, 128, 237, 0.25);
+	border-top: 1px solid rgba(0, 107, 182, 0.25);
 	box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.28);
 }
 .mobile-tabs {
@@ -2652,13 +2667,615 @@ svg {
 .ctrl-play, .npb-play {
 	background: #fff;
 	color: #071329;
-	box-shadow: 0 6px 24px rgba(47, 128, 237, .24);
+	box-shadow: 0 6px 24px rgba(0, 107, 182, .24);
 }
-.player-progress-fill, .npb-progress-fill { background: linear-gradient(90deg, var(--yellow), #62a0f5); }
+.player-progress-fill, .npb-progress-fill { background: linear-gradient(90deg, var(--accent), #62a0f5); }
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after {
 		animation-duration: 0.01ms !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 	}
+}
+
+/* ============================================================
+   APP PARITY COMPONENTS
+   Web twins of the iOS surfaces added in the Sixers rebrand:
+   greeting bar, Trust The Process meter, Jump Back In, Starting 5,
+   trophy case, now-playing equalizer, ranked search, bell ring.
+   ============================================================ */
+
+/* ---- Greeting bar (GreetingBar) ---- */
+.greeting-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 20px;
+}
+.greeting-text {
+	font-size: 24px;
+	font-weight: 900;
+	letter-spacing: -0.3px;
+	color: var(--t1);
+}
+.greeting-sub {
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--t3);
+	margin-top: 2px;
+}
+.greeting-shuffle {
+	flex-shrink: 0;
+	width: 40px;
+	height: 40px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--royal);
+	color: #fff;
+}
+.greeting-shuffle:hover { background: var(--royal-bright); }
+
+.section-sub {
+	font-size: 12px;
+	color: var(--t3);
+	margin: -6px 0 12px;
+}
+
+/* ---- Trust The Process meter (ProcessMeterView) ---- */
+.process-meter {
+	padding: 16px;
+	margin-bottom: 28px;
+}
+.process-head {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.process-badge {
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	font-size: 20px;
+	border-radius: 50%;
+	background: var(--brand-gradient);
+}
+.process-headings { flex: 1; min-width: 0; }
+.process-tier {
+	font-size: 19px;
+	font-weight: 700;
+	color: var(--t1);
+	margin-top: 2px;
+}
+.process-count { text-align: right; flex-shrink: 0; }
+.process-count-num {
+	font-family: var(--font-mono);
+	font-size: 20px;
+	font-weight: 800;
+	color: var(--accent-text);
+}
+.process-count-label {
+	font-size: 10px;
+	font-weight: 500;
+	color: var(--t3);
+}
+.process-blurb {
+	font-size: 13px;
+	color: var(--t2);
+	margin: 12px 0 14px;
+}
+.process-track {
+	height: 8px;
+	border-radius: var(--radius-pill);
+	background: rgba(255, 255, 255, 0.08);
+	overflow: hidden;
+}
+.process-fill {
+	height: 100%;
+	border-radius: var(--radius-pill);
+	background: var(--brand-gradient);
+	box-shadow: 0 0 12px var(--accent-glow);
+	transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.process-foot {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 10px;
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--t3);
+}
+.process-maxed { color: var(--liberty); }
+
+/* ---- Jump Back In ---- */
+.jumpback-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+}
+.jumpback-tile {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	height: 56px;
+	padding-right: 10px;
+	overflow: hidden;
+	text-align: left;
+	border-radius: var(--radius-sm);
+	background: rgba(255, 255, 255, 0.07);
+	color: var(--t1);
+}
+.jumpback-tile:hover { background: rgba(255, 255, 255, 0.12); }
+.jumpback-tile img {
+	width: 56px;
+	height: 56px;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+.jumpback-tile span {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.25;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+@media (max-width: 420px) {
+	.jumpback-grid { grid-template-columns: 1fr; }
+}
+
+/* ---- Now-playing equalizer (NowPlayingIndicator) ---- */
+.eq {
+	display: inline-flex;
+	align-items: flex-end;
+	gap: 2px;
+	width: 14px;
+	height: 16px;
+	flex-shrink: 0;
+}
+.eq i {
+	width: 2.5px;
+	height: 4px;
+	border-radius: var(--radius-pill);
+	background: var(--accent-text);
+}
+.eq-on i { animation: eq-bounce 0.5s ease-in-out infinite alternate; }
+.eq-on i:nth-child(1) { animation-duration: 0.50s; }
+.eq-on i:nth-child(2) { animation-duration: 0.38s; }
+.eq-on i:nth-child(3) { animation-duration: 0.62s; }
+@keyframes eq-bounce {
+	from { height: 4px; }
+	to   { height: 14px; }
+}
+
+/* ---- Vault stats strip (VaultStatsBar) ---- */
+.vault-stats {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 10px;
+	margin-bottom: 18px;
+}
+.stat-tile {
+	padding: 12px 8px;
+	text-align: center;
+}
+.stat-value {
+	font-family: var(--font-mono);
+	font-size: 20px;
+	font-weight: 800;
+}
+.stat-royal { color: var(--royal-bright); }
+.stat-liberty { color: var(--liberty); }
+.stat-bright { color: var(--silver); }
+.stat-label {
+	margin-top: 3px;
+	font-size: 9px;
+	font-weight: 800;
+	letter-spacing: 1px;
+	color: var(--t3);
+}
+
+/* ---- Trophy case (AchievementsTabView) ---- */
+.trophies-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+.trophies-count {
+	font-family: var(--font-mono);
+	font-size: 15px;
+	font-weight: 800;
+	color: var(--accent-text);
+}
+.trophies-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 12px;
+}
+.trophy {
+	padding: 16px 10px;
+	text-align: center;
+	border-radius: var(--radius);
+	background: var(--surface);
+	border: 1px solid var(--stroke);
+	opacity: 0.55;
+}
+.trophy-unlocked {
+	opacity: 1;
+	border-color: rgba(0, 107, 182, 0.5);
+}
+.trophy-medal {
+	width: 56px;
+	height: 56px;
+	margin: 0 auto 10px;
+	display: grid;
+	place-items: center;
+	font-size: 24px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.08);
+}
+.trophy-unlocked .trophy-medal { background: var(--brand-gradient); }
+.trophy-name {
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--t3);
+}
+.trophy-unlocked .trophy-name { color: var(--t1); }
+.trophy-desc {
+	margin-top: 4px;
+	font-size: 11px;
+	color: var(--t3);
+	line-height: 1.35;
+}
+.trophy-unlocked .trophy-desc { color: var(--t2); }
+.trophy-date {
+	margin-top: 6px;
+	font-size: 9px;
+	color: var(--accent-text);
+}
+
+/* ---- My Starting 5 (ShareCardView) ---- */
+.starting5-card {
+	padding: 18px 16px;
+	background: linear-gradient(180deg, var(--navy), var(--bg));
+	border-color: rgba(0, 107, 182, 0.45);
+}
+.s5-head { text-align: center; }
+.s5-title {
+	font-size: 22px;
+	font-weight: 900;
+	letter-spacing: 2px;
+}
+.s5-sub {
+	margin-top: 6px;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 3px;
+	color: var(--t3);
+}
+.s5-rule {
+	height: 2px;
+	margin: 14px 0;
+	background: var(--brand-gradient);
+}
+.s5-rows { display: flex; flex-direction: column; gap: 10px; }
+.s5-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+.s5-pos {
+	width: 32px;
+	height: 32px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	font-family: var(--font-mono);
+	font-size: 13px;
+	font-weight: 800;
+	color: #fff;
+	border-radius: var(--radius-sm);
+	background: var(--brand-gradient);
+}
+.s5-row img {
+	width: 44px;
+	height: 44px;
+	flex-shrink: 0;
+	object-fit: cover;
+	border-radius: 4px;
+}
+.s5-info { flex: 1; min-width: 0; display: block; }
+.s5-song {
+	display: block;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--t1);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.s5-artist {
+	display: block;
+	font-size: 11px;
+	color: var(--t3);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.s5-plays {
+	flex-shrink: 0;
+	font-family: var(--font-mono);
+	font-size: 18px;
+	font-weight: 800;
+	color: var(--accent-text);
+}
+.s5-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 1px;
+	color: var(--t3);
+}
+.s5-total {
+	font-family: var(--font-mono);
+	font-size: 22px;
+	font-weight: 800;
+	letter-spacing: 0;
+	color: var(--accent-text);
+}
+.starting5-share { margin-top: 14px; width: 100%; }
+
+/* ---- Search: results head, category grid, recents, empty ---- */
+/* Sits as a flex child of .search-bar-wrap, not absolutely positioned. */
+.search-clear {
+	flex-shrink: 0;
+	font-size: 14px;
+	line-height: 1;
+	color: var(--t3);
+	padding: 4px;
+}
+.search-clear:hover { color: var(--t1); }
+
+.search-section-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+}
+.search-clear-recents {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--accent-text);
+}
+.recent-terms { display: flex; flex-direction: column; }
+.recent-term {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 9px 2px;
+	font-size: 15px;
+	color: var(--t2);
+	text-align: left;
+}
+.recent-term:hover { color: var(--t1); }
+.recent-term svg { color: var(--t3); flex-shrink: 0; }
+
+.category-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+	gap: 12px;
+}
+.category-tile {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	gap: 4px;
+	height: 88px;
+	padding: 14px;
+	text-align: left;
+	color: #fff;
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+.tile-royal   { background: linear-gradient(135deg, var(--royal), rgba(0, 107, 182, 0.55)); }
+.tile-liberty { background: linear-gradient(135deg, var(--liberty), rgba(237, 23, 76, 0.55)); }
+.tile-navy    { background: linear-gradient(135deg, var(--navy), rgba(0, 43, 92, 0.55)); }
+.tile-bright  { background: linear-gradient(135deg, var(--royal-bright), rgba(44, 155, 232, 0.55)); }
+.category-name {
+	font-size: 15px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+.category-count {
+	font-size: 11px;
+	font-weight: 500;
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.active-category-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 14px;
+	padding: 7px 12px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #fff;
+	background: var(--royal);
+	border-radius: var(--radius-pill);
+}
+
+.search-results-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 8px;
+	font-size: 13px;
+	color: var(--t3);
+}
+.search-shuffle {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--accent-text);
+}
+
+.search-empty {
+	padding: 48px 24px;
+	text-align: center;
+}
+.search-empty-icon { font-size: 42px; }
+.search-empty-title {
+	margin: 12px 0 8px;
+	font-size: 22px;
+	font-weight: 900;
+	color: var(--t1);
+}
+.search-empty p {
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--t3);
+}
+
+/* ---- Liberty Bell celebration (BellRingView) ---- */
+.bell-ring {
+	position: fixed;
+	inset: 0;
+	z-index: 4000;
+	display: grid;
+	place-items: center;
+	pointer-events: none;
+	background: rgba(0, 0, 0, 0.55);
+	animation: bell-in 0.3s ease-out;
+}
+.bell-ring.bell-out { animation: bell-fade 0.4s ease-in forwards; }
+@keyframes bell-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bell-fade { to { opacity: 0; } }
+
+.bell-stack { text-align: center; }
+.bell-icon {
+	font-size: 74px;
+	line-height: 1;
+	transform-origin: 50% 12%;
+	animation: bell-swing 0.36s ease-in-out 7 alternate;
+	filter: drop-shadow(0 0 20px var(--accent-glow));
+}
+@keyframes bell-swing {
+	from { transform: rotate(-16deg); }
+	to   { transform: rotate(16deg); }
+}
+.bell-title {
+	margin-top: 14px;
+	font-size: 20px;
+	font-weight: 900;
+	letter-spacing: 2px;
+	color: #fff;
+	text-shadow: 0 0 12px rgba(237, 23, 76, 0.8);
+}
+.bell-tier {
+	margin-top: 6px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	color: var(--royal-bright);
+}
+
+.bell-rings, .bell-burst {
+	position: absolute;
+	inset: 0;
+	display: grid;
+	place-items: center;
+}
+.bell-wave {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	border: 3px solid var(--royal-bright);
+	border-radius: 50%;
+	opacity: 0;
+	animation: bell-wave 1.4s ease-out infinite;
+}
+@keyframes bell-wave {
+	0%   { transform: scale(0.5); opacity: 0.7; }
+	100% { transform: scale(3.2); opacity: 0; }
+}
+.bell-confetti {
+	position: absolute;
+	border-radius: 1.5px;
+	opacity: 0;
+	animation: bell-confetti 1.8s cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+}
+@keyframes bell-confetti {
+	0%   { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+	70%  { opacity: 1; }
+	100% { transform: translate(var(--x), calc(var(--y) * -1 + 60vh)) rotate(var(--rot)); opacity: 0; }
+}
+
+/* ---- Achievement unlocked toast (AchievementUnlockedOverlay) ---- */
+.achievement-pop {
+	position: fixed;
+	left: 50%;
+	bottom: calc(var(--npb-h) + 28px);
+	transform: translateX(-50%);
+	z-index: 4100;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	width: min(420px, calc(100vw - 32px));
+	padding: 14px 18px;
+	border-radius: var(--radius-lg);
+	background: var(--elevated);
+	border: 1px solid rgba(0, 107, 182, 0.5);
+	box-shadow: 0 18px 44px rgba(0, 0, 0, 0.55);
+	animation: achievement-in 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.achievement-pop.achievement-out { animation: achievement-out 0.38s ease-in forwards; }
+@keyframes achievement-in {
+	from { opacity: 0; transform: translate(-50%, 24px) scale(0.9); }
+	to   { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+@keyframes achievement-out {
+	to { opacity: 0; transform: translate(-50%, 16px) scale(0.96); }
+}
+.achievement-medal {
+	width: 52px;
+	height: 52px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	font-size: 24px;
+	border-radius: 50%;
+	background: var(--celebration-gradient);
+	box-shadow: 0 0 22px var(--accent-glow);
+}
+.achievement-copy { min-width: 0; }
+.achievement-eyebrow {
+	font-size: 10px;
+	font-weight: 800;
+	letter-spacing: 2px;
+	color: var(--t3);
+}
+.achievement-name {
+	margin-top: 2px;
+	font-size: 17px;
+	font-weight: 900;
+	color: var(--t1);
+}
+.achievement-desc {
+	margin-top: 2px;
+	font-size: 12px;
+	color: var(--t2);
+}
+
+@media (max-width: 760px) {
+	.achievement-pop { bottom: calc(var(--npb-h) + 76px); }
 }

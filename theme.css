@@ -1,0 +1,160 @@
+/* ============================================
+   LEBRONIFY — SHARED DESIGN SYSTEM
+   ============================================
+
+   This is the web mirror of the iOS app's Theme.swift. Every token below
+   maps 1:1 to a value in that file, so the site and the app stay visually
+   identical and a re-theme is a two-file change (Theme.swift + this).
+
+   Philadelphia 76ers palette. Team COLORS only — no 76ers or NBA logo or
+   wordmark is used anywhere, since colors aren't protectable but marks are.
+
+   Loaded before app.css and styles.css on every page.
+   ============================================ */
+
+:root {
+	/* ---- Brand palette (= Theme.royal / liberty / navy / silver) ---- */
+	--royal: #006bb6; /* primary brand blue */
+	--royal-bright: #2c9be8; /* legible blue for text/icons on dark */
+	--liberty: #ed174c; /* brand red — emphasis, live states */
+	--navy: #002b5c; /* deep navy — gradient anchor */
+	--silver: #c4ced4; /* cool chrome tone */
+
+	/* ---- Semantic surfaces (= Theme.background / surface / elevated) ---- */
+	--bg: #0a0f16; /* near-black with a navy tint */
+	--surface: #141b26; /* cards and rows sitting on --bg */
+	--elevated: #1e2836; /* raised: now-playing bar, sheets, sticky bars */
+	--stroke: rgba(255, 255, 255, 0.08); /* hairline dividers and card edges */
+
+	/* ---- Accents ---- */
+	--accent: var(--royal);
+	--accent-text: var(--royal-bright);
+	--accent-dim: rgba(0, 107, 182, 0.16);
+	--accent-glow: rgba(0, 107, 182, 0.4);
+
+	/* ---- Text tiers (= Theme.textPrimary / Secondary / Tertiary) ---- */
+	--t1: #ffffff;
+	--t2: rgba(255, 255, 255, 0.62);
+	--t3: rgba(255, 255, 255, 0.38);
+	--t4: rgba(255, 255, 255, 0.24);
+	--t5: rgba(255, 255, 255, 0.1);
+	--t6: rgba(255, 255, 255, 0.06);
+
+	/* ---- Gradients (= Theme.brandGradient / courtGradient / ambient) ---- */
+	--brand-gradient: linear-gradient(135deg, var(--royal), var(--liberty));
+	--court-gradient: linear-gradient(180deg, var(--navy), var(--royal));
+	--ambient-gradient: linear-gradient(180deg, rgba(0, 107, 182, 0.28), var(--bg));
+	--celebration-gradient: radial-gradient(circle, var(--liberty), var(--royal));
+
+	/* ---- Geometry (= Theme.Radius / Theme.Space) ---- */
+	--radius-sm: 6px;
+	--radius: 12px;
+	--radius-lg: 18px;
+	--radius-pill: 999px;
+
+	--space-xs: 4px;
+	--space-sm: 8px;
+	--space-md: 16px;
+	--space-lg: 24px;
+	--space-xl: 32px;
+
+	/* ---- Type ---- */
+	--font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	--font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+
+	--transition: 0.2s ease;
+	--spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================
+   Shared primitives
+   ============================================ */
+
+/* Small all-caps section label — the web twin of Theme.eyebrow /
+   .eyebrowStyle() in SwiftUI. */
+.eyebrow {
+	font-size: 11px;
+	font-weight: 800;
+	letter-spacing: 1.4px;
+	text-transform: uppercase;
+	color: var(--accent-text);
+}
+
+.eyebrow--red {
+	color: var(--liberty);
+}
+
+/* Standard card treatment: surface fill, rounded, hairline stroke.
+   Mirrors .surfaceCard() in SwiftUI. */
+.surface-card {
+	background: var(--surface);
+	border: 1px solid var(--stroke);
+	border-radius: var(--radius);
+}
+
+/* Primary call-to-action — brand-gradient pill.
+   Mirrors PrimaryActionButtonStyle. */
+.btn-primary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	font-family: var(--font);
+	font-size: 16px;
+	font-weight: 700;
+	color: #fff;
+	background: var(--brand-gradient);
+	border: none;
+	border-radius: var(--radius-pill);
+	padding: 14px 28px;
+	cursor: pointer;
+	box-shadow: 0 4px 16px var(--accent-glow);
+	transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary:hover {
+	box-shadow: 0 6px 22px var(--accent-glow);
+}
+
+/* Press-to-shrink, matching PressableButtonStyle in the app. */
+.btn-primary:active,
+.pressable:active {
+	transform: scale(0.96);
+}
+
+.pressable {
+	transition: transform var(--spring);
+}
+
+/* Gradient-filled text (brand wordmarks, big stat numbers). */
+.gradient-text {
+	background: var(--brand-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: var(--liberty); /* fallback if background-clip is unsupported */
+}
+
+/* The "PHL" chip that sits next to the LEBRONIFY wordmark. */
+.phl-badge {
+	display: inline-block;
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: 0.5px;
+	color: #fff;
+	background: var(--liberty);
+	border-radius: 4px;
+	padding: 3px 7px;
+	vertical-align: middle;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
