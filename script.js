@@ -104,12 +104,14 @@ document.addEventListener('DOMContentLoaded', () => {
         mobileBtn.addEventListener('click', () => {
             mobileBtn.classList.toggle('active');
             navLinks.classList.toggle('active');
+            mobileBtn.setAttribute('aria-expanded', String(navLinks.classList.contains('active')));
         });
 
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileBtn.classList.remove('active');
                 navLinks.classList.remove('active');
+                mobileBtn.setAttribute('aria-expanded', 'false');
             });
         });
     }
@@ -340,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.globalAlpha = alpha;
             ctx.translate(x - size/2, y - size/2);
             const s = size / 20;
-            ctx.fillStyle = '#FFD700';
+            ctx.fillStyle = Math.random() > 0.32 ? '#2F80ED' : '#ED174C';
             ctx.beginPath();
             ctx.moveTo(2*s, 16*s);
             ctx.lineTo(4*s, 8*s);
