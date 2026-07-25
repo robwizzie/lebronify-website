@@ -200,7 +200,7 @@ const colorCanvas = document.createElement('canvas');
 const colorCtx = colorCanvas.getContext('2d', { willReadFrequently: true });
 colorCanvas.width = 50;
 colorCanvas.height = 50;
-let currentGradientColor = 'rgba(255,215,0,0.35)';
+let currentGradientColor = 'rgba(47,128,237,0.35)';
 
 function extractDominantColor(imgSrc, callback) {
     const img = new Image();
@@ -256,13 +256,13 @@ function extractDominantColor(imgSrc, callback) {
                 }
                 callback(`rgba(${br},${bg},${bb},0.55)`);
             } else {
-                callback('rgba(255,215,0,0.35)');
+                callback('rgba(47,128,237,0.35)');
             }
         } catch(e) {
-            callback('rgba(255,215,0,0.35)');
+            callback('rgba(47,128,237,0.35)');
         }
     };
-    img.onerror = () => callback('rgba(255,215,0,0.35)');
+    img.onerror = () => callback('rgba(47,128,237,0.35)');
     img.src = imgSrc;
 }
 
@@ -342,7 +342,7 @@ function triggerChalkToss() {
             --dx:${dx}px;--dy:${dy}px;
             --dur:${0.6 + Math.random() * 0.9}s;
             --delay:${0.22 + Math.random() * 0.15}s;
-            ${Math.random() < 0.2 ? 'background:rgba(255,215,0,0.85);' : ''}
+            ${Math.random() < 0.2 ? 'background:rgba(47,128,237,0.85);' : ''}
         `;
         center.appendChild(dot);
     }
@@ -877,7 +877,7 @@ function renderPlayerFull() {
         if (contentEl) contentEl.style.display = 'none';
         // Reset gradient for empty state
         const scroll = $('.player-view-scroll');
-        if (scroll) scroll.style.background = `linear-gradient(180deg, rgba(255,215,0,0.35) 0%, var(--bg) 55%)`;
+        if (scroll) scroll.style.background = `linear-gradient(180deg, rgba(47,128,237,0.35) 0%, var(--bg) 55%)`;
         return;
     }
 

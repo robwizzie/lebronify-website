@@ -1,19 +1,20 @@
 /* ============================================
    LEBRONIFY WEB APP - Spotify-style player
-   Colors match iOS app exactly
+   Sixers-inspired player
    ============================================ */
 
 :root {
-	--bg: rgb(18, 18, 18);
-	--bg-elevated: rgb(28, 28, 28);
-	--bg-card: rgb(24, 24, 24);
-	--bg-hover: rgb(40, 40, 40);
-	--sidebar-bg: #000;
-	--npb-bg: rgb(24, 24, 24);
-	--yellow: #ffd700;
-	--yellow-dim: rgba(255, 215, 0, 0.15);
-	--yellow-glow: rgba(255, 215, 0, 0.3);
-	--orange: #ff8c00;
+	--bg: #050b18;
+	--bg-elevated: #0b1426;
+	--bg-card: #0c1629;
+	--bg-hover: #15233a;
+	--sidebar-bg: #030815;
+	--npb-bg: rgba(8, 18, 35, 0.96);
+	--yellow: #2f80ed;
+	--yellow-dim: rgba(47, 128, 237, 0.16);
+	--yellow-glow: rgba(47, 128, 237, 0.32);
+	--orange: #ed174c;
+	--sixers-red: #ed174c;
 	--white: #fff;
 	--t1: rgba(255, 255, 255, 1);
 	--t2: rgba(255, 255, 255, 0.7);
@@ -58,6 +59,11 @@ button {
 	border: none;
 	background: none;
 	color: inherit;
+}
+
+button:focus-visible, a:focus-visible, input:focus-visible {
+	outline: 3px solid rgba(255, 255, 255, 0.9);
+	outline-offset: 3px;
 }
 
 input {
@@ -475,12 +481,12 @@ svg {
 	justify-content: center;
 	flex-shrink: 0;
 	transition: var(--transition);
-	box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+	box-shadow: 0 2px 8px rgba(47, 128, 237, 0.3);
 }
 
 .potd-play:hover {
 	transform: scale(1.1);
-	box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+	box-shadow: 0 4px 16px rgba(47, 128, 237, 0.4);
 }
 
 /* Scroll Row */
@@ -1030,7 +1036,7 @@ svg {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background: linear-gradient(180deg, rgba(255, 215, 0, 0.35) 0%, var(--bg) 55%);
+	background: linear-gradient(180deg, rgba(47, 128, 237, 0.35) 0%, var(--bg) 55%);
 	transition: background 0.8s ease;
 }
 
@@ -1310,7 +1316,7 @@ svg {
 .player-empty-quote {
 	font-size: 13px;
 	font-style: italic;
-	color: rgba(255, 215, 0, 0.5);
+	color: rgba(47, 128, 237, 0.6);
 	margin-bottom: 28px;
 	font-family: Georgia, 'Times New Roman', serif;
 }
@@ -2162,8 +2168,8 @@ svg {
 /* --- LeBron Quote Card --- */
 
 .lebron-quote-card {
-	background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 140, 0, 0.06));
-	border: 1px solid rgba(255, 215, 0, 0.12);
+	background: linear-gradient(135deg, rgba(47, 128, 237, 0.09), rgba(237, 23, 76, 0.06));
+	border: 1px solid rgba(47, 128, 237, 0.14);
 	border-radius: 14px;
 	padding: 18px 20px;
 	margin-bottom: 20px;
@@ -2566,5 +2572,86 @@ svg {
 	/* Progress bar thumb always visible on touch devices */
 	.player-progress-thumb {
 		opacity: 1;
+	}
+}
+
+/* 2026 Sixers refresh */
+.sidebar {
+	border-right: 1px solid rgba(255, 255, 255, 0.07);
+	background:
+		linear-gradient(180deg, rgba(47, 128, 237, 0.08), transparent 32%),
+		var(--sidebar-bg);
+}
+.sidebar-logo-text {
+	background: linear-gradient(90deg, #fff 0 72%, var(--sixers-red) 72%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+.sidebar-logo::after {
+	content: "PHL";
+	color: var(--sixers-red);
+	font-size: 8px;
+	font-weight: 900;
+	letter-spacing: 1px;
+	align-self: flex-start;
+	margin: 8px 0 0 -8px;
+}
+.nav-item { min-height: 44px; }
+.nav-item.active {
+	background: linear-gradient(90deg, rgba(47, 128, 237, 0.2), rgba(47, 128, 237, 0.06));
+	box-shadow: inset 3px 0 0 var(--yellow);
+}
+.main-content {
+	background:
+		radial-gradient(circle at 92% 0%, rgba(237, 23, 76, 0.09), transparent 28rem),
+		radial-gradient(circle at 8% 0%, rgba(47, 128, 237, 0.13), transparent 32rem),
+		var(--bg);
+}
+.home-banner {
+	border: 1px solid rgba(255, 255, 255, 0.09);
+	box-shadow: 0 20px 56px rgba(0, 0, 0, 0.32);
+}
+.home-banner::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(90deg, rgba(47, 128, 237, .13), transparent 55%, rgba(237, 23, 76, .13));
+}
+.shuffle-btn, .draft-btn, .play-all-btn, .player-empty-btn {
+	background: linear-gradient(135deg, var(--yellow), #1769d2);
+	color: #fff;
+}
+.potd-card, .song-row, .playlist-row, .lebron-quote-card, .streak-bar {
+	border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.potd-card {
+	background: linear-gradient(120deg, rgba(47, 128, 237, .16), rgba(12, 22, 41, .94) 55%, rgba(237, 23, 76, .08));
+}
+.song-row:hover {
+	background: rgba(47, 128, 237, 0.08);
+	border-color: rgba(47, 128, 237, 0.25);
+}
+.now-playing-bar {
+	border-top: 1px solid rgba(47, 128, 237, 0.25);
+	box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.28);
+}
+.mobile-tabs {
+	background: rgba(3, 8, 21, 0.94);
+	border-top-color: rgba(255, 255, 255, 0.08);
+}
+.vault-tab.active, .mobile-tab.active { color: #62a0f5; }
+.ctrl-play, .npb-play {
+	background: #fff;
+	color: #071329;
+	box-shadow: 0 6px 24px rgba(47, 128, 237, .24);
+}
+.player-progress-fill, .npb-progress-fill { background: linear-gradient(90deg, var(--yellow), #62a0f5); }
+@media (prefers-reduced-motion: reduce) {
+	*, *::before, *::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 }
