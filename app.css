@@ -2268,8 +2268,11 @@ svg {
 	.mobile-tabs {
 		display: flex;
 	}
-	/* Main content needs room for both NPB and mobile tabs */
+	/* Reserve space for tabs; the player bar is added only after a track starts. */
 	.main-content {
+		padding-bottom: var(--mobile-tab-h);
+	}
+	#app.has-active-track .main-content {
 		padding-bottom: calc(var(--npb-h) + var(--mobile-tab-h));
 	}
 	/* Now Playing Bar sits above mobile tabs */
@@ -2301,13 +2304,17 @@ svg {
 	.banner-sub {
 		font-size: 12px;
 	}
-	/* Queue panel accounts for both bars */
+	/* Queue panel fills the available area until a track is active. */
 	.queue-panel {
 		width: 100%;
 		right: -100%;
+		height: calc(100vh - var(--mobile-tab-h));
+		height: calc(100dvh - var(--mobile-tab-h));
+		top: 0;
+	}
+	#app.has-active-track .queue-panel {
 		height: calc(100vh - var(--npb-h) - var(--mobile-tab-h));
 		height: calc(100dvh - var(--npb-h) - var(--mobile-tab-h));
-		top: 0;
 	}
 	/* Player view needs no back button on mobile (tabs handle navigation) */
 	.player-back {
