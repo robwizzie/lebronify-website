@@ -1902,7 +1902,7 @@ svg {
 	border: 1px solid var(--t5);
 	border-radius: var(--radius);
 	color: var(--white);
-	font-size: 14px;
+	font-size: 16px; /* below 16px iOS zooms the page on focus */
 	outline: none;
 	margin-bottom: 16px;
 	transition: var(--transition);
@@ -3278,4 +3278,137 @@ svg {
 
 @media (max-width: 760px) {
 	.achievement-pop { bottom: calc(var(--npb-h) + 76px); }
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATION
+   Most visitors arrive on a phone, so these are baseline rules
+   rather than an afterthought in a narrow media query.
+   ============================================================ */
+
+/* Kill the 300ms tap delay and double-tap-to-zoom on controls. */
+button,
+a,
+.song-row,
+.nav-item,
+.mobile-tab,
+.vault-tab,
+.scroll-card,
+.category-tile,
+.jumpback-tile,
+.playlist-row,
+[role='button'] {
+	touch-action: manipulation;
+}
+
+/* iOS zooms the whole page when a focused input is under 16px. */
+input,
+select,
+textarea {
+	font-size: 16px;
+}
+
+/* Tap targets: Apple HIG and WCAG 2.5.8 both want ~44px. */
+.greeting-shuffle {
+	width: 44px;
+	height: 44px;
+}
+
+.shuffle-btn {
+	min-height: 48px;
+}
+
+.potd-play {
+	width: 44px;
+	height: 44px;
+}
+
+.queue-close {
+	width: 44px;
+	height: 44px;
+	display: grid;
+	place-items: center;
+	margin: -8px -10px -8px 0; /* keep the visual box tight while the hit area grows */
+}
+
+/* Horizontal carousels get momentum scrolling and stop the page from
+   rubber-banding when the row hits its end. */
+.scroll-row,
+.breakdown-tabs {
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-x: contain;
+	scroll-snap-type: x proximity;
+}
+
+.scroll-card {
+	scroll-snap-align: start;
+}
+
+/* Vertical scroll areas shouldn't chain into the document. */
+.view-scroll {
+	-webkit-overflow-scrolling: touch;
+	overscroll-behavior-y: contain;
+}
+
+/* Respect the home indicator / notch on the bars pinned to the bottom. */
+@supports (padding: max(0px)) {
+	.mobile-tabs {
+		padding-bottom: max(6px, env(safe-area-inset-bottom));
+	}
+}
+
+@media (max-width: 760px) {
+	/* Comfortable rows — small rows are the top complaint on mobile lists. */
+	.song-row {
+		min-height: 60px;
+	}
+
+	.song-row-fav,
+	.song-row-menu {
+		min-width: 40px;
+		min-height: 40px;
+		display: grid;
+		place-items: center;
+	}
+
+	/* Two-up trophies read better than a cramped three-up. */
+	.trophies-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.category-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 360px) {
+	.vault-stats {
+		gap: 6px;
+	}
+
+	.stat-value {
+		font-size: 17px;
+	}
+
+	.stat-label {
+		font-size: 8px;
+		letter-spacing: 0.5px;
+	}
+
+	.process-head {
+		gap: 9px;
+	}
+
+	.process-tier {
+		font-size: 17px;
+	}
+}
+
+/* Row actions need a full 44px target on touch. */
+@media (max-width: 760px) {
+	.song-row-fav,
+	.song-row-menu {
+		min-width: 44px;
+		min-height: 44px;
+	}
 }
