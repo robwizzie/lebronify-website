@@ -604,7 +604,13 @@
                 <h2>49+ LeBron Parodies</h2>
                 <p>Every track is a LeBron-themed parody of a hit song. Here's the complete lineup.</p>
             </div>
-            <div class="song-grid" id="song-grid"></div>
+            <div class="song-grid collapsed" id="song-grid"></div>
+            <div class="song-grid-more" id="song-grid-more" hidden>
+                <button type="button" class="btn btn-secondary" id="song-grid-toggle" aria-expanded="false" aria-controls="song-grid">
+                    <span class="song-grid-toggle-label">See the full roster</span>
+                    <i data-icon="chevronRight" data-icon-size="16"></i>
+                </button>
+            </div>
         </div>
     </section>
 
