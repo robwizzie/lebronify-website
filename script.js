@@ -76,6 +76,22 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             songGrid.appendChild(item);
         });
+
+        // The grid starts collapsed to a few rows (CSS decides how many per
+        // breakpoint); the toggle reveals the rest.
+        const more = document.getElementById('song-grid-more');
+        const toggle = document.getElementById('song-grid-toggle');
+        if (more && toggle) {
+            const label = toggle.querySelector('.song-grid-toggle-label');
+            more.hidden = false;
+            label.textContent = `See all ${songs.length} songs`;
+            toggle.addEventListener('click', () => {
+                const expanded = songGrid.classList.toggle('collapsed') === false;
+                toggle.setAttribute('aria-expanded', String(expanded));
+                label.textContent = expanded ? 'Show fewer' : `See all ${songs.length} songs`;
+                if (!expanded) songGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        }
     }
 
     // -------------------------------------------
@@ -153,21 +169,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // -------------------------------------------
     const animatedElements = document.querySelectorAll('[data-animate]');
 
+    // Stagger only the cards that come into view together, so the 12th card
+    // in a single-column layout doesn't sit invisible for a second.
     const animObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                const siblings = entry.target.parentElement.querySelectorAll('[data-animate]');
-                let delay = 0;
-                siblings.forEach((sib, i) => {
-                    if (sib === entry.target) delay = i * 80;
-                });
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, delay);
+        entries
+            .filter(entry => entry.isIntersecting)
+            .forEach((entry, i) => {
+                setTimeout(() => entry.target.classList.add('visible'), Math.min(i, 5) * 70);
                 animObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
+            });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
     animatedElements.forEach(el => animObserver.observe(el));
 
