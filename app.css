@@ -3412,3 +3412,35 @@ textarea {
 		min-height: 44px;
 	}
 }
+
+/* ============================================================
+   Polish pass
+   ============================================================ */
+
+/* The clear button only means something once there's text to clear. */
+.search-input:placeholder-shown + .search-clear {
+	visibility: hidden;
+}
+
+/* On wide monitors, keep rows and cards at a readable measure instead of
+   stretching edge to edge. */
+@media (min-width: 901px) {
+	.view-scroll {
+		padding-inline: max(32px, calc((100% - 1200px) / 2));
+	}
+}
+
+/* The full-screen player already shows everything the mini bar does, so on
+   phones the bar is just a duplicate eating vertical space. */
+@media (max-width: 900px) {
+	#app[data-view="player"] .now-playing-bar {
+		display: none !important;
+	}
+	#app.has-active-track[data-view="player"] .main-content {
+		padding-bottom: var(--mobile-tab-h);
+	}
+	#app.has-active-track[data-view="player"] .queue-panel {
+		height: calc(100vh - var(--mobile-tab-h));
+		height: calc(100dvh - var(--mobile-tab-h));
+	}
+}

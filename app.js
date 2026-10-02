@@ -888,6 +888,7 @@ function maybeShowAd() {
 function showView(name) {
     state.previousView = state.currentView;
     state.currentView = name;
+    $('#app').dataset.view = name;
     $$('.view').forEach(v => v.classList.remove('active'));
     const view = $(`#view-${name}`);
     if (view) view.classList.add('active');
@@ -928,7 +929,7 @@ function renderSongRow(song, index, options = {}) {
             </div>
             ${isPlaying ? `<span class="eq ${state.playing ? 'eq-on' : ''}" aria-label="Now playing"><i></i><i></i><i></i></span>` : ''}
             ${d.playCount > 0 ? `<span class="song-row-plays">${d.playCount} plays</span>` : ''}
-            <button class="song-row-fav ${d.isFavorite ? 'active' : ''}" data-fav-id="${song.id}">${d.isFavorite ? icon('starFilled', 16) : icon('starEmpty', 16)}</button>
+            <button class="song-row-fav ${d.isFavorite ? 'active' : ''}" data-fav-id="${song.id}">${d.isFavorite ? icon('starFilled', 16) : icon('star', 16)}</button>
             <button class="song-row-menu" data-menu-id="${song.id}">${icon('ellipsis', 14)}</button>
         </div>
     `;
@@ -1599,7 +1600,7 @@ function renderPlayerFull() {
     const d = getSongData(song.id);
     const favBtn = $('#btn-favorite');
     favBtn.classList.toggle('active', d.isFavorite);
-    favBtn.querySelector('.action-icon').innerHTML = d.isFavorite ? icon('starFilled', 20) : icon('starEmpty', 20);
+    favBtn.querySelector('.action-icon').innerHTML = d.isFavorite ? icon('starFilled', 20) : icon('star', 20);
 
     $('#btn-shuffle').classList.toggle('active', state.shuffle);
     $('#btn-shuffle').innerHTML = icon('shuffle');
@@ -1652,7 +1653,7 @@ function updateUI() {
         const d = getSongData(song.id);
         const favEl = $('#npb-fav');
         favEl.classList.toggle('active', d.isFavorite);
-        favEl.innerHTML = d.isFavorite ? icon('starFilled', 16) : icon('starEmpty', 16);
+        favEl.innerHTML = d.isFavorite ? icon('starFilled', 16) : icon('star', 16);
     } else {
         bar.style.display = 'none';
         app.classList.remove('has-active-track');
@@ -1775,7 +1776,7 @@ document.addEventListener('DOMContentLoaded', () => {
     $('#btn-play').innerHTML = icon('play', 22);
     $('#btn-next').innerHTML = icon('next', 24);
     $('#btn-repeat').innerHTML = icon('repeat');
-    $('#btn-favorite .action-icon').innerHTML = icon('starEmpty', 20);
+    $('#btn-favorite .action-icon').innerHTML = icon('star', 20);
 
     // Initialize player empty state
     renderPlayerFull();
@@ -2140,8 +2141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="context-menu-item" data-action="play" data-id="${songId}">${icon('play', 14)} Play Now</div>
             <div class="context-menu-item" data-action="playnext" data-id="${songId}">${icon('next', 14)} Up Next</div>
             <div class="context-menu-item" data-action="addqueue" data-id="${songId}">${icon('musicNote', 14)} Add to Queue</div>
-            <div class="context-menu-item" data-action="addplaylist" data-id="${songId}">${icon('starEmpty', 14)} Add to Playbook</div>
-            <div class="context-menu-item" data-action="fav" data-id="${songId}">${d.isFavorite ? icon('starFilled', 14) + ' Remove from All-Stars' : icon('starEmpty', 14) + ' Add to All-Stars'}</div>
+            <div class="context-menu-item" data-action="addplaylist" data-id="${songId}">${icon('star', 14)} Add to Playbook</div>
+            <div class="context-menu-item" data-action="fav" data-id="${songId}">${d.isFavorite ? icon('starFilled', 14) + ' Remove from All-Stars' : icon('star', 14) + ' Add to All-Stars'}</div>
         `;
         // Position
         menu.style.left = Math.min(x, window.innerWidth - 200) + 'px';
