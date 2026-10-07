@@ -141,7 +141,7 @@
     <header class="nav" id="nav">
         <div class="container nav-inner">
             <a href="/" class="brand" aria-label="LeBronify home">
-                <img src="images/ui/lebron_default.png" alt="" width="36" height="36" class="brand-head">
+                <span class="brand-mark"><img src="images/ui/lebron_default.png" alt="" width="36" height="36"></span>
                 <span class="brand-word">LEBRONIFY</span>
             </a>
             <nav class="nav-links" id="nav-links" aria-label="Main">
@@ -176,30 +176,34 @@
                         <span>Play a Random Song</span>
                     </button>
                 </div>
-                <ul class="hero-facts">
-                    <li><b>49</b> parody songs</li>
-                    <li><b>Free</b> forever</li>
-                    <li><b>No</b> sign-up</li>
-                </ul>
+                <dl class="scoreboard" aria-label="LeBronify by the numbers">
+                    <div><dt>Songs</dt><dd>49</dd></div>
+                    <div><dt>Tiers</dt><dd>6</dd></div>
+                    <div><dt>Trophies</dt><dd>12</dd></div>
+                    <div><dt>Price</dt><dd>$0</dd></div>
+                </dl>
             </div>
 
             <div class="hero-visual">
-                <div class="record-wrap">
-                    <div class="record" id="record">
-                        <div class="record-label"><img id="record-art" src="images/albums/he_is_lebron_james.png" alt="" width="240" height="240"></div>
-                    </div>
+                <div class="stage" id="stage">
+                    <div class="sleeve"><img id="sleeve-art" src="images/albums/he_is_lebron_james.png" alt="" width="320" height="320"></div>
+                    <div class="record" id="record" aria-hidden="true"></div>
                     <div class="tonearm" aria-hidden="true"><span></span></div>
                     <button type="button" class="king" id="king" aria-label="Play a random song">
-                        <svg class="king-crown" viewBox="0 0 120 64" aria-hidden="true">
-                            <path d="M8 58 L4 14 L32 34 L60 4 L88 34 L116 14 L112 58 Z" fill="var(--gold)" stroke="#8a5a00" stroke-width="3" stroke-linejoin="round"/>
-                            <rect x="8" y="48" width="104" height="10" fill="#c98a00"/>
-                        </svg>
-                        <img class="king-head" src="images/ui/lebron_default.png" alt="" width="240" height="240">
+                        <span class="king-bob">
+                            <svg class="king-crown" viewBox="0 0 120 64" aria-hidden="true">
+                                <path d="M8 58 L4 14 L32 34 L60 4 L88 34 L116 14 L112 58 Z" fill="var(--gold)" stroke="#8a5a00" stroke-width="3" stroke-linejoin="round"/>
+                                <rect x="8" y="48" width="104" height="10" fill="#c98a00"/>
+                                <circle cx="60" cy="6" r="5" fill="var(--liberty)"/>
+                            </svg>
+                            <img class="king-head" src="images/ui/lebron_default.png" alt="" width="240" height="240">
+                        </span>
+                        <span class="king-tip" aria-hidden="true">Tap me</span>
                     </button>
                 </div>
                 <p class="now-line" id="now-line" aria-live="polite">
                     <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
-                    <span class="now-text"><span class="now-state" id="now-state">Tap the King to play</span> <b id="now-title"></b></span>
+                    <span class="now-text"><span class="now-state" id="now-state">Tap the King to drop a random song</span> <b id="now-title"></b></span>
                 </p>
             </div>
         </div>
@@ -596,10 +600,16 @@
                     <p class="section-lede">Free, no sign-up, no ads.* The iOS app is coming soon.</p>
                     <p class="cta-fine">*Except Anthony Davis. He shows up whether you want him to or not.</p>
                 </div>
-                <a href="/player" class="btn btn-primary btn-lg">
-                    <i data-icon="play" data-icon-size="18"></i>
-                    Open the Web Player
-                </a>
+                <div class="cta-side">
+                    <a href="/player" class="btn btn-primary btn-lg">
+                        <i data-icon="play" data-icon-size="18"></i>
+                        Open the Web Player
+                    </a>
+                    <div class="cta-head" aria-hidden="true">
+                        <svg viewBox="0 0 120 64"><path d="M8 58 L4 14 L32 34 L60 4 L88 34 L116 14 L112 58 Z" fill="var(--gold)" stroke="#8a5a00" stroke-width="3" stroke-linejoin="round"/><rect x="8" y="48" width="104" height="10" fill="#c98a00"/></svg>
+                        <img src="images/ui/lebron_default.png" alt="" loading="lazy" width="160" height="160">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -611,7 +621,7 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="/" class="brand" aria-label="LeBronify home">
-                        <img src="images/ui/lebron_default.png" alt="" width="36" height="36" class="brand-head" loading="lazy">
+                        <span class="brand-mark"><img src="images/ui/lebron_default.png" alt="" width="36" height="36" loading="lazy"></span>
                         <span class="brand-word">LEBRONIFY</span>
                     </a>
                     <p>"I'm not playing right now, but I'm always ready."</p>
