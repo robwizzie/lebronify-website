@@ -480,12 +480,16 @@ function extractDominantColor(imgSrc, callback) {
     img.src = imgSrc;
 }
 
+/* Publishes the artwork colour as --dyn (wash strength) and --dyn-solid
+   (full strength) on #app. The player backdrop, the arena lights and the
+   album-art glow all read these, and --dyn is a registered @property so
+   the change cross-fades instead of snapping. */
 function updatePlayerGradient(color) {
     currentGradientColor = color;
-    const scroll = $('.player-view-scroll');
-    if (scroll) {
-        scroll.style.background = `linear-gradient(180deg, ${color} 0%, var(--bg) 55%)`;
-    }
+    const app = $('#app');
+    if (!app) return;
+    app.style.setProperty('--dyn', color);
+    app.style.setProperty('--dyn-solid', color.replace(/,\s*[\d.]+\)$/, ',1)'));
 }
 
 // -------------------------------------------
@@ -664,6 +668,92 @@ function showAchievementUnlocked(achievement) {
 }
 
 // -------------------------------------------
+// Arena-night micro-delights
+// Confetti, button ripples and view entrances. All pure DOM/CSS, and all
+// skipped when the visitor has asked the OS for reduced motion.
+// -------------------------------------------
+const reducedMotion = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)')
+    : { matches: false };
+
+// Last pointer position, so celebrations can burst from where the tap was.
+let lastPointer = null;
+
+/* Red/white/blue streamers plus a gold crown, fired when a song is
+   crowned an All-Star. */
+function burstConfetti(x, y) {
+    if (reducedMotion.matches) return;
+    if (x == null || y == null) {
+        x = window.innerWidth / 2;
+        y = window.innerHeight / 2;
+    }
+    const host = document.createElement('div');
+    host.className = 'confetti-burst';
+    host.setAttribute('aria-hidden', 'true');
+    host.style.left = x + 'px';
+    host.style.top = y + 'px';
+
+    const palette = ['var(--liberty-neon)', '#fff', 'var(--royal-neon)', 'var(--liberty)', 'var(--royal)'];
+    let html = `<span class="confetti-crown">${icon('crown', 30)}</span>`;
+    for (let i = 0; i < 26; i++) {
+        const angle = (Math.PI * 2 * i) / 26 + Math.random() * 0.4;
+        const dist = 60 + Math.random() * 90;
+        const w = 4 + Math.random() * 4;
+        html += `<i class="confetti-bit" style="
+            --x:${(Math.cos(angle) * dist).toFixed(1)}px;
+            --y:${(Math.sin(angle) * dist - 40).toFixed(1)}px;
+            --rot:${(Math.random() * 720 - 360).toFixed(0)}deg;
+            width:${w.toFixed(1)}px;height:${(w * (Math.random() < 0.5 ? 1 : 2.2)).toFixed(1)}px;
+            background:${palette[i % palette.length]};
+            border-radius:${Math.random() < 0.35 ? '50%' : '1px'};
+            animation-delay:${(Math.random() * 0.06).toFixed(2)}s;
+        "></i>`;
+    }
+    host.innerHTML = html;
+    document.body.appendChild(host);
+    if (navigator.vibrate) navigator.vibrate(12);
+    setTimeout(() => host.remove(), 1300);
+}
+
+/* Material-style ink ripple from the press point on primary controls. */
+const RIPPLE_SELECTOR = [
+    '.shuffle-btn', '.ctrl-btn', '.npb-btn', '.action-btn', '.potd-play',
+    '.nav-item', '.mobile-tab', '.vault-tab', '.category-tile', '.jumpback-tile',
+    '.player-empty-btn', '.play-all-btn', '.shuffle-play-btn', '.draft-btn',
+    '.greeting-shuffle', '.starting5-share', '.taco-play-btn', '.ad-dismiss-btn',
+].join(',');
+
+function spawnRipple(e) {
+    if (reducedMotion.matches) return;
+    const btn = e.target.closest(RIPPLE_SELECTOR);
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    const host = document.createElement('span');
+    host.className = 'ripple-host';
+    host.setAttribute('aria-hidden', 'true');
+    const ink = document.createElement('span');
+    ink.className = 'ripple';
+    ink.style.width = ink.style.height = size + 'px';
+    ink.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ink.style.top = (e.clientY - rect.top - size / 2) + 'px';
+    host.appendChild(ink);
+    btn.appendChild(host);
+    setTimeout(() => host.remove(), 650);
+}
+
+/* Flags a view for its staggered entrance, then clears the flag so later
+   re-renders (which happen on every play/favourite) don't replay it. */
+let viewEnterTimer = null;
+function markViewEnter(view) {
+    if (!view) return;
+    $$('.view.view-enter').forEach(v => v.classList.remove('view-enter'));
+    view.classList.add('view-enter');
+    if (viewEnterTimer) clearTimeout(viewEnterTimer);
+    viewEnterTimer = setTimeout(() => view.classList.remove('view-enter'), 1100);
+}
+
+// -------------------------------------------
 // Audio Playback
 // -------------------------------------------
 let _isSkipping = false; // Guard against double-fire like iOS
@@ -796,6 +886,7 @@ function toggleFavorite(songId) {
     d.isFavorite = !d.isFavorite;
     saveState();
     renderAll();
+    if (d.isFavorite) burstConfetti(lastPointer && lastPointer.x, lastPointer && lastPointer.y);
 }
 
 function playRandomMix() {
@@ -891,7 +982,7 @@ function showView(name) {
     $('#app').dataset.view = name;
     $$('.view').forEach(v => v.classList.remove('active'));
     const view = $(`#view-${name}`);
-    if (view) view.classList.add('active');
+    if (view) { view.classList.add('active'); markViewEnter(view); }
     $$('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.view === name));
     $$('.mobile-tab').forEach(n => n.classList.toggle('active', n.dataset.view === name));
     if (window.LBAnalytics) window.LBAnalytics.page('/player/' + name, 'LeBronify — ' + name);
@@ -919,15 +1010,16 @@ function renderSongRow(song, index, options = {}) {
     return `
         <div class="song-row ${isPlaying ? 'playing' : ''}" data-song-id="${song.id}" data-index="${index}">
             ${options.showNum ? `<span class="song-row-num">${index + 1}</span>` : ''}
-            <div style="position:relative">
+            <div class="song-row-art-wrap" style="position:relative">
                 <img src="${imgPath(song.image)}" alt="" class="song-row-art" loading="lazy">
-                ${mvpRank > 0 ? `<div class="song-row-mvp">${mvpRank}</div>` : ''}
+                <span class="eq ${state.playing ? 'eq-on' : ''}" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                ${mvpRank > 0 ? `<div class="song-row-mvp song-row-mvp--${mvpRank}">${mvpRank}</div>` : ''}
             </div>
             <div class="song-row-info">
                 <div class="song-row-title">${song.title}</div>
                 <div class="song-row-artist">${song.artist}</div>
             </div>
-            ${isPlaying ? `<span class="eq ${state.playing ? 'eq-on' : ''}" aria-label="Now playing"><i></i><i></i><i></i></span>` : ''}
+            ${isPlaying ? `<span class="visually-hidden">Now playing</span>` : ''}
             ${d.playCount > 0 ? `<span class="song-row-plays">${d.playCount} plays</span>` : ''}
             <button class="song-row-fav ${d.isFavorite ? 'active' : ''}" data-fav-id="${song.id}">${d.isFavorite ? icon('starFilled', 16) : icon('star', 16)}</button>
             <button class="song-row-menu" data-menu-id="${song.id}">${icon('ellipsis', 14)}</button>
@@ -936,11 +1028,15 @@ function renderSongRow(song, index, options = {}) {
 }
 
 function renderScrollCard(song, rank) {
+    const current = state.queue[state.queueIndex];
+    const isPlaying = current && current.id === song.id;
     return `
-        <div class="scroll-card" data-song-id="${song.id}">
+        <div class="scroll-card ${isPlaying ? 'playing' : ''}" data-song-id="${song.id}">
             <div class="scroll-card-art">
                 <img src="${imgPath(song.image)}" alt="${song.title}" loading="lazy">
-                ${rank ? `<div class="mvp-badge">${rank}</div>` : ''}
+                ${rank ? `<div class="mvp-badge mvp-badge--${rank}">${rank}</div>` : ''}
+                <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <span class="card-play" aria-hidden="true">${icon('play', 18)}</span>
             </div>
             <div class="scroll-card-name">${song.title}</div>
             <div class="scroll-card-artist">${song.artist}</div>
@@ -1582,8 +1678,7 @@ function renderPlayerFull() {
         if (emptyEl) emptyEl.style.display = '';
         if (contentEl) contentEl.style.display = 'none';
         // Reset gradient for empty state
-        const scroll = $('.player-view-scroll');
-        if (scroll) scroll.style.background = `linear-gradient(180deg, rgba(0,107,182,0.35) 0%, var(--bg) 55%)`;
+        updatePlayerGradient('rgba(0,107,182,0.35)');
         return;
     }
 
@@ -1594,6 +1689,7 @@ function renderPlayerFull() {
     updatePlayerGradient(currentGradientColor);
 
     $('#player-art').src = imgPath(song.image);
+    $('#player-vinyl-label').src = imgPath(song.image);
     $('#player-title').textContent = song.title;
     $('#player-artist').textContent = song.artist;
 
@@ -1664,10 +1760,22 @@ function updateUI() {
     $('#npb-prev').innerHTML = icon('prev', 16);
     $('#npb-next').innerHTML = icon('next', 16);
 
-    // Update playing state on song rows
-    $$('.song-row').forEach(row => {
-        row.classList.toggle('playing', song && parseInt(row.dataset.songId) === song.id);
+    // Playing-state hooks: #app.is-playing drives every equalizer, the
+    // spinning vinyl and the LIVE chip, so pausing freezes them all at once.
+    app.classList.toggle('is-playing', Boolean(song && state.playing));
+    const currentId = song ? song.id : null;
+    $$('.song-row, .scroll-card, .jumpback-tile').forEach(el => {
+        el.classList.toggle('playing', currentId !== null && parseInt(el.dataset.songId) === currentId);
     });
+    const potdBtn = $('#potd-card .potd-play');
+    if (potdBtn) $('#potd-card').classList.toggle('playing', currentId !== null && parseInt(potdBtn.dataset.songId) === currentId);
+
+    // Hero LIVE chip
+    const liveTitle = $('#banner-live-title');
+    if (liveTitle) {
+        liveTitle.textContent = song ? song.title : '';
+        $('#banner-live-label').textContent = state.playing ? 'Live' : 'Paused';
+    }
 
     if (state.currentView === 'player') renderPlayerFull();
     if (song) updateMediaSession(song);
@@ -1780,6 +1888,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize player empty state
     renderPlayerFull();
+
+    // Arena micro-delights
+    document.addEventListener('pointerdown', (e) => {
+        lastPointer = { x: e.clientX, y: e.clientY };
+        spawnRipple(e);
+    }, { passive: true });
+    $('#banner-live')?.addEventListener('click', () => showView('player'));
+    markViewEnter($('#view-home'));
 
     // Volume
     const vol = $('#volume-slider');
