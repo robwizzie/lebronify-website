@@ -1,7 +1,7 @@
 /* ============================================
    LEBRONIFY WEBSITE - SCRIPTS
-   Landing page: in-page song previews, the turntable, confetti,
-   and all the little bits of fun.
+   Landing page: in-page song previews, the hero record,
+   the breakdown tabs and the Fun Stuff demos.
    ============================================ */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const icon = (name, size) => (window.LBIcons ? window.LBIcons.svg(name, size) : '');
     const track = (event, params) => { if (window.LBAnalytics) window.LBAnalytics.track(event, params); };
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
     const escapeHtml = (str) => String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    const randomFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
     // -------------------------------------------
     // Song data — mirrors SONGS in app.js
@@ -75,152 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const audioSrc = (song) => `songs/${encodeURIComponent(song.audio)}`;
 
     // -------------------------------------------
-    // FX canvas: confetti bursts + the crown cursor trail
+    // Score ticker
     // -------------------------------------------
-    const fx = (() => {
-        const canvas = $('#fx-canvas');
-        if (!canvas) return { burst() {}, crown() {} };
-        const ctx = canvas.getContext('2d');
-        const COLORS = ['#006bb6', '#3fa9ff', '#ed174c', '#ff3b6b', '#ffffff', '#fdb927'];
-        let parts = [];
-        let running = false;
-        let dpr = 1;
-
-        function resize() {
-            dpr = Math.min(window.devicePixelRatio || 1, 2);
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        function drawCrownShape(size) {
-            const s = size / 20;
-            ctx.beginPath();
-            ctx.moveTo(-8 * s, 6 * s);
-            ctx.lineTo(-6 * s, -2 * s);
-            ctx.lineTo(-3 * s, 2 * s);
-            ctx.lineTo(0, -6 * s);
-            ctx.lineTo(3 * s, 2 * s);
-            ctx.lineTo(6 * s, -2 * s);
-            ctx.lineTo(8 * s, 6 * s);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        function loop() {
-            ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
-            parts = parts.filter((p) => p.life > 0);
-            for (const p of parts) {
-                p.vx *= p.drag;
-                p.vy = p.vy * p.drag + p.gravity;
-                p.x += p.vx;
-                p.y += p.vy;
-                p.rot += p.vr;
-                p.life -= p.decay;
-                ctx.save();
-                ctx.globalAlpha = Math.max(0, Math.min(1, p.life));
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rot);
-                ctx.fillStyle = p.color;
-                if (p.kind === 'crown') {
-                    drawCrownShape(p.size);
-                } else if (p.kind === 'star') {
-                    ctx.font = `${p.size * 1.6}px sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    ctx.fillText('★', 0, 0);
-                } else {
-                    // Confetti ribbon: flip with rotation for a paper-in-the-air look.
-                    ctx.scale(1, Math.cos(p.rot * 2));
-                    ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
-                }
-                ctx.restore();
-            }
-            if (parts.length) requestAnimationFrame(loop);
-            else running = false;
-        }
-
-        function start() {
-            if (!running) {
-                running = true;
-                requestAnimationFrame(loop);
-            }
-        }
-
-        return {
-            /* Confetti cannon from (x, y) in viewport coords. */
-            burst(x, y, count = 90, spread = 1) {
-                if (reduceMotion.matches) return;
-                for (let i = 0; i < count; i++) {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = (4 + Math.random() * 9) * spread;
-                    const roll = Math.random();
-                    parts.push({
-                        x, y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed - 6 * spread,
-                        gravity: 0.32,
-                        drag: 0.965,
-                        rot: Math.random() * Math.PI,
-                        vr: (Math.random() - 0.5) * 0.4,
-                        size: 8 + Math.random() * 8,
-                        life: 1.4 + Math.random() * 0.6,
-                        decay: 0.012,
-                        color: roll < 0.08 ? '#fdb927' : randomFrom(COLORS),
-                        kind: roll < 0.08 ? 'crown' : roll < 0.16 ? 'star' : 'paper',
-                    });
-                }
-                start();
-            },
-            /* A single small crown for the cursor trail. */
-            crown(x, y) {
-                parts.push({
-                    x, y,
-                    vx: (Math.random() - 0.5) * 1.2,
-                    vy: -0.4 - Math.random() * 0.6,
-                    gravity: 0, drag: 1,
-                    rot: (Math.random() - 0.5) * 0.5, vr: 0,
-                    size: 10 + Math.random() * 8,
-                    life: 0.6, decay: 0.02,
-                    color: Math.random() > 0.35 ? '#3fa9ff' : '#ff3b6b',
-                    kind: 'crown',
-                });
-                start();
-            },
-        };
-    })();
-
-    function burstFrom(el, count, spread) {
-        const r = el.getBoundingClientRect();
-        fx.burst(r.left + r.width / 2, r.top + r.height / 2, count, spread);
+    const ticker = $('#ticker');
+    if (ticker) {
+        const html = songs.map((s) => `<span>${escapeHtml(s.title)}</span>`).join('');
+        ticker.innerHTML = html + html; // two copies so the -50% crawl loops seamlessly
     }
-
-    // Crown trail follows the mouse on desktop only.
-    if (finePointer.matches && !reduceMotion.matches) {
-        let lastEmit = 0;
-        document.addEventListener('mousemove', (e) => {
-            const now = performance.now();
-            if (now - lastEmit > 70) {
-                fx.crown(e.clientX, e.clientY);
-                lastEmit = now;
-            }
-        }, { passive: true });
-    }
-
-    // -------------------------------------------
-    // Jumbotron ticker
-    // -------------------------------------------
-    function fillTicker(el, list) {
-        if (!el) return;
-        const html = list.map((s) => `<span>${escapeHtml(s.title)}</span>`).join('');
-        // Two copies so the -50% marquee loops seamlessly.
-        el.innerHTML = html + html;
-    }
-    const shuffled = songs.slice().sort(() => Math.random() - 0.5);
-    fillTicker($('#ticker-a'), shuffled.slice(0, 18));
-    fillTicker($('#ticker-b'), shuffled.slice(18, 36));
 
     // -------------------------------------------
     // Roster grid
@@ -232,8 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button type="button" class="song" data-index="${i}" aria-label="Play ${escapeHtml(song.title)} by ${escapeHtml(song.artist)}">
                     <span class="song-art">
                         <img src="${escapeHtml(imgSrc(song))}" alt="" loading="lazy" width="200" height="200">
-                        <span class="song-eq"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span>
-                        <span class="song-play" aria-hidden="true">${icon('play', 20)}</span>
+                        <span class="song-badge"><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span></span>
+                        <span class="song-play" aria-hidden="true">${icon('play', 18)}</span>
                     </span>
                     <span class="song-title">${escapeHtml(song.title)}</span>
                     <span class="song-artist">${escapeHtml(song.artist)}</span>
@@ -253,18 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (more && toggle) {
             const label = $('.roster-toggle-label', toggle);
             more.hidden = false;
-            label.textContent = `See all ${songs.length} songs`;
             toggle.addEventListener('click', () => {
                 const expanded = grid.classList.toggle('collapsed') === false;
                 toggle.setAttribute('aria-expanded', String(expanded));
-                label.textContent = expanded ? 'Show fewer' : `See all ${songs.length} songs`;
-                if (!expanded) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                label.textContent = expanded ? 'Show fewer' : `Show all ${songs.length} songs`;
+                if (!expanded) grid.scrollIntoView({ block: 'start' });
             });
         }
     }
 
     // -------------------------------------------
-    // Preview player (one <audio>, shared by every play control on the page)
+    // Preview player: one <audio> shared by every play control on the page
     // -------------------------------------------
     const player = (() => {
         const audio = new Audio();
@@ -273,46 +131,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const dockFill = $('#dock-fill');
         const dockBar = $('#dock-progress');
         const dockPlay = $('#dock-play');
-        const vinyl = $('#vinyl');
-        const vinylArt = $('#vinyl-art');
-        const npChip = $('#np-chip');
         const heroBtn = $('#hero-preview');
-        const potdPlay = $('#potd-play');
-
         const api = { index: -1, playing: false };
 
-        function setPlaying(on) {
-            api.playing = on;
-            document.body.classList.toggle('is-audio-playing', on);
-            if (vinyl) vinyl.classList.toggle('spinning', on);
-            if (npChip) npChip.classList.toggle('is-playing', on);
-            if (dock) dock.classList.toggle('is-playing', on);
+        function render() {
+            const on = api.playing;
+            document.body.classList.toggle('is-playing', on);
             if (dockPlay) {
-                dockPlay.innerHTML = icon(on ? 'pause' : 'play', 22);
+                dockPlay.innerHTML = icon(on ? 'pause' : 'play', 20);
                 dockPlay.setAttribute('aria-label', on ? 'Pause' : 'Play');
             }
             if (heroBtn) {
-                heroBtn.classList.toggle('is-playing', on);
-                heroBtn.innerHTML = `${icon(on ? 'pause' : 'headphones', 20)}<span>${on ? 'Pause the Banger' : 'Hear a Banger'}</span>`;
+                heroBtn.innerHTML = on
+                    ? `${icon('pause', 18)}<span>Pause</span>`
+                    : `${icon('shuffle', 18)}<span>${api.index < 0 ? 'Play a Random Song' : 'Resume'}</span>`;
             }
+            const state = $('#now-state');
+            if (state && api.index >= 0) state.textContent = on ? 'Now playing' : 'Paused';
             $$('.song').forEach((el) => {
                 const current = Number(el.dataset.index) === api.index;
                 el.classList.toggle('is-current', current);
                 el.classList.toggle('is-playing', current && on);
                 const playIcon = $('.song-play', el);
-                if (playIcon) playIcon.innerHTML = icon(current && on ? 'pause' : 'play', 20);
+                if (playIcon) playIcon.innerHTML = icon(current && on ? 'pause' : 'play', 18);
             });
-            if (potdPlay) {
-                const potdOn = on && api.index === potdIndex;
-                potdPlay.classList.toggle('is-playing', potdOn);
-                potdPlay.innerHTML = icon(potdOn ? 'pause' : 'play', 18);
-            }
         }
 
         function show(song) {
-            if (vinylArt) vinylArt.src = imgSrc(song);
-            $('#np-chip-title').textContent = song.title;
-            $('#np-chip-artist').textContent = song.artist;
+            $('#record-art').src = imgSrc(song);
+            $('#now-title').textContent = `${song.title} · ${song.artist}`;
             if (dock) {
                 dock.hidden = false;
                 document.body.classList.add('has-dock');
@@ -335,12 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
             api.index = songs.indexOf(song);
             show(song);
             audio.src = audioSrc(song);
-            audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-            setPlaying(true);
+            api.playing = true;
+            render();
+            audio.play().catch(() => { api.playing = false; render(); });
             if (source) track('landing_preview', { song: song.title, source });
         };
-        api.pause = () => { audio.pause(); setPlaying(false); };
-        api.resume = () => { audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false)); };
+        api.pause = () => { audio.pause(); };
+        api.resume = () => { audio.play().catch(() => {}); };
         api.toggle = () => {
             if (api.index < 0) return api.random('toggle');
             if (api.playing) api.pause();
@@ -358,13 +206,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return i;
         };
         api.close = () => {
-            api.pause();
+            audio.pause();
             if (dock) dock.hidden = true;
             document.body.classList.remove('has-dock');
         };
 
+        audio.addEventListener('play', () => { api.playing = true; render(); });
+        audio.addEventListener('pause', () => { api.playing = false; render(); });
         audio.addEventListener('ended', api.next);
-        audio.addEventListener('pause', () => { if (api.playing && audio.paused) setPlaying(false); });
         audio.addEventListener('timeupdate', () => {
             if (!audio.duration) return;
             const pct = (audio.currentTime / audio.duration) * 100;
@@ -397,47 +246,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return api;
     })();
 
-    // -------------------------------------------
-    // Hero: preview button, boopable King, pointer parallax
-    // -------------------------------------------
-    const heroBtn = $('#hero-preview');
-    if (heroBtn) heroBtn.addEventListener('click', () => player.toggle());
+    $('#hero-preview')?.addEventListener('click', () => player.toggle());
+    $('#king')?.addEventListener('click', () => player.random('king'));
 
-    const KING_LINES = ['Boop me!', 'Again!', 'Banger alert!', 'Taco Tuesday?', "That's Bron!", 'Witness!', 'Strive for greatness', 'Not 1, not 2...', 'Chalk toss!', 'Trust the process'];
-    const king = $('#king');
-    const kingBubble = $('#king-bubble');
-    if (king) {
-        king.addEventListener('click', () => {
-            king.classList.remove('booped');
-            void king.offsetWidth; // restart the animation
-            king.classList.add('booped');
-            burstFrom(king, 110, 1.1);
-            if (kingBubble) kingBubble.textContent = randomFrom(KING_LINES.slice(1));
-            player.random('king');
-        });
-    }
-
-    const heroVisual = $('#hero-visual');
-    if (heroVisual && finePointer.matches && !reduceMotion.matches) {
-        const layers = $$('[data-depth]', heroVisual);
-        const hero = $('#hero');
-        hero.addEventListener('pointermove', (e) => {
-            const r = hero.getBoundingClientRect();
-            const px = (e.clientX - r.left) / r.width - 0.5;
-            const py = (e.clientY - r.top) / r.height - 0.5;
-            layers.forEach((el) => {
-                const d = Number(el.dataset.depth);
-                el.style.transform = `translate3d(${px * d}px, ${py * d}px, 0)`;
-            });
-        });
-        hero.addEventListener('pointerleave', () => layers.forEach((el) => { el.style.transform = ''; }));
-    }
+    $('#king-decide')?.addEventListener('click', () => {
+        const i = player.random('king_decide');
+        const btn = $(`.song[data-index="${i}"]`);
+        if (!btn) return;
+        if (btn.offsetParent === null) $('#roster-toggle')?.click(); // pick is behind "Show all"
+        btn.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'center' });
+    });
 
     // -------------------------------------------
-    // Nav: glass on scroll, full-screen mobile menu
+    // Nav: solid on scroll, dropdown menu on phones
     // -------------------------------------------
     const nav = $('#nav');
-    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 30);
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 10);
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
@@ -449,130 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
         nav.classList.toggle('menu-open', open);
         burger.setAttribute('aria-expanded', String(open));
         burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        document.body.style.overflow = open ? 'hidden' : '';
     }
     if (burger && navLinks) {
         burger.addEventListener('click', () => setMenu(!navLinks.classList.contains('active')));
         $$('a', navLinks).forEach((a) => a.addEventListener('click', () => setMenu(false)));
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && navLinks.classList.contains('active')) setMenu(false); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
     }
 
     // -------------------------------------------
-    // Scoreboard counters
+    // App Breakdown tabs
     // -------------------------------------------
-    function animateCounter(el) {
-        const target = parseInt(el.dataset.target, 10);
-        if (reduceMotion.matches || target === 0) { el.textContent = String(target); return; }
-        const duration = 1600;
-        const start = performance.now();
-        (function tick(now) {
-            const t = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - t, 4);
-            el.textContent = String(Math.round(target * eased));
-            if (t < 1) requestAnimationFrame(tick);
-        })(start);
-    }
-    const counterObs = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            animateCounter(entry.target);
-            counterObs.unobserve(entry.target);
-        });
-    }, { threshold: 0.5 });
-    $$('.count').forEach((el) => counterObs.observe(el));
-
-    // -------------------------------------------
-    // Scroll reveal (staggers cards that arrive together)
-    // -------------------------------------------
-    const revealObs = new IntersectionObserver((entries) => {
-        entries
-            .filter((entry) => entry.isIntersecting)
-            .forEach((entry, i) => {
-                setTimeout(() => entry.target.classList.add('visible'), Math.min(i, 6) * 80);
-                revealObs.unobserve(entry.target);
-            });
-    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-    $$('[data-animate]').forEach((el) => revealObs.observe(el));
-
-    // -------------------------------------------
-    // Cursor spotlight on cards
-    // -------------------------------------------
-    if (finePointer.matches) {
-        document.addEventListener('pointermove', (e) => {
-            const card = e.target.closest && e.target.closest('.spot');
-            if (!card) return;
-            const r = card.getBoundingClientRect();
-            card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-            card.style.setProperty('--my', `${e.clientY - r.top}px`);
-        }, { passive: true });
-    }
-
-    // -------------------------------------------
-    // Pick of the Day + Let The King Decide
-    // -------------------------------------------
-    // Same rotation as getSongOfDay() in app.js, minus the Tuesday coin-flip.
-    let potdIndex = Math.floor(Date.now() / 86400000) % songs.length;
-    const potd = $('#potd');
-    function showPotd(i) {
-        const song = songs[i];
-        const cards = $$('.potd-card', potd);
-        const next = [songs[(i + 1) % songs.length], songs[(i + 2) % songs.length]];
-        cards[2].src = imgSrc(song);
-        cards[1].src = imgSrc(next[0]);
-        cards[0].src = imgSrc(next[1]);
-        $('#potd-title').textContent = song.title;
-        $('#potd-artist').textContent = song.artist;
-        potd.classList.remove('shuffling');
-        void potd.offsetWidth;
-        potd.classList.add('shuffling');
-    }
-    if (potd) {
-        showPotd(potdIndex);
-        $('#potd-play').addEventListener('click', () => {
-            if (player.index === potdIndex) player.toggle();
-            else player.play(potdIndex, 'potd');
-        });
-    }
-
-    const kingDecide = $('#king-decide');
-    if (kingDecide) {
-        kingDecide.addEventListener('click', () => {
-            const i = player.random('king_decide');
-            burstFrom(kingDecide, 60, 0.8);
-            const btn = $(`.song[data-index="${i}"]`);
-            if (btn) {
-                // Reveal the pick if it's hidden behind "See all".
-                if (btn.offsetParent === null) $('#roster-toggle')?.click();
-                btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-    }
-
-    // -------------------------------------------
-    // Ring The Bell
-    // -------------------------------------------
-    const bell = $('#bell-btn');
-    if (bell) {
-        bell.addEventListener('click', () => {
-            bell.classList.remove('ringing');
-            void bell.offsetWidth;
-            bell.classList.add('ringing');
-            burstFrom(bell, 120, 1.1);
-            track('landing_bell');
-        });
-    }
-
-    // -------------------------------------------
-    // App Breakdown tabs with a sliding pill
-    // -------------------------------------------
-    const seg = $('.seg');
-    const segPill = $('.seg-pill');
     const tabBtns = $$('.tab-btn');
-    function movePill(btn) {
-        if (!segPill || !btn) return;
-        segPill.style.left = `${btn.offsetLeft}px`;
-        segPill.style.width = `${btn.offsetWidth}px`;
-    }
     tabBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
             tabBtns.forEach((b) => {
@@ -581,26 +292,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 b.setAttribute('aria-selected', String(on));
             });
             $$('.breakdown-panel').forEach((panel) => panel.classList.toggle('active', panel.id === `tab-${btn.dataset.tab}`));
-            movePill(btn);
         });
     });
-    if (seg) {
-        movePill($('.tab-btn.active'));
-        window.addEventListener('resize', () => movePill($('.tab-btn.active')));
-        // Fonts can shift button widths after first paint.
-        if (document.fonts) document.fonts.ready.then(() => movePill($('.tab-btn.active')));
-    }
 
     // -------------------------------------------
-    // AD breaks: dismissing him only summons the next one
+    // AD breaks: dismissing him only brings the next one
     // -------------------------------------------
     const AD_DATA = [
-        { title: 'THE BROW KNOWS', img: 'images/ui/ad_pose1.jpg', msg: "Need more hang time? Try AD's secret workout routine!", dismiss: 'Trade AD to Dallas' },
-        { title: 'AD APPROVED', img: 'images/ui/ad_pose2.jpg', msg: "Anthony Davis says: 'These parodies hit harder than my blocks!'", dismiss: 'Send AD to the Bench' },
-        { title: 'BROW DOWN', img: 'images/ui/anthony_davis_default.jpg', msg: 'The Brow demands you listen to at least 3 more songs!', dismiss: 'AD Fouled Out - Skip' },
-        { title: 'TRADE OFFER', img: 'images/ui/ad_pose2.jpg', msg: 'You receive: more parodies. AD receives: your undivided attention.', dismiss: 'Decline Trade' },
-        { title: 'THE UNIBROW SPEAKS', img: 'images/ui/anthony_davis_default.jpg', msg: "AD's eyebrow has its own gravitational pull. And opinions.", dismiss: 'Wax the Brow' },
-        { title: 'GLASS MAN GLAZING', img: 'images/ui/ad_pose1.jpg', msg: 'Anthony Davis is OUT tonight with a sore playlist finger.', dismiss: 'Day-to-Day' },
+        { title: 'The Brow Knows', img: 'images/ui/ad_pose1.jpg', msg: "Need more hang time? Try AD's secret workout routine!", dismiss: 'Trade AD to Dallas' },
+        { title: 'AD Approved', img: 'images/ui/ad_pose2.jpg', msg: "Anthony Davis says these parodies hit harder than his blocks.", dismiss: 'Send AD to the Bench' },
+        { title: 'Brow Down', img: 'images/ui/anthony_davis_default.jpg', msg: 'The Brow demands you listen to at least 3 more songs!', dismiss: 'AD Fouled Out - Skip' },
+        { title: 'Trade Offer', img: 'images/ui/ad_pose2.jpg', msg: 'You receive: more parodies. AD receives: your undivided attention.', dismiss: 'Decline Trade' },
+        { title: 'The Unibrow Speaks', img: 'images/ui/anthony_davis_default.jpg', msg: "AD's eyebrow has its own gravitational pull. And opinions.", dismiss: 'Wax the Brow' },
     ];
     let adIndex = 0;
     const adDismiss = $('#ad-dismiss');
@@ -611,43 +314,39 @@ document.addEventListener('DOMContentLoaded', () => {
             const pop = $('#ad-pop');
             $('#ad-img').src = ad.img;
             $('#ad-title').textContent = ad.title;
-            $('#ad-msg').textContent = `"${ad.msg}"`;
+            $('#ad-msg').textContent = ad.msg;
             adDismiss.textContent = ad.dismiss;
             pop.classList.remove('swap');
-            void pop.offsetWidth;
+            void pop.offsetWidth; // restart the fade
             pop.classList.add('swap');
         });
     }
 
     // -------------------------------------------
-    // Taco storm — "Make it Tuesday" or type T-A-C-O
+    // Taco storm: "Make it Tuesday", or type T-A-C-O
     // -------------------------------------------
-    let stormActive = false;
+    let storming = false;
     function tacoStorm() {
-        if (stormActive) return;
-        stormActive = true;
+        if (storming || reduceMotion.matches) return;
+        storming = true;
         track('landing_taco');
         const layer = document.createElement('div');
         layer.className = 'taco-storm';
         layer.setAttribute('aria-hidden', 'true');
-        const count = reduceMotion.matches ? 0 : (window.innerWidth < 640 ? 26 : 48);
+        const count = window.innerWidth < 640 ? 20 : 36;
         for (let i = 0; i < count; i++) {
             const img = document.createElement('img');
             img.src = 'images/ui/taco_image.png';
             img.alt = '';
-            const size = 32 + Math.random() * 46;
-            img.style.width = `${size}px`;
+            img.style.width = `${32 + Math.random() * 36}px`;
             img.style.left = `${Math.random() * 100}%`;
-            img.style.animationDuration = `${2.4 + Math.random() * 2.2}s`;
-            img.style.animationDelay = `${Math.random() * 1.6}s`;
-            img.style.setProperty('--spin', `${(Math.random() > 0.5 ? 1 : -1) * (240 + Math.random() * 480)}deg`);
+            img.style.animationDuration = `${2.6 + Math.random() * 1.8}s`;
+            img.style.animationDelay = `${Math.random() * 1.2}s`;
+            img.style.setProperty('--spin', `${(Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 360)}deg`);
             layer.appendChild(img);
         }
-        const toast = document.createElement('div');
-        toast.className = 'taco-toast';
-        toast.textContent = 'TACO TUESDAYYYYY';
-        document.body.append(layer, toast);
-        setTimeout(() => { layer.remove(); toast.remove(); stormActive = false; }, 5200);
+        document.body.appendChild(layer);
+        setTimeout(() => { layer.remove(); storming = false; }, 4800);
     }
     $('#taco-btn')?.addEventListener('click', tacoStorm);
 
@@ -660,61 +359,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------
-    // Chalk toss
+    // Chalk toss (on tap only)
     // -------------------------------------------
     const chalk = $('#chalk-demo');
     if (chalk) {
         const cloud = $('.chalk-cloud', chalk);
-        const toss = () => {
-            chalk.classList.remove('tossed');
-            void chalk.offsetWidth;
-            chalk.classList.add('tossed');
+        chalk.addEventListener('click', () => {
             cloud.innerHTML = '';
             if (reduceMotion.matches) return;
-            for (let i = 0; i < 46; i++) {
+            for (let i = 0; i < 36; i++) {
                 const p = document.createElement('i');
-                const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.3;
-                const dist = 60 + Math.random() * 150;
-                p.style.setProperty('--s', `${4 + Math.random() * 12}px`);
+                const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.2;
+                const dist = 50 + Math.random() * 120;
+                p.style.setProperty('--s', `${4 + Math.random() * 10}px`);
                 p.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
                 p.style.setProperty('--dy', `${Math.sin(angle) * dist}px`);
-                p.style.animationDelay = `${Math.random() * 0.15}s`;
                 cloud.appendChild(p);
             }
-        };
-        chalk.addEventListener('click', toss);
-        // Fire once on its own the first time it scrolls into view.
-        const chalkObs = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) { setTimeout(toss, 400); chalkObs.disconnect(); }
-        }, { threshold: 0.6 });
-        chalkObs.observe(chalk);
-    }
-
-    // -------------------------------------------
-    // Splash screen loading phrases
-    // -------------------------------------------
-    const splashPhrases = [
-        'Polishing the crown...',
-        'Loading 4 rings worth of bangers...',
-        'Checking LeBron\'s playlist...',
-        'Warming up from the bench...',
-        'Reviewing game film...',
-        'LeLoading...',
-        'Preparing the chalk toss...',
-        'Counting triple-doubles...',
-        'Activating playoff mode...',
-        'The King has arrived.',
-    ];
-    const splashPhrase = $('#splash-phrase');
-    if (splashPhrase) {
-        let phraseIndex = 0;
-        setInterval(() => {
-            phraseIndex = (phraseIndex + 1) % splashPhrases.length;
-            splashPhrase.style.opacity = '0';
-            setTimeout(() => {
-                splashPhrase.textContent = splashPhrases[phraseIndex];
-                splashPhrase.style.opacity = '1';
-            }, 300);
-        }, 2200);
+        });
     }
 });

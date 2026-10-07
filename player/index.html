@@ -40,7 +40,6 @@
     <link rel="manifest" href="site.webmanifest">
 
     <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
 
     <script type="application/ld+json">
 {
@@ -84,14 +83,6 @@
 </head>
 <body>
     <div id="app" data-view="home">
-        <!-- Arena lights: slow-drifting spotlights behind everything, tinted
-             toward the current song's artwork colour. Purely decorative. -->
-        <div class="arena-bg" aria-hidden="true">
-            <span class="arena-light arena-light--royal"></span>
-            <span class="arena-light arena-light--liberty"></span>
-            <span class="arena-light arena-light--song"></span>
-        </div>
-
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <a href="/" class="sidebar-logo">
@@ -146,25 +137,11 @@
                     <!-- Banner -->
                     <div class="home-banner">
                         <img src="images/ui/lebron_banner.jpg" alt="LeBron" class="banner-img">
-                        <div class="banner-stripes" aria-hidden="true"><i></i><i></i><i></i></div>
-                        <button class="banner-live" id="banner-live" type="button" aria-label="Open the player">
-                            <span class="banner-live-dot" aria-hidden="true"></span>
-                            <span class="banner-live-label" id="banner-live-label">Live</span>
-                            <span class="banner-live-title" id="banner-live-title"></span>
-                        </button>
                         <div class="banner-overlay">
-                            <div class="banner-stars" aria-hidden="true">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
                             <h1 class="banner-title">LeBronify <span class="visually-hidden">— LeBron James parody music player</span><span class="phl-badge" aria-hidden="true">PHL</span></h1>
                             <p class="banner-sub">The King's Parody Collection</p>
                         </div>
                     </div>
-
-                    <!-- Shuffle Button -->
-                    <button class="shuffle-btn" id="shuffle-all-btn">
-                        <i data-icon="crown" data-icon-size="22"></i>
-                        <span class="shuffle-btn-label">Let The King Decide</span>
-                        <i data-icon="shuffle" data-icon-size="20"></i>
-                    </button>
 
                     <!-- Taco Tuesday Banner (hidden by default) -->
                     <div class="taco-banner-section" id="taco-banner" style="display:none;">
@@ -194,6 +171,12 @@
                             <div class="streak-count"><span id="streak-num">0</span> <span>day streak</span> &middot; <span id="total-plays">0</span> <span>plays</span></div>
                         </div>
                     </div>
+
+                    <!-- Shuffle Button -->
+                    <button class="shuffle-btn" id="shuffle-all-btn">
+                        <i data-icon="shuffle" data-icon-size="20"></i>
+                        Let The King Decide
+                    </button>
 
                     <!-- Trust The Process -->
                     <div class="process-meter surface-card" id="process-meter"></div>
@@ -334,16 +317,9 @@
                         </button>
                     </div>
                     <div class="player-content" id="player-content" style="display:none;">
-                        <div class="player-stage">
-                            <!-- Record that slides out from behind the sleeve and spins while playing -->
-                            <div class="player-vinyl" aria-hidden="true">
-                                <img src="" alt="" class="player-vinyl-label" id="player-vinyl-label">
-                            </div>
-                            <div class="player-art-wrap">
-                                <img src="" alt="" class="player-art" id="player-art">
-                            </div>
+                        <div class="player-art-wrap">
+                            <img src="" alt="" class="player-art" id="player-art">
                         </div>
-                        <div class="player-eyebrow" aria-hidden="true"><span class="banner-live-dot"></span> On The Court</div>
                         <div class="player-song-title" id="player-title">Not Playing</div>
                         <div class="player-song-artist" id="player-artist">Select a song to start</div>
                         <div class="player-progress-wrap">
