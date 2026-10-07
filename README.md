@@ -77,7 +77,7 @@ All play counts, favorites, playlists, and recently played data are saved to `lo
 | Logic | Vanilla JavaScript (ES6+) |
 | Audio | HTML5 Audio API |
 | Storage | localStorage |
-| Fonts | [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts |
+| Fonts | [Inter](https://rsms.me/inter/) (UI) and [Anton](https://fonts.google.com/specimen/Anton) (display), both self-hosted from `fonts/` |
 | Icons | Custom inline SVGs (no icon library) |
 | Frameworks | None |
 | Build Tools | None |
