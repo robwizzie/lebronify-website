@@ -103,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const btn = e.target.closest('.song');
             if (!btn) return;
             const i = Number(btn.dataset.index);
+            btn.classList.remove('pop');
+            void btn.offsetWidth;
+            btn.classList.add('pop');
             if (i === player.index) player.toggle();
             else player.play(i, 'roster');
         });
@@ -158,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function show(song) {
-            $('#record-art').src = imgSrc(song);
+            $('#sleeve-art').src = imgSrc(song);
+            document.body.classList.add('has-played');
             $('#now-title').textContent = `${song.title} · ${song.artist}`;
             if (dock) {
                 dock.hidden = false;
@@ -247,7 +251,36 @@ document.addEventListener('DOMContentLoaded', () => {
     })();
 
     $('#hero-preview')?.addEventListener('click', () => player.toggle());
-    $('#king')?.addEventListener('click', () => player.random('king'));
+    // The King: bobble, crown hop, a burst of team-color confetti, then a song.
+    const king = $('#king');
+    function confetti(x, y) {
+        if (reduceMotion.matches) return;
+        const colors = ['#006bb6', '#ed174c', '#ffffff', '#fdb927'];
+        for (let i = 0; i < 36; i++) {
+            const c = document.createElement('i');
+            c.className = 'confetti';
+            const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4;
+            const dist = 80 + Math.random() * 140;
+            c.style.left = `${x}px`;
+            c.style.top = `${y}px`;
+            c.style.background = colors[i % colors.length];
+            c.style.setProperty('--dx', `${Math.cos(angle) * dist}px`);
+            c.style.setProperty('--dy', `${Math.sin(angle) * dist + 120}px`);
+            c.style.setProperty('--rot', `${Math.random() * 720 - 360}deg`);
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 1200);
+        }
+    }
+    if (king) {
+        king.addEventListener('click', () => {
+            king.classList.remove('bonk');
+            void king.offsetWidth; // restart the bobble
+            king.classList.add('bonk');
+            const r = king.getBoundingClientRect();
+            confetti(r.left + r.width / 2, r.top + r.height * 0.25);
+            player.random('king');
+        });
+    }
 
     $('#king-decide')?.addEventListener('click', () => {
         const i = player.random('king_decide');
@@ -365,6 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chalk) {
         const cloud = $('.chalk-cloud', chalk);
         chalk.addEventListener('click', () => {
+            chalk.classList.remove('tossed');
+            void chalk.offsetWidth;
+            chalk.classList.add('tossed');
             cloud.innerHTML = '';
             if (reduceMotion.matches) return;
             for (let i = 0; i < 36; i++) {
