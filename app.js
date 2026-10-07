@@ -796,6 +796,42 @@ function toggleFavorite(songId) {
     d.isFavorite = !d.isFavorite;
     saveState();
     renderAll();
+    if (d.isFavorite) celebrateAllStar(songId);
+}
+
+// -------------------------------------------
+// All-Star celebration: the star pops and a short red/white/blue burst
+// fires from wherever the user tapped. Reward-only, skipped for
+// reduced motion.
+// -------------------------------------------
+let lastPointer = null;
+document.addEventListener('pointerdown', e => { lastPointer = { x: e.clientX, y: e.clientY, t: Date.now() }; }, true);
+
+function celebrateAllStar(songId) {
+    const stars = [
+        ...document.querySelectorAll(`.song-row-fav.active[data-fav-id="${songId}"]`),
+        ...['#npb-fav', '#btn-favorite'].map(sel => $(sel)).filter(el => el && el.classList.contains('active')),
+    ];
+    stars.forEach(el => {
+        el.classList.remove('star-pop');
+        void el.offsetWidth;
+        el.classList.add('star-pop');
+    });
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!lastPointer || Date.now() - lastPointer.t > 1500) return;
+
+    const burst = document.createElement('div');
+    burst.className = 'allstar-burst';
+    burst.style.left = `${lastPointer.x}px`;
+    burst.style.top = `${lastPointer.y}px`;
+    const colors = ['var(--royal)', 'var(--liberty)', '#fff'];
+    burst.innerHTML = Array.from({ length: 40 }, (_, i) => {
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 40 + Math.random() * 70;
+        return `<i style="--dx:${(Math.cos(angle) * dist).toFixed(1)}px;--dy:${(Math.sin(angle) * dist - 30).toFixed(1)}px;--r:${Math.round(Math.random() * 360)}deg;background:${colors[i % 3]}"></i>`;
+    }).join('');
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 900);
 }
 
 function playRandomMix() {
@@ -856,6 +892,11 @@ function clearQueue() {
 }
 
 audio.addEventListener('ended', nextSong);
+// Keep the equalizer in sync when playback changes outside the UI
+// (media keys, lock screen, autoplay refusal).
+['play', 'playing', 'pause'].forEach(evt => audio.addEventListener(evt, () => {
+    $('#app').classList.toggle('is-playing', !audio.paused && state.queue.length > 0);
+}));
 audio.addEventListener('timeupdate', updateProgress);
 
 // -------------------------------------------
@@ -921,13 +962,13 @@ function renderSongRow(song, index, options = {}) {
             ${options.showNum ? `<span class="song-row-num">${index + 1}</span>` : ''}
             <div style="position:relative">
                 <img src="${imgPath(song.image)}" alt="" class="song-row-art" loading="lazy">
-                ${mvpRank > 0 ? `<div class="song-row-mvp">${mvpRank}</div>` : ''}
+                ${mvpRank > 0 ? `<div class="song-row-mvp" data-rank="${mvpRank}">${mvpRank}</div>` : ''}
             </div>
             <div class="song-row-info">
                 <div class="song-row-title">${song.title}</div>
                 <div class="song-row-artist">${song.artist}</div>
             </div>
-            ${isPlaying ? `<span class="eq ${state.playing ? 'eq-on' : ''}" aria-label="Now playing"><i></i><i></i><i></i></span>` : ''}
+            <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
             ${d.playCount > 0 ? `<span class="song-row-plays">${d.playCount} plays</span>` : ''}
             <button class="song-row-fav ${d.isFavorite ? 'active' : ''}" data-fav-id="${song.id}">${d.isFavorite ? icon('starFilled', 16) : icon('star', 16)}</button>
             <button class="song-row-menu" data-menu-id="${song.id}">${icon('ellipsis', 14)}</button>
@@ -936,11 +977,15 @@ function renderSongRow(song, index, options = {}) {
 }
 
 function renderScrollCard(song, rank) {
+    const current = state.queue[state.queueIndex];
+    const isPlaying = current && current.id === song.id;
     return `
-        <div class="scroll-card" data-song-id="${song.id}">
+        <div class="scroll-card ${isPlaying ? 'playing' : ''}" data-song-id="${song.id}">
             <div class="scroll-card-art">
                 <img src="${imgPath(song.image)}" alt="${song.title}" loading="lazy">
-                ${rank ? `<div class="mvp-badge">${rank}</div>` : ''}
+                ${rank ? `<div class="mvp-badge" data-rank="${rank}">${rank}</div>` : ''}
+                <span class="scroll-card-play" aria-hidden="true">${icon('play', 16)}</span>
+                <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
             </div>
             <div class="scroll-card-name">${song.title}</div>
             <div class="scroll-card-artist">${song.artist}</div>
@@ -1664,10 +1709,12 @@ function updateUI() {
     $('#npb-prev').innerHTML = icon('prev', 16);
     $('#npb-next').innerHTML = icon('next', 16);
 
-    // Update playing state on song rows
-    $$('.song-row').forEach(row => {
-        row.classList.toggle('playing', song && parseInt(row.dataset.songId) === song.id);
+    // Update playing state on song rows and cards. The equalizer inside them
+    // only animates while #app.is-playing is set, so it freezes on pause.
+    $$('.song-row, .scroll-card').forEach(row => {
+        row.classList.toggle('playing', !!song && parseInt(row.dataset.songId) === song.id);
     });
+    app.classList.toggle('is-playing', !!song && !audio.paused);
 
     if (state.currentView === 'player') renderPlayerFull();
     if (song) updateMediaSession(song);
