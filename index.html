@@ -37,6 +37,7 @@
     <link rel="manifest" href="site.webmanifest">
 
     <link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/anton.woff2" as="font" type="font/woff2" crossorigin>
 
     <script type="application/ld+json">
 {
@@ -135,254 +136,179 @@
     <script src="analytics.js"></script>
 </head>
 <body>
-    <!-- Crown cursor trail canvas -->
-    <canvas id="crown-trail"></canvas>
+    <a class="skip-link" href="#roster">Skip to the songs</a>
 
-    <!-- Navigation -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-content">
-            <a href="/" class="nav-logo" aria-label="LeBronify home">
-                <img src="images/ui/lebron_default.png" alt="LeBronify" class="logo-icon">
-                <span class="logo-text">LEBRONIFY</span>
+    <header class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="/" class="brand" aria-label="LeBronify home">
+                <span class="brand-mark"><img src="images/ui/lebron_default.png" alt="" width="36" height="36"></span>
+                <span class="brand-word">LEBRONIFY</span>
             </a>
-            <div class="nav-links" id="nav-links">
+            <nav class="nav-links" id="nav-links" aria-label="Main">
+                <a href="#roster">Songs</a>
                 <a href="#features">Features</a>
-                <a href="#app-breakdown">The Breakdown</a>
-                <a href="#songs">The Roster</a>
+                <a href="#breakdown">The App</a>
                 <a href="#fun-stuff">Fun Stuff</a>
-                <a href="/player" class="nav-cta">Open Player</a>
-            </div>
-            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
-                <span></span>
-                <span></span>
-                <span></span>
+                <a href="/player" class="btn btn-primary btn-sm nav-cta">Open Player</a>
+            </nav>
+            <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+                <span></span><span></span>
             </button>
         </div>
-    </nav>
+    </header>
 
-    <!-- Hero Section -->
-    <section class="hero-wrapper" id="hero">
-        <div class="hero-bg-effects">
-            <div class="hero-glow"></div>
-            <div class="floating-notes">
-                <i data-icon="musicNote" class="note"></i>
-                <i data-icon="musicNote" class="note"></i>
-                <i data-icon="musicNote" class="note"></i>
-                <i data-icon="musicNote" class="note"></i>
-                <i data-icon="musicNote" class="note"></i>
-            </div>
-        </div>
-        <div class="hero">
-            <div class="hero-content">
-                <div class="hero-badge">THE KING'S PARODY COLLECTION</div>
-                <h1 class="hero-title">
-                <span class="title-line">LEBR</span><span class="title-highlight">O</span><span class="title-line">NIFY</span>
-            </h1>
-            <p class="hero-subtitle">Every song. Every parody. All LeBron. The ultimate music app for fans of The King - featuring hilarious LeBron-themed parodies of your favorite hits.</p>
-            <div class="hero-actions">
-                <a href="/player" class="btn btn-primary btn-web-hero">
-                    <i data-icon="play" data-icon-size="20"></i>
-                    Open Web Player
-                </a>
-                <a href="#download" class="btn btn-secondary">
-                    <i data-icon="appleLogo" data-icon-size="20"></i>
-                    Coming Soon to iOS
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat">
-                    <span class="stat-top"><span class="stat-number" data-target="49">0</span><span class="stat-plus">+</span></span>
-                    <span class="stat-label">Parody Songs</span>
+    <main id="main">
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <p class="label">The King's Parody Collection</p>
+                <h1 class="hero-title">LEBR<span class="hero-o">O</span>NIFY</h1>
+                <p class="hero-lede">Every song. Every parody. All LeBron. A free music player for 49 LeBron James parody songs, right in your browser.</p>
+                <div class="hero-actions">
+                    <a href="/player" class="btn btn-primary btn-lg">
+                        <i data-icon="play" data-icon-size="18"></i>
+                        Open the Web Player
+                    </a>
+                    <button type="button" class="btn btn-secondary btn-lg" id="hero-preview">
+                        <i data-icon="shuffle" data-icon-size="18"></i>
+                        <span>Play a Random Song</span>
+                    </button>
                 </div>
-                <div class="stat">
-                    <span class="stat-top"><span class="stat-number" data-target="100">0</span><span class="stat-percent">%</span></span>
-                    <span class="stat-label">LeBron</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-top"><span class="stat-number" data-target="0">0</span></span>
-                    <span class="stat-label">Skips Needed</span>
-                </div>
+                <dl class="scoreboard" aria-label="LeBronify by the numbers">
+                    <div><dt>Songs</dt><dd>49</dd></div>
+                    <div><dt>Tiers</dt><dd>6</dd></div>
+                    <div><dt>Trophies</dt><dd>12</dd></div>
+                    <div><dt>Price</dt><dd>$0</dd></div>
+                </dl>
             </div>
-            </div>
-            <div class="hero-phone">
-                <div class="phone-mockup" aria-hidden="true">
-                <div class="phone-notch"></div>
-                <div class="phone-screen">
-                    <div class="mock-app">
-                        <div class="mock-header">
-                            <div class="mock-title">LEBRONIFY</div>
-                            <div class="mock-subtitle">The King's Parody Collection</div>
-                        </div>
-                        <div class="mock-shuffle-btn">
-                            <i data-icon="shuffle" data-icon-size="12"></i>
-                            Let The King Decide
-                        </div>
-                        <div class="mock-section-title">LeBron's Pick of the Day</div>
-                        <div class="mock-song-card">
-                            <div class="mock-album-art">
-                                <img src="images/albums/dunk_with_a_smile.png" alt="Dunk With a Smile">
-                            </div>
-                            <div class="mock-song-info">
-                                <div class="mock-song-title">Dunk With a Smile</div>
-                                <div class="mock-song-artist">LeBron Fan</div>
-                            </div>
-                            <div class="mock-play-btn">
-                                <i data-icon="play" data-icon-size="12"></i>
-                            </div>
-                        </div>
-                        <div class="mock-section-title">The Full Roster</div>
-                        <div class="mock-song-row">
-                            <div class="mock-row-art">
-                                <img src="images/albums/he_is_lebron_james.png" alt="He Is LeBron James">
-                            </div>
-                            <div class="mock-row-info">
-                                <div class="mock-row-title">He Is LeBron James</div>
-                                <div class="mock-row-artist">My Way</div>
-                            </div>
-                        </div>
-                        <div class="mock-song-row">
-                            <div class="mock-row-art">
-                                <img src="images/albums/in_the_bron.png" alt="In The Bron">
-                            </div>
-                            <div class="mock-row-info">
-                                <div class="mock-row-title">In The Bron</div>
-                                <div class="mock-row-artist">ilyaugust</div>
-                            </div>
-                        </div>
-                        <div class="mock-song-row">
-                            <div class="mock-row-art">
-                                <img src="images/albums/la_bron_bron_land.png" alt="La Bron Bron Land">
-                            </div>
-                            <div class="mock-row-info">
-                                <div class="mock-row-title">La Bron Bron Land</div>
-                                <div class="mock-row-artist">House of Highlights</div>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="hero-visual">
+                <div class="stage" id="stage">
+                    <div class="sleeve"><img id="sleeve-art" src="images/albums/he_is_lebron_james.png" alt="" width="320" height="320"></div>
+                    <div class="record" id="record" aria-hidden="true"></div>
+                    <div class="tonearm" aria-hidden="true"><span></span></div>
+                    <button type="button" class="king" id="king" aria-label="Play a random song">
+                        <span class="king-bob">
+                            <svg class="king-crown" viewBox="0 0 120 64" aria-hidden="true">
+                                <path d="M8 58 L4 14 L32 34 L60 4 L88 34 L116 14 L112 58 Z" fill="var(--gold)" stroke="#8a5a00" stroke-width="3" stroke-linejoin="round"/>
+                                <rect x="8" y="48" width="104" height="10" fill="#c98a00"/>
+                                <circle cx="60" cy="6" r="5" fill="var(--liberty)"/>
+                            </svg>
+                            <img class="king-head" src="images/ui/lebron_default.png" alt="" width="240" height="240">
+                        </span>
+                        <span class="king-tip" aria-hidden="true">Tap me</span>
+                    </button>
                 </div>
-            </div>
+                <p class="now-line" id="now-line" aria-live="polite">
+                    <span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>
+                    <span class="now-text"><span class="now-state" id="now-state">Tap the King to drop a random song</span> <b id="now-title"></b></span>
+                </p>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
+    <!-- SCORE TICKER -->
+    <div class="ticker" aria-hidden="true">
+        <div class="ticker-track" id="ticker"></div>
+    </div>
+
+    <!-- ROSTER -->
+    <section class="section" id="roster">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">MVP FEATURES</span>
-                <h2>Built for The King's Fans</h2>
-                <p>Everything a LeBron fan needs, wrapped in a clean, dark-themed music player experience.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="musicNotes"></i></div>
-                    <h3>49+ Parody Songs</h3>
-                    <p>A massive collection of LeBron-themed parodies of popular songs - from "Dunk With a Smile" to "He Is The King" and everything in between.</p>
+            <div class="section-head section-head--split">
+                <div>
+                    <p class="label">The Full Roster</p>
+                    <h2 class="section-title">49 songs. All LeBron.</h2>
+                    <p class="section-lede">Each one is a LeBron parody of a song you already know. Tap a cover to hear it.</p>
                 </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="basketball"></i></div>
+                <button type="button" class="btn btn-secondary" id="king-decide">
+                    <i data-icon="shuffle" data-icon-size="18"></i>
+                    Let The King Decide
+                </button>
+            </div>
+
+            <ul class="roster-grid collapsed" id="roster-grid" aria-label="All LeBronify songs"></ul>
+
+            <div class="roster-more" id="roster-more" hidden>
+                <button type="button" class="btn btn-secondary" id="roster-toggle" aria-expanded="false" aria-controls="roster-grid">
+                    <span class="roster-toggle-label">Show all 49 songs</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section section--alt" id="features">
+        <div class="container">
+            <div class="section-head">
+                <p class="label">Features</p>
+                <h2 class="section-title">Built like a franchise.</h2>
+                <p class="section-lede">Everything a music player needs, with basketball names for all of it.</p>
+            </div>
+
+            <div class="features">
+                <article class="feature">
+                    <i data-icon="crown" class="feature-icon"></i>
                     <h3>LeBron's Pick of the Day</h3>
-                    <p>Every day, The King himself picks a song just for you. A new featured track rotates daily to keep things fresh.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="shuffle"></i></div>
-                    <h3>Let The King Decide</h3>
-                    <p>Can't choose? Hit the shuffle button and let LeBron pick your next banger. The King always knows best.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="playlist"></i></div>
+                    <p>A new featured song every day. Or hit Let The King Decide and let him pick.</p>
+                </article>
+                <article class="feature">
+                    <i data-icon="playlist" class="feature-icon"></i>
                     <h3>Playbooks</h3>
-                    <p>Create custom playlists (Playbooks) with your favorite tracks. Add custom cover art and organize your lineup like a championship roster.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="starFilled"></i></div>
-                    <h3>All-Star Favorites</h3>
-                    <p>Crown your favorite songs as All-Stars. Build your dream team of parody hits and access them instantly from The Vault.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="monitor"></i></div>
-                    <h3>AD Breaks</h3>
-                    <p>Anthony Davis pops up with hilarious "ad" breaks between songs. Trade him to Dallas or put him on injured reserve to dismiss!</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="forkKnife"></i></div>
-                    <h3>Taco Tuesday Mode</h3>
-                    <p>Every Tuesday, the app goes full Taco Tuesday with falling tacos, a special song, and LeBron's iconic celebration.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="headphones"></i></div>
-                    <h3>Full Music Player</h3>
-                    <p>Shuffle, repeat, queue management, progress scrubbing - a complete music experience with "On The Bench" queue preview.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="car"></i></div>
-                    <h3>CarPlay & Widgets</h3>
-                    <p>Take LeBron on the road with CarPlay support. Live Activities and home screen widgets keep the music at your fingertips.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="medal"></i></div>
-                    <h3>MVP Badges</h3>
-                    <p>Your most-played songs earn MVP badges - golden #1, #2, and #3 rankings that appear right on the album art. Climb the leaderboard!</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="hands"></i></div>
-                    <h3>Chalk Toss</h3>
-                    <p>Channel LeBron's iconic pre-game ritual. The chalk toss animation fires up before your listening session begins - just like game time.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="users"></i></div>
-                    <h3>Starting 5</h3>
-                    <p>Your top 5 most-played songs become your Starting 5 lineup. Share your starting roster with friends and see who has the best taste.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="chartUp"></i></div>
+                    <p>Build your own playlists and give them custom cover art.</p>
+                </article>
+                <article class="feature">
+                    <i data-icon="star" class="feature-icon"></i>
+                    <h3>All-Stars</h3>
+                    <p>Star your favorite songs and find them all in one place in The Vault.</p>
+                </article>
+                <article class="feature">
+                    <i data-icon="chartUp" class="feature-icon"></i>
                     <h3>Trust The Process</h3>
-                    <p>Your total plays drive a full franchise rebuild - from Tanking to Rebuilding to Contender to Championship Or Bust. Every tier you clear moves the meter.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="bell"></i></div>
-                    <h3>Ring The Bell</h3>
-                    <p>Hit a new tier and the Liberty Bell rings - swinging bell, sound waves, and a burst of red and blue confetti. Philly celebrations, built in.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="trophy"></i></div>
+                    <p>Your plays move you up six tiers, from Tanking to Championship Or Bust. Clear one and the Liberty Bell rings.</p>
+                </article>
+                <article class="feature">
+                    <i data-icon="trophy" class="feature-icon"></i>
                     <h3>Trophy Case</h3>
-                    <p>Twelve achievements to unlock, from Rookie of the Year to Brotherly Love to The Answer. Track them all in The Vault.</p>
-                </div>
-                <div class="feature-card" data-animate>
-                    <div class="feature-icon"><i data-icon="search"></i></div>
-                    <h3>Search The Roster</h3>
-                    <p>Find any track instantly with ranked search, or browse the locker room by category - Love Songs, King James, The Lakers Years and more.</p>
-                </div>
+                    <p>Twelve achievements to unlock, from Rookie of the Year to The Answer.</p>
+                </article>
+                <article class="feature">
+                    <i data-icon="users" class="feature-icon"></i>
+                    <h3>Starting 5</h3>
+                    <p>Your five most-played songs become a lineup card you can share.</p>
+                </article>
             </div>
+
+            <ol class="tiers" aria-label="Trust The Process tiers">
+                <li>Tanking</li>
+                <li>The Process Begins</li>
+                <li>Rebuilding</li>
+                <li>Playoff Push</li>
+                <li>Contender</li>
+                <li>Championship Or Bust</li>
+            </ol>
         </div>
     </section>
 
-    <!-- App Breakdown Section -->
-    <section class="app-breakdown" id="app-breakdown">
+    <!-- APP BREAKDOWN -->
+    <section class="section" id="breakdown">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">THE GAME PLAN</span>
-                <h2>App Breakdown</h2>
-                <p>Every screen. Infinite LeBron. Here's how the app is organized.</p>
+            <div class="section-head">
+                <p class="label">The App</p>
+                <h2 class="section-title">Three screens. One playbook.</h2>
             </div>
-            <div class="breakdown-tabs">
-                <button class="tab-btn active" data-tab="home">
-                    <i data-icon="home" class="tab-icon"></i>
-                    Home Court
-                </button>
-                <button class="tab-btn" data-tab="player">
-                    <i data-icon="nowPlaying" class="tab-icon"></i>
-                    Now Playing
-                </button>
-                <button class="tab-btn" data-tab="vault">
-                    <i data-icon="vault" class="tab-icon"></i>
-                    The Vault
-                </button>
+
+            <div class="tabs" role="tablist" aria-label="App screens">
+                <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-home" id="tabbtn-home" data-tab="home">Home Court</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-player" id="tabbtn-player" data-tab="player">Now Playing</button>
+                <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-vault" id="tabbtn-vault" data-tab="vault">The Vault</button>
             </div>
+
             <div class="breakdown-content">
                 <!-- HOME COURT TAB -->
-                <div class="breakdown-panel active" id="tab-home">
+                <div class="breakdown-panel active" id="tab-home" role="tabpanel" aria-labelledby="tabbtn-home">
                     <div class="panel-info">
                         <h3>Home Court</h3>
                         <p>Your landing page. The banner showcases LeBron in all his glory, with a "Let The King Decide" shuffle button front and center. Below that, you'll find:</p>
@@ -472,7 +398,7 @@
                 </div>
 
                 <!-- NOW PLAYING TAB -->
-                <div class="breakdown-panel" id="tab-player">
+                <div class="breakdown-panel" id="tab-player" role="tabpanel" aria-labelledby="tabbtn-player">
                     <div class="panel-info">
                         <h3>Now Playing</h3>
                         <p>A gorgeous full-screen player with dynamic gradient backgrounds that shift with each song. Designed for the ultimate listening experience:</p>
@@ -533,7 +459,7 @@
                 </div>
 
                 <!-- THE VAULT TAB -->
-                <div class="breakdown-panel" id="tab-vault">
+                <div class="breakdown-panel" id="tab-vault" role="tabpanel" aria-labelledby="tabbtn-vault">
                     <div class="panel-info">
                         <h3>The Vault</h3>
                         <p>Your personal music library, organized with basketball flair. Everything is stored securely in The Vault:</p>
@@ -596,314 +522,148 @@
         </div>
     </section>
 
-    <!-- Song Roster Section -->
-    <section class="songs" id="songs">
+    <!-- FUN STUFF -->
+    <section class="section section--alt" id="fun-stuff">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">THE FULL ROSTER</span>
-                <h2>49+ LeBron Parodies</h2>
-                <p>Every track is a LeBron-themed parody of a hit song. Here's the complete lineup.</p>
+            <div class="section-head">
+                <p class="label">Fun Stuff</p>
+                <h2 class="section-title">The extras nobody asked for.</h2>
+                <p class="section-lede">Every one of these is in the app. Try them here.</p>
             </div>
-            <div class="song-grid collapsed" id="song-grid"></div>
-            <div class="song-grid-more" id="song-grid-more" hidden>
-                <button type="button" class="btn btn-secondary" id="song-grid-toggle" aria-expanded="false" aria-controls="song-grid">
-                    <span class="song-grid-toggle-label">See the full roster</span>
-                    <i data-icon="chevronRight" data-icon-size="16"></i>
-                </button>
-            </div>
-        </div>
-    </section>
 
-    <!-- Fun Stuff Section -->
-    <section class="fun-stuff" id="fun-stuff">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">BONUS CONTENT</span>
-                <h2>The Fun Stuff</h2>
-                <p>LeBronify isn't just a music player - it's an experience.</p>
-            </div>
             <div class="fun-grid">
-                <!-- AD Breaks -->
-                <div class="fun-card ad-card" data-animate>
-                    <div class="fun-card-visual">
-                        <div class="ad-mockup">
-                            <div class="ad-title">THE BROW KNOWS</div>
-                            <div class="ad-image-placeholder"><img src="images/ui/ad_pose1.jpg" alt="Anthony Davis"></div>
-                            <div class="ad-message">"Need more hang time? Try AD's secret workout routine!"</div>
-                            <div class="ad-dismiss">Trade AD to Dallas</div>
+                <article class="fun-card">
+                    <div class="fun-visual ad" id="ad-pop">
+                        <img id="ad-img" src="images/ui/ad_pose1.jpg" alt="Anthony Davis" loading="lazy" width="160" height="200">
+                        <div class="ad-body">
+                            <span class="ad-tag">AD Break</span>
+                            <b id="ad-title">The Brow Knows</b>
+                            <p id="ad-msg">Need more hang time? Try AD's secret workout routine!</p>
                         </div>
                     </div>
-                    <div class="fun-card-info">
+                    <div class="fun-info">
                         <h3>Anthony Davis "AD" Breaks</h3>
-                        <p>Between songs, Anthony Davis pops up with random hilarious interruptions. Each one has a unique title, pose, and message. Dismiss them with basketball-themed buttons like:</p>
-                        <ul class="fun-list">
-                            <li>"Trade AD to Dallas"</li>
-                            <li>"Send AD to the Bench"</li>
-                            <li>"AD Fouled Out - Skip"</li>
-                            <li>"Put AD on Injured Reserve"</li>
-                        </ul>
+                        <p>Between songs, AD shows up uninvited. Every break has its own way to get rid of him.</p>
+                        <button type="button" class="btn btn-secondary btn-sm" id="ad-dismiss">Trade AD to Dallas</button>
                     </div>
-                </div>
+                </article>
 
-                <!-- Taco Tuesday -->
-                <div class="fun-card taco-card" data-animate>
-                    <div class="fun-card-info">
-                        <h3>Taco Tuesday Mode</h3>
-                        <p>Every Tuesday, the entire app transforms! Inspired by LeBron's iconic Taco Tuesday celebrations:</p>
-                        <ul class="fun-list">
-                            <li>Falling taco rain animation across the screen</li>
-                            <li>Special "TACO TUESDAYYYYY" banner with gradient</li>
-                            <li>Auto-plays the Taco Tuesday song on launch</li>
-                            <li>Taco rain returns every time the song plays</li>
-                            <li>Special splash screen message</li>
-                        </ul>
+                <article class="fun-card">
+                    <div class="fun-visual taco">
+                        <img src="images/ui/lebron_taco_tuesday.png" alt="LeBron celebrating Taco Tuesday" loading="lazy" width="400" height="300">
                     </div>
-                    <div class="fun-card-visual">
-                        <div class="taco-rain-demo" id="taco-demo">
-                            <div class="taco-banner">
-                                <img src="images/ui/lebron_taco_tuesday.png" alt="Taco Tuesday LeBron" class="taco-lebron-img">
-                                <div class="taco-banner-text">TACO TUESDAYYYYY</div>
-                            </div>
-                            <div class="falling-tacos">
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                                <span class="taco"><img src="images/ui/taco_image.png" alt="taco" class="taco-img"></span>
-                            </div>
-                        </div>
+                    <div class="fun-info">
+                        <h3>Taco Tuesday</h3>
+                        <p>On Tuesdays the app rains tacos, and the King's anthem has a 60% chance of being your Pick of the Day.</p>
+                        <button type="button" class="btn btn-secondary btn-sm" id="taco-btn">Make it Tuesday</button>
                     </div>
-                </div>
+                </article>
 
-                <!-- Chalk Toss -->
-                <div class="fun-card chalk-card" data-animate>
-                    <div class="fun-card-visual">
-                        <div class="chalk-toss-demo">
-                            <div class="chalk-lebron"><img src="images/ui/lebron_default.png" alt="LeBron Chalk Toss" class="chalk-lebron-img"></div>
-                            <div class="chalk-particles" id="chalk-particles">
-                                <span class="chalk-dot"></span><span class="chalk-dot"></span><span class="chalk-dot"></span>
-                                <span class="chalk-dot"></span><span class="chalk-dot"></span><span class="chalk-dot"></span>
-                                <span class="chalk-dot"></span><span class="chalk-dot"></span><span class="chalk-dot"></span>
-                                <span class="chalk-dot"></span><span class="chalk-dot"></span><span class="chalk-dot"></span>
-                            </div>
-                            <div class="chalk-text">GAME TIME</div>
-                        </div>
-                    </div>
-                    <div class="fun-card-info">
+                <article class="fun-card">
+                    <button type="button" class="fun-visual chalk" id="chalk-demo" aria-label="Toss the chalk">
+                        <span class="chalk-cloud" aria-hidden="true"></span>
+                        <img src="images/ui/lebron_default.png" alt="" class="chalk-head" loading="lazy" width="112" height="112">
+                        <span class="chalk-text">Game Time</span>
+                    </button>
+                    <div class="fun-info">
                         <h3>The Chalk Toss</h3>
-                        <p>Channel LeBron's most iconic pre-game ritual. Before every listening session, the chalk toss animation fires up - because every playlist deserves a proper entrance:</p>
-                        <ul class="fun-list">
-                            <li>Animated chalk powder explosion on launch</li>
-                            <li>Referenced in the splash screen loading phrases</li>
-                            <li>LeBron's signature "Preparing the chalk toss..." message</li>
-                            <li>Sets the tone: it's game time for your ears</li>
-                        </ul>
+                        <p>LeBron's pre-game ritual plays when you start a session. Tap the picture to toss.</p>
                     </div>
-                </div>
+                </article>
 
-                <!-- Starting 5 -->
-                <div class="fun-card starting5-card" data-animate>
-                    <div class="fun-card-info">
-                        <h3>Your Starting 5</h3>
-                        <p>Just like a basketball lineup, your top 5 most-played songs form your Starting 5. Share your lineup card with friends and compare rosters:</p>
-                        <ul class="fun-list">
-                            <li>Top 5 songs ranked by play count</li>
-                            <li>Beautiful lineup card with album art</li>
-                            <li>Share to social media or messages</li>
-                            <li>Updates dynamically as you listen more</li>
-                            <li>Who has the best Starting 5?</li>
-                        </ul>
+                <article class="fun-card">
+                    <div class="fun-visual lang">
+                        <dl class="lang-list">
+                            <div><dt>Playlists</dt><dd>Playbooks</dd></div>
+                            <div><dt>Favorites</dt><dd>All-Stars</dd></div>
+                            <div><dt>Library</dt><dd>The Vault</dd></div>
+                            <div><dt>Up Next</dt><dd>On The Bench</dd></div>
+                            <div><dt>Top Songs</dt><dd>MVP Selections</dd></div>
+                            <div><dt>Shuffle</dt><dd>Let The King Decide</dd></div>
+                        </dl>
                     </div>
-                    <div class="fun-card-visual">
-                        <div class="starting5-demo">
-                            <div class="s5-header">YOUR STARTING 5</div>
-                            <div class="s5-lineup">
-                                <div class="s5-slot"><div class="s5-rank">PG</div><img src="images/albums/dunk_with_a_smile.png" alt="" class="s5-art"><div class="s5-name">Dunk With a Smile</div></div>
-                                <div class="s5-slot"><div class="s5-rank">SG</div><img src="images/albums/he_is_lebron_james.png" alt="" class="s5-art"><div class="s5-name">He Is LeBron James</div></div>
-                                <div class="s5-slot"><div class="s5-rank">SF</div><img src="images/albums/brontastic.png" alt="" class="s5-art"><div class="s5-name">Brontastic</div></div>
-                                <div class="s5-slot"><div class="s5-rank">PF</div><img src="images/albums/legolden_hour.png" alt="" class="s5-art"><div class="s5-name">LeGolden Hour</div></div>
-                                <div class="s5-slot"><div class="s5-rank">C</div><img src="images/albums/leearned_it.png" alt="" class="s5-art"><div class="s5-name">LeEarned It</div></div>
-                            </div>
-                            <div class="s5-share">
-                                <i data-icon="share" data-icon-size="12"></i>
-                                Share Lineup
-                            </div>
-                        </div>
+                    <div class="fun-info">
+                        <h3>Basketball for Everything</h3>
+                        <p>Every screen speaks hoops. Here's the translation guide.</p>
                     </div>
-                </div>
-
-                <!-- Splash Screen -->
-                <div class="fun-card splash-card" data-animate>
-                    <div class="fun-card-visual">
-                        <div class="splash-mockup">
-                            <div class="splash-avatar" id="bobblehead"><img src="images/ui/lebron_default.png" alt="LeBron Bobblehead" class="bobblehead-img"></div>
-                            <div class="splash-title-mock">LEBRONIFY</div>
-                            <div class="splash-sub">The King's Parody Collection</div>
-                            <div class="splash-phrase" id="splash-phrase">Checking LeBron's playlist...</div>
-                        </div>
-                    </div>
-                    <div class="fun-card-info">
-                        <h3>Bobblehead Splash Screen</h3>
-                        <p>The app opens with a LeBron bobblehead animation that nods back and forth while showing random loading phrases:</p>
-                        <ul class="fun-list">
-                            <li>"Polishing the crown..."</li>
-                            <li>"Loading 4 rings worth of bangers..."</li>
-                            <li>"Preparing the chalk toss..."</li>
-                            <li>"Activating playoff mode..."</li>
-                            <li>"LeLoading..."</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- MVP Badges -->
-                <div class="fun-card badges-card" data-animate>
-                    <div class="fun-card-info">
-                        <h3>MVP Badges</h3>
-                        <p>Your most-played songs earn their spot on the podium. Golden MVP badges appear directly on album art throughout the app:</p>
-                        <ul class="fun-list">
-                            <li>Gold #1 badge - Your most-played song of all time</li>
-                            <li>Gold #2 badge - Your runner-up track</li>
-                            <li>Gold #3 badge - Bronze position on the podium</li>
-                            <li>Badges update in real-time as play counts change</li>
-                            <li>Visible on Home, Queue, and Playlist screens</li>
-                        </ul>
-                    </div>
-                    <div class="fun-card-visual">
-                        <div class="badges-demo">
-                            <div class="badge-song"><div class="badge-art-wrap"><img src="images/albums/he_is_lebron_james.png" alt="" class="badge-art"><div class="mvp-badge gold">1</div></div><div class="badge-info"><div class="badge-name">He Is LeBron James</div><div class="badge-plays">47 plays</div></div></div>
-                            <div class="badge-song"><div class="badge-art-wrap"><img src="images/albums/dunk_with_a_smile.png" alt="" class="badge-art"><div class="mvp-badge gold">2</div></div><div class="badge-info"><div class="badge-name">Dunk With a Smile</div><div class="badge-plays">35 plays</div></div></div>
-                            <div class="badge-song"><div class="badge-art-wrap"><img src="images/albums/brontastic.png" alt="" class="badge-art"><div class="mvp-badge gold">3</div></div><div class="badge-info"><div class="badge-name">Brontastic</div><div class="badge-plays">28 plays</div></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Basketball Language -->
-                <div class="fun-card language-card" data-animate>
-                    <div class="fun-card-info">
-                        <h3>Basketball-Themed Everything</h3>
-                        <p>Every UI element speaks basketball. The entire app is a love letter to LeBron and the NBA:</p>
-                        <div class="language-grid">
-                            <div class="lang-item"><span class="lang-normal">Playlists</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Playbooks</span></div>
-                            <div class="lang-item"><span class="lang-normal">Favorites</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">All-Stars</span></div>
-                            <div class="lang-item"><span class="lang-normal">Library</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">The Vault</span></div>
-                            <div class="lang-item"><span class="lang-normal">Up Next</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">On The Bench</span></div>
-                            <div class="lang-item"><span class="lang-normal">Top Songs</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">MVP Selections</span></div>
-                            <div class="lang-item"><span class="lang-normal">All Songs</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">The Full Roster</span></div>
-                            <div class="lang-item"><span class="lang-normal">Create</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Draft</span></div>
-                            <div class="lang-item"><span class="lang-normal">Shuffle</span><i data-icon="chevronRight" class="lang-arrow" data-icon-size="12"></i><span class="lang-bron">Let The King Decide</span></div>
-                        </div>
-                    </div>
-                    <div class="fun-card-visual">
-                        <div class="bball-court">
-                            <div class="court-circle"></div>
-                            <div class="court-line"></div>
-                            <img src="images/ui/lebron_default.png" alt="LeBron" class="bounce-ball-img" id="bounce-ball">
-                        </div>
-                    </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
 
-    <!-- Mini Player Demo -->
-    <section class="mini-player-section">
+    <!-- CTA -->
+    <section class="section" id="download">
         <div class="container">
-            <div class="section-header">
-                <span class="section-tag">ALWAYS PLAYING</span>
-                <h2>Mini Player</h2>
-                <p>A persistent mini player follows you everywhere with playback controls and a crisp blue progress bar. Try it out!</p>
-            </div>
-            <div class="mini-player-demo">
-                <div class="mini-demo-bar">
-                    <div class="mini-progress">
-                        <div class="mini-progress-fill" id="mini-progress-fill"></div>
-                    </div>
-                    <div class="mini-content">
-                        <div class="mini-art" id="mini-art">
-                            <img src="images/albums/he_is_lebron_james.png" alt="He Is LeBron James" id="mini-art-img">
-                        </div>
-                        <div class="mini-info">
-                            <div class="mini-title" id="mini-song-title">He Is LeBron James</div>
-                            <div class="mini-artist" id="mini-song-artist">My Way</div>
-                        </div>
-                        <div class="mini-controls">
-                            <button class="mini-ctrl" id="mini-prev-btn">
-                                <i data-icon="prev" data-icon-size="14"></i>
-                            </button>
-                            <button class="mini-ctrl play" id="mini-play-btn">
-                                <i data-icon="play" data-icon-size="12"></i>
-                            </button>
-                            <button class="mini-ctrl" id="mini-next-btn">
-                                <i data-icon="next" data-icon-size="14"></i>
-                            </button>
-                        </div>
+            <div class="cta">
+                <div>
+                    <h2 class="section-title">Ready to LeBronify your life?</h2>
+                    <p class="section-lede">Free, no sign-up, no ads.* The iOS app is coming soon.</p>
+                    <p class="cta-fine">*Except Anthony Davis. He shows up whether you want him to or not.</p>
+                </div>
+                <div class="cta-side">
+                    <a href="/player" class="btn btn-primary btn-lg">
+                        <i data-icon="play" data-icon-size="18"></i>
+                        Open the Web Player
+                    </a>
+                    <div class="cta-head" aria-hidden="true">
+                        <svg viewBox="0 0 120 64"><path d="M8 58 L4 14 L32 34 L60 4 L88 34 L116 14 L112 58 Z" fill="var(--gold)" stroke="#8a5a00" stroke-width="3" stroke-linejoin="round"/><rect x="8" y="48" width="104" height="10" fill="#c98a00"/></svg>
+                        <img src="images/ui/lebron_default.png" alt="" loading="lazy" width="160" height="160">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Download / CTA Section -->
-    <section class="download" id="download">
-        <div class="container">
-            <div class="download-content">
-                <div class="download-info">
-                    <h2>Ready to LeBronify Your Life?</h2>
-                    <p>Join the kingdom. Experience the greatest parody music app of all time. Free. No ads*.</p>
-                    <p class="download-disclaimer">*Except Anthony Davis. He shows up whether you want him to or not.</p>
-                    <div class="download-buttons">
-                        <a href="/player" class="btn btn-primary btn-large btn-web-hero">
-                            <i data-icon="play" data-icon-size="24"></i>
-                            Open Web Player
-                        </a>
-                        <span class="btn btn-secondary btn-large btn-disabled" role="note">
-                            <i data-icon="appleLogo" data-icon-size="24"></i>
-                            Coming Soon to iOS
-                        </span>
-                    </div>
-                </div>
-                <div class="download-visual">
-                    <div class="download-bobblehead">
-                        <img src="images/ui/lebron_default.png" alt="LeBron" class="download-lebron-img">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-content">
+            <div class="footer-top">
                 <div class="footer-brand">
-                    <span class="footer-logo">
-                        <img src="images/ui/lebron_default.png" alt="LeBronify" class="footer-logo-icon"> LEBRONIFY
-                    </span>
-                    <p>The King's Parody Collection</p>
-                    <p class="footer-quote">"I'm not playing right now, but I'm always ready."</p>
+                    <a href="/" class="brand" aria-label="LeBronify home">
+                        <span class="brand-mark"><img src="images/ui/lebron_default.png" alt="" width="36" height="36" loading="lazy"></span>
+                        <span class="brand-word">LEBRONIFY</span>
+                    </a>
+                    <p>"I'm not playing right now, but I'm always ready."</p>
                 </div>
-                <div class="footer-links">
-                    <h4>Navigate</h4>
+                <nav class="footer-links" aria-label="Site">
+                    <h4>Site</h4>
+                    <a href="#roster">Songs</a>
                     <a href="#features">Features</a>
-                    <a href="#app-breakdown">App Breakdown</a>
-                    <a href="#songs">Song Roster</a>
+                    <a href="#breakdown">The App</a>
                     <a href="#fun-stuff">Fun Stuff</a>
-                </div>
-                <div class="footer-links">
-                    <h4>The App</h4>
-                    <a href="#download">Coming Soon</a>
+                </nav>
+                <nav class="footer-links" aria-label="App">
+                    <h4>App</h4>
                     <a href="/player">Web Player</a>
                     <a href="https://github.com/robwizzie/lebronify-website/issues" rel="noopener">Support</a>
-                </div>
+                </nav>
             </div>
             <div class="footer-bottom">
-                <p>Made with <i data-icon="basketball" data-icon-size="14" style="display:inline;vertical-align:-2px;color:#006bb6;"></i> for LeBron fans everywhere. This is a parody/fan app - not affiliated with LeBron James or the NBA.</p>
+                <p>A fan-made parody project. Not affiliated with LeBron James, the NBA or the Philadelphia 76ers.</p>
+                <p>Psst: type <kbd>T</kbd><kbd>A</kbd><kbd>C</kbd><kbd>O</kbd></p>
             </div>
         </div>
     </footer>
+
+    <!-- Appears once a song plays -->
+    <div class="dock" id="dock" role="region" aria-label="Now playing" hidden>
+        <div class="dock-progress" id="dock-progress" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><span id="dock-fill"></span></div>
+        <div class="dock-inner">
+            <img class="dock-art" id="dock-art" src="images/albums/he_is_lebron_james.png" alt="" width="48" height="48">
+            <div class="dock-meta">
+                <b id="dock-title">He Is LeBron James</b>
+                <small id="dock-artist">My Way</small>
+            </div>
+            <div class="dock-ctrls">
+                <button type="button" class="dock-btn dock-prev" id="dock-prev" aria-label="Previous song"><i data-icon="prev" data-icon-size="20"></i></button>
+                <button type="button" class="dock-btn dock-play" id="dock-play" aria-label="Pause"><i data-icon="pause" data-icon-size="20"></i></button>
+                <button type="button" class="dock-btn" id="dock-next" aria-label="Next song"><i data-icon="next" data-icon-size="20"></i></button>
+            </div>
+            <a href="/player" class="dock-open">Open player</a>
+            <button type="button" class="dock-btn dock-close" id="dock-close" aria-label="Stop and close"><i data-icon="close" data-icon-size="18"></i></button>
+        </div>
+    </div>
 
     <script>
     // Clean URL: redirect /index.html to /
